@@ -6,7 +6,7 @@ background_image = pygame.image.load(os.path.join("recursos", os.path.join(os.pa
                                                   , "skin_nave.png")))
 
 
-def mostrarJuego(screen, jugador):
+def mostrarJuego(screen):
     # Dibujar la imagen de fondo
 
     screen.blit(background_image, (0, 0))

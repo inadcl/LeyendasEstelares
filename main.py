@@ -56,5 +56,5 @@ if __name__ == '__main__':
                 if jugador == None:
                     hover_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen), mouse_pos, screen)
             if jugador is not None and jugador.vivo:
-                mostrarJuego(screen, jugador)
+                mostrarJuego(screen)
                 exit_button = draw_exit_by_state(screen)
