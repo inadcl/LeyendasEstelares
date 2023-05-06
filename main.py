@@ -6,8 +6,10 @@ from LeyendasEstelares.database.create_db import create_db
 import pygame
 import sys
 
-from LeyendasEstelares.pantallas.inicio import mostrar_pantalla_inicio, handle_mouse_click, hover_mouse_click
-from LeyendasEstelares.jugador.user import Usuario
+from LeyendasEstelares.jugador.jugador import Jugador
+from LeyendasEstelares.pantallas.inicio import mostrar_pantalla_inicio, handle_mouse_click, hover_mouse_click, \
+    draw_exit_by_state
+from LeyendasEstelares.pantallas.pantalladejuego import mostrarJuego
 
 screen_width = 1024
 screen_height = 768
@@ -23,10 +25,12 @@ def print_hi(name):
 
 
 # Press the green button in the gutter to run the script.
-usuario: Usuario = None
+
 if __name__ == '__main__':
     global new_game_button
     global last_color
+    global jugador
+    jugador:Jugador = None
     last_mouse_position = (0, 0)
     create_db()
     pygame.init()
@@ -40,8 +44,17 @@ if __name__ == '__main__':
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                handle_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen), mouse_pos, screen)
+                exit_button = draw_exit_by_state(screen)
+                if jugador == None:
+                    jugador = handle_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen), draw_exit_by_state(screen), mouse_pos)
+                    if jugador!= None:
+                        screen.fill((255, 255, 255))
+                else:
+                    handle_mouse_click(None, draw_exit_by_state(screen), mouse_pos)
             elif event.type == pygame.MOUSEMOTION:
                 mouse_pos = pygame.mouse.get_pos()
-                if usuario == None:
+                if jugador == None:
                     hover_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen), mouse_pos, screen)
+            if jugador is not None and jugador.vivo:
+                mostrarJuego(screen, jugador)
+                exit_button = draw_exit_by_state(screen)
