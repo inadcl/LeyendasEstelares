@@ -2,8 +2,8 @@ import os
 
 import pygame
 
-background_image = pygame.image.load(os.path.join(os.path.join("imagenes", "nave")
-                                                  , "skin_nave.png"))
+background_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "nave")
+                                                  , "skin_nave.png")))
 
 
 def mostrarJuego(screen, jugador):
