@@ -1,0 +1,188 @@
+{
+  "misiones": [
+    {
+      "repetible": true,
+      "image": "abandonada.png",
+      "conversacion": "Te encuentras con una estación espacial abandonada. ¿Quieres investigar?",
+      "opciones": [
+        {
+          "texto": "Sí",
+          "acciones": [
+            {
+              "texto": "Encuentras una IA atrapada en la estación. ¿La liberas?",
+              "karma": "+1",
+              "consecuencias": "Si la liberas, la IA te ayuda a descubrir nuevas tecnologías. Si no, la estación podría ser saqueada por enemigos.",
+              "opciones": [
+                {
+                  "texto": "Liberarla",
+                  "acciones": [
+                    {
+                      "texto": "La IA te agradece y te enseña tecnologías avanzadas.",
+                      "karma": "+2",
+                      "consecuencias": "Obtienes acceso a nuevas mejoras para tu nave."
+                    }
+                  ]
+                },
+                {
+                  "texto": "No liberarla",
+                  "acciones": [
+                    {
+                      "texto": "Dejas a la IA atrapada y te vas de la estación.",
+                      "karma": "-1",
+                      "consecuencias": "La estación es saqueada por enemigos y pierdes la oportunidad de aprender nuevas tecnologías."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "texto": "No",
+          "acciones": [
+            {
+              "texto": "Ignoras la estación espacial abandonada y continúas tu viaje.",
+              "karma": "0",
+              "consecuencias": "No ocurre nada."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repetible": true,
+      "image": "alerta.png",
+      "conversacion": "Recibes un mensaje de una facción en guerra, pidiendo ayuda en una batalla espacial. ¿Aceptas?",
+      "opciones": [
+        {
+          "texto": "Sí",
+          "acciones": [
+            {
+              "texto": "Te unes a la batalla y logras inclinar la balanza a favor de la facción que te pidió ayuda.",
+              "karma": "+1",
+              "consecuencias": "La facción te recompensa con recursos y mejora tu reputación entre sus miembros."
+            }
+          ]
+        },
+        {
+          "texto": "No",
+          "acciones": [
+            {
+              "texto": "Te mantienes al margen y dejas que la batalla siga su curso sin intervenir.",
+              "karma": "-1",
+              "consecuencias": "La facción que te pidió ayuda sufre una derrota y tu reputación con ellos disminuye."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repetible": true,
+      "image": "insectos.png",
+      "conversacion": "Mientras exploras un planeta tropical, te encuentras con una especie alienígena que está siendo atacada por una plaga de insectos gigantes. Te piden ayuda para erradicarlos. ¿Qué haces?",
+      "opciones": [
+        {
+          "texto": "Ayudar",
+          "acciones": [
+            {
+              "texto": "Decides ayudar a los alienígenas a luchar contra la plaga de insectos y logras erradicarlos.",
+              "karma": "+2",
+              "consecuencias": "La especie alienígena te agradece por tu ayuda y te proporciona acceso a recursos valiosos y conocimientos sobre la región."
+            }
+          ]
+        },
+        {
+          "texto": "No ayudar",
+          "acciones": [
+            {
+              "texto": "Decides no involucrarte y abandonas el planeta.",
+              "karma": "-1",
+              "consecuencias": "Los alienígenas sufren grandes pérdidas y no están dispuestos a cooperar contigo en el futuro."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "conversacion": "Recibes una señal de socorro de una nave mercante que está siendo atacada por piratas espaciales. ¿Quieres intervenir?",
+      "repetible": true,
+      "image": "piratas.png",
+      "opciones": [
+        {
+          "texto": "Intervenir",
+          "acciones": [
+            {
+              "texto": "Te enfrentas a los piratas espaciales y logras ahuyentarlos, salvando a la nave mercante.",
+              "karma": "+2",
+              "consecuencias": "La tripulación de la nave mercante te agradece y te ofrece una recompensa en forma de recursos y piezas para mejorar tu nave."
+            }
+          ]
+        },
+        {
+          "texto": "Ignorar",
+          "acciones": [
+            {
+              "texto": "Decides no intervenir y continúas tu viaje.",
+              "karma": "-1",
+              "consecuencias": "La nave mercante es saqueada por los piratas, lo que afecta negativamente tu reputación y podría tener repercusiones en el futuro."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repetible": true,
+      "image": "desierto.png",
+      "conversacion": "Mientras exploras un planeta desértico, descubres una antigua tecnología alienígena enterrada en la arena. Un grupo de investigadores también está interesado en el artefacto. ¿Qué haces?",
+      "opciones": [
+        {
+          "texto": "Compartir el hallazgo",
+          "acciones": [
+            {
+              "texto": "Decides compartir el hallazgo con los investigadores y trabajar juntos para estudiar la tecnología.",
+              "karma": "+2",
+              "consecuencias": "Colaboras con los investigadores, lo que te permite obtener información valiosa sobre la tecnología y mejorar tu nave."
+            }
+          ]
+        },
+        {
+          "texto": "Reclamar el hallazgo",
+          "acciones": [
+            {
+              "texto": "Decides reclamar el artefacto para ti y expulsar a los investigadores del área.",
+              "karma": "-1",
+              "consecuencias": "Te quedas con la tecnología, pero ganas la enemistad de los investigadores, lo que podría dificultar futuras colaboraciones."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repetible": true,
+      "image": "mercader.png",
+      "conversacion": "Te encuentras con un comerciante que ofrece un raro cristal de energía a cambio de una gran cantidad de tus recursos. ¿Aceptas el trato?",
+      "opciones": [
+        {
+          "texto": "Aceptar",
+          "acciones": [
+            {
+              "texto": "Decides intercambiar tus recursos por el cristal de energía.",
+              "karma": "0",
+              "consecuencias": "El cristal de energía resulta ser extremadamente útil para potenciar tu nave, pero te quedas con pocos recursos para otras mejoras o reparaciones."
+            }
+          ]
+        },
+        {
+          "texto": "Rechazar",
+          "acciones": [
+            {
+              "texto": "Rechazas el trato y decides conservar tus recursos.",
+              "karma": "0",
+              "consecuencias": "Sigues teniendo una gran cantidad de recursos para futuras mejoras o reparaciones, pero pierdes la oportunidad de adquirir el raro cristal de energía."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

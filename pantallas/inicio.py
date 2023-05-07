@@ -38,6 +38,7 @@ def crear_boton(screen_width, screen_height):
 
     return new_game_button
 
+
 def draw_exit_by_state(screen):
 
     screen_width = 210
@@ -65,24 +66,4 @@ def draw_button_by_state(screen, button, text, hover):
     screen.blit(button_text, button.topleft)
     pygame.display.flip()
     return button
-
-
-def handle_mouse_click(new_game_button, exit, mouse_pos):
-    if new_game_button is not None and new_game_button.collidepoint(mouse_pos):
-        usuario: Jugador = Jugador("5","Ina","10")
-        return usuario
-    elif exit.collidepoint(mouse_pos):
-        pygame.quit()
-        sys.exit()
-        return None
-
-
-def hover_mouse_click(new_game_button, mouse_pos, screen):
-        if new_game_button.collidepoint(mouse_pos):
-                print("Hover on new game "+ str(mouse_pos[0]) +","+str(mouse_pos[1]))
-                draw_button_by_state(screen, new_game_button, "Nuevo juego", True)
-        else:
-                print("Hover out of  new game "+ str(mouse_pos[0]) +","+ str(mouse_pos[1]))
-                draw_button_by_state(screen, new_game_button, "Nuevo juego", False)
-        pygame.display.flip()
 
