@@ -2,15 +2,15 @@ import os
 
 import pygame
 
-from LeyendasEstelares.pantallas.inicio import crear_boton
+from pantallas.inicio import crear_boton
 
-background_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "nave")
-                                                  , "skin_nave.png")))
 
 
 def mostrarJuego(screen):
     # Dibujar la imagen de fondo
 
+    background_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "nave")
+                                                                               , "skin_nave.png")))
     screen.blit(background_image, (0, 0))
 
     # Actualizar la pantalla

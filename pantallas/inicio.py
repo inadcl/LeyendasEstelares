@@ -6,7 +6,7 @@ import sys
 from pygame import Rect
 from pygame.locals import Color
 
-from LeyendasEstelares.jugador.jugador import Jugador
+from jugador.jugador import Jugador
 
 global last_mouse
 def mostrar_pantalla_inicio(screen_width, screen_height, screen):

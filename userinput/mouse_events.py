@@ -3,8 +3,8 @@ import sys
 
 import pygame
 
-from LeyendasEstelares.jugador.jugador import Jugador
-from LeyendasEstelares.pantallas.inicio import draw_button_by_state
+from jugador.jugador import Jugador
+from pantallas.inicio import draw_button_by_state
 
 
 def handle_mouse_click_general_actions(mission_button, exit_button, mouse_pos, misiones):
@@ -23,16 +23,6 @@ def handle_mouse_click_general_actions(mission_button, exit_button, mouse_pos, m
         sys.exit()
         return None
     return None
-
-def handle_inicio_mouse_click(new_game_button, exit_button, mouse_pos):
-    if new_game_button is not None and new_game_button.collidepoint(mouse_pos):
-        usuario: Jugador = Jugador("5","Ina","10")
-        return usuario
-    elif exit_button.collidepoint(mouse_pos):
-        pygame.quit()
-        sys.exit()
-        return None
-
 
 def hover_inicio_mouse_click(new_game_button, mouse_pos, screen):
         if new_game_button.collidepoint(mouse_pos):

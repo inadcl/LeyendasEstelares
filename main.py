@@ -2,33 +2,21 @@
 import os
 from typing import Tuple
 
-from LeyendasEstelares.data.create_db import create_db
+from Scenes.SceneManager import SceneManager
+from Scenes.TitleScene import TitleScene
+from data.create_db import create_db
 
 import pygame
 import sys
 
-from LeyendasEstelares.data.leermisiones import leer_misiones
-from LeyendasEstelares.jugador.jugador import Jugador
-from LeyendasEstelares.pantallas.inicio import mostrar_pantalla_inicio, \
-    draw_exit_by_state
-from LeyendasEstelares.pantallas.pantalladejuego import mostrarJuego, draw_mission_button, mostrar_imagen, mostrar_texto
-from LeyendasEstelares.userinput.mouse_events import hover_inicio_mouse_click, handle_inicio_mouse_click, \
-    handle_mouse_click_general_actions
+from data.leermisiones import leer_misiones
+from jugador.jugador import Jugador
+from pantallas.inicio import mostrar_pantalla_inicio
+from pantallas.pantalladejuego import mostrarJuego, draw_mission_button, mostrar_imagen, mostrar_texto
+from userinput.mouse_events import hover_inicio_mouse_click
 
 screen_width = 1024
 screen_height = 768
-
-
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 
 
 if __name__ == '__main__':
@@ -41,38 +29,44 @@ if __name__ == '__main__':
     misiones = leer_misiones()
     pygame.init()
 
-    # Define el tamaño de la pantalla de carga
+    scene_manager = SceneManager(TitleScene())
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF)
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                exit_button = draw_exit_by_state(screen)
-                if jugador == None:
-                    jugador = handle_inicio_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen),
-                                                        draw_exit_by_state(screen), mouse_pos)
-                    if jugador != None:
-                        screen.fill((255, 255, 255))
-                else:
-                    mission_button = draw_mission_button(screen)
-                    handle_inicio_mouse_click(mission_button, draw_exit_by_state(screen), mouse_pos)
+        scene_manager.initScene()
+        scene_manager.process_input(pygame.event.get(), pygame.key.get_pressed(), None)
+        scene_manager.render(screen)
+        scene_manager.update()
+        pygame.display.flip()
 
-                if jugador is not None and jugador.vivo:
-                    mostrarJuego(screen)
-                    exit_button = draw_exit_by_state(screen)
-                    mission_button = draw_mission_button(screen)
-                    mision = handle_mouse_click_general_actions(mission_button, exit_button, mouse_pos, misiones)
-                    if mision != None:
-                        mostrar_imagen(screen, os.path.join("recursos", os.path.join("imagenes",
-                                                                                     os.path.join("misiones",
-                                                                                                  mision["image"]))))
-                        mostrarJuego(screen)
-                        mostrar_texto(screen, mision["conversacion"])
-            elif event.type == pygame.MOUSEMOTION:
-                mouse_pos = pygame.mouse.get_pos()
-                if jugador == None:
-                    hover_inicio_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen), mouse_pos,
-                                             screen)
+    # Define el tamaño de la pantalla de carga
+    # screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF)
+    # while True:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             pygame.quit()
+    #             sys.exit()
+    #         elif event.type == pygame.MOUSEBUTTONDOWN:
+    #             mouse_pos = pygame.mouse.get_pos()
+    #             if jugador == None:
+    #                 jugador = handle_inicio_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen),
+    #                                                     draw_exit_by_state(screen), mouse_pos)
+    #                 if jugador != None:
+    #                     screen.fill((255, 255, 255))
+    #             else:
+    #
+    #             if jugador is not None and jugador.vivo:
+    #                 mostrarJuego(screen)
+    #                 exit_button = draw_exit_by_state(screen)
+    #                 mission_button = draw_mission_button(screen)
+    #                 mision = handle_mouse_click_general_actions(mission_button, exit_button, mouse_pos, misiones)
+    #                 if mision != None:
+    #                     mostrar_imagen(screen, os.path.join("recursos", os.path.join("imagenes",
+    #                                                                                  os.path.join("misiones",
+    #                                                                                               mision["image"]))))
+    #                     mostrarJuego(screen)
+    #                     mostrar_texto(screen, mision["conversacion"])
+    #         elif event.type == pygame.MOUSEMOTION:
+    #             mouse_pos = pygame.mouse.get_pos()
+    #             if jugador == None:
+    #                 hover_inicio_mouse_click(mostrar_pantalla_inicio(screen_width, screen_height, screen), mouse_pos,
+    #                                          screen)
