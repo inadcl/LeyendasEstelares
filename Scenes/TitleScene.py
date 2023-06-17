@@ -17,6 +17,7 @@ def debugRect(screen, color, debugtest):
 
 
 
+
 class TitleScene(Scene):
     init = False
 
@@ -117,8 +118,36 @@ class TitleScene(Scene):
             super().callReader(descripcion)
         pass
 
+    def dibujarFondos(self,screen):
+        rect_x = 200
+        rect_y = 425
+        rect_width = 550
+        rect_height = 300
+        color_gris = "#5a5a5a"
+        pygame.draw.rect(screen, color_gris, (rect_x - 4, rect_y - 4, rect_width + 8, rect_height + 8))
+        color_gris = "#a5a5a5"
+        pygame.draw.rect(screen, color_gris, (rect_x, rect_y, rect_width, rect_height))
+
+        rect_x = 425
+        rect_y = 330
+        rect_width = 200
+        rect_height = 40
+        color_gris = "#5a5a5a"
+        pygame.draw.rect(screen, color_gris, (rect_x - 4, rect_y - 4, rect_width + 8, rect_height + 8))
+        color_gris = "#a5a5a5"
+        pygame.draw.rect(screen, color_gris, (rect_x, rect_y, rect_width, rect_height))
+        rect_x = 745
+        rect_y = 100
+        rect_width = 175
+        rect_height = 100
+        color_gris = "#5a5a5a"
+        pygame.draw.rect(screen, color_gris, (rect_x - 4, rect_y - 4, rect_width + 8, rect_height + 8))
+        color_gris = "#a5a5a5"
+        pygame.draw.rect(screen, color_gris, (rect_x, rect_y, rect_width, rect_height))
 
     def addText(self, screen, nombre, descripcion, karma, ataque, defensa):
+
+        self.dibujarFondos(screen)
         # Crear una fuente
         fuente = pygame.font.Font(None, 36)
 
@@ -128,16 +157,9 @@ class TitleScene(Scene):
         # Obtener las dimensiones del fondo
         fondo_rect = fondo.get_rect()
 
-        color_gris = ( 0 , 0 , 0, 0.5)
         # Centrar el fondo en la ventana
         fondo_rect.center = (525, 350)
         screen.blit(fondo, fondo_rect)
-
-        rect_x = 200
-        rect_y = 425
-        rect_width = 550
-        rect_height = 300
-        pygame.draw.rect(screen, color_gris, (rect_x, rect_y, rect_width, rect_height))
 
         lineas = self.wraptext(descripcion, fuente, 500)
         for i, linea in enumerate(lineas):
