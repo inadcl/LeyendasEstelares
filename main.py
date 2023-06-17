@@ -6,6 +6,7 @@ from Scenes.SceneManager import SceneManager
 from Scenes.TitleScene import TitleScene
 from data.create_db import create_db
 
+import pyttsx3
 import pygame
 import sys
 

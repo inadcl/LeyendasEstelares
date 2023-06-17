@@ -4,6 +4,8 @@ from Scenes.Scene import Scene, screen_width, screen_height
 
 
 class GameScene(Scene):
+    def initScene(self):
+        pass
     def process_input(self, events, pressed_keys):
         pass
 

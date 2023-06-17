@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 import pygame
@@ -7,11 +8,21 @@ import sys
 
 from data.leermisiones import leer_personajes
 
+pos_image = pygame.Rect(400,50,250,250)
+pos_leftarrow = pygame.Rect(125,275,150,150)
+pos_rightarrow = pygame.Rect(725,275,150,150)
+def debugRect(screen, color, debugtest):
+    if debugtest != None:
+        pygame.draw.rect(screen, color, debugtest)
+
+
+
 class TitleScene(Scene):
     init = False
 
     def initScene(self):
         if self.init == False:
+            self.oldtext = "Elige jugador."
             self.init = True
             self.personajes = leer_personajes()
             self.posicionActual = 0
@@ -30,11 +41,23 @@ class TitleScene(Scene):
                 self.selectButton(mouse_pos)
 
     def selectButton(self, mouse_pos):
-        if self.right_arrow != None and self.right_arrow.get_rect().collidepoint(mouse_pos):
-            self.posicionActual = self.posicionActual +1
 
-        elif self.left_arrow != None and self.left_arrow.get_rect().collidepoint(mouse_pos):
-            self.posicionActual = self.posicionActual - 1
+        if self.right_arrow != None and pos_rightarrow.collidepoint(mouse_pos):
+            print("right")
+
+            if self.posicionActual == len(self.personajes)-1:
+                self.posicionActual = 0
+            else:
+                self.posicionActual = self.posicionActual + 1
+
+        elif self.left_arrow != None and pos_leftarrow.collidepoint(mouse_pos):
+            print("left")
+            if self.posicionActual == 0:
+                self.posicionActual = len(self.personajes)-1
+            else:
+                self.posicionActual = self.posicionActual - 1
+        elif pos_image.collidepoint(mouse_pos):
+            print(self.posicionActual)
 
 
     def update(self):
@@ -55,10 +78,6 @@ class TitleScene(Scene):
         rigth_arrow_path = os.path.join(current_dir, '..', 'recursos', 'imagenes', 'ui', 'rightarrow.png')
 
         left_arrow_path = os.path.join(current_dir, '..', 'recursos', 'imagenes', 'ui', 'leftarrow.png')
-        if self.posicionActual > len(self.personajes):
-            self.posicionActual = self.posicionActual -1
-        elif  self.posicionActual < 0:
-            self.posicionActual = 0
         self.personajerow = self.personajes[self.posicionActual]
 
         personaje = os.path.join(current_dir, '..', 'recursos', 'imagenes', 'personajes', self.personajerow["image"])
@@ -77,6 +96,8 @@ class TitleScene(Scene):
 
         nombre = self.personajerow["nombre"]
         descripcion = self.personajerow["descripcion"]
+
+        #super().readText(descripcion)
         karma = self.personajerow["karma"]
         ataque = self.personajerow["ataque"]
         defensa = self.personajerow["defensa"]
@@ -85,9 +106,17 @@ class TitleScene(Scene):
         super().render(screen)
         # Suponiendo que left_arrow es otra imagen que has cargado previamente
         # screen.blit(left_arrow, (500, 550))
-
+        color_gris = (128, 128, 128)
+        #only for test positions:
+        debugtest = None
+        debugRect(screen,color_gris, debugtest)
         pygame.display.flip()
+
+        if self.oldtext is None or self.oldtext != descripcion:
+            self.oldtext = descripcion
+            super().callReader(descripcion)
         pass
+
 
     def addText(self, screen, nombre, descripcion, karma, ataque, defensa):
         # Crear una fuente
@@ -99,9 +128,16 @@ class TitleScene(Scene):
         # Obtener las dimensiones del fondo
         fondo_rect = fondo.get_rect()
 
+        color_gris = ( 0 , 0 , 0, 0.5)
         # Centrar el fondo en la ventana
         fondo_rect.center = (525, 350)
         screen.blit(fondo, fondo_rect)
+
+        rect_x = 200
+        rect_y = 425
+        rect_width = 550
+        rect_height = 300
+        pygame.draw.rect(screen, color_gris, (rect_x, rect_y, rect_width, rect_height))
 
         lineas = self.wraptext(descripcion, fuente, 500)
         for i, linea in enumerate(lineas):

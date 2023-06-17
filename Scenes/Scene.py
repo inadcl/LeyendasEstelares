@@ -1,3 +1,4 @@
+import subprocess
 import sys
 
 import pygame
@@ -8,11 +9,25 @@ screen_width = 1024
 screen_height = 768
 
 class Scene:
+    lastTextReaded=""
+    def callReader(self, text):
+        if (self.lastTextReaded != text and text != None):
+            try:
+                if self.readingProcess != None:
+                    self.readingProcess.terminate()
+                    self.readingProcess.wait()
+            except:
+                print("trying to stop last speak instance")
+            self.lastTextReaded = text
+            from subprocess import call
+            self.readingProcess = subprocess.Popen(["python", "speak.py", text])
     def __init__(self):
         pass
 
     def initScene(self):
+        self.lastTextReaded= ""
         pass
+
 
     def exitScene(self):
         pass
