@@ -3,6 +3,7 @@ import sys
 
 import pygame
 
+from data.GameState import GameState
 from pantallas.inicio import draw_exit_by_state
 
 screen_width = 1024
@@ -10,34 +11,42 @@ screen_height = 768
 
 class Scene:
     lastTextReaded=""
+    gamestate:GameState;
     def callReader(self, text):
         if (self.lastTextReaded != text and text != None):
             try:
-                if self.readingProcess != None:
-                    self.readingProcess.terminate()
-                    self.readingProcess.wait()
+                self.closeReader()
             except:
                 print("trying to stop last speak instance")
             self.lastTextReaded = text
             from subprocess import call
             self.readingProcess = subprocess.Popen(["python", "speak.py", text])
     def __init__(self):
+        self.readingProcess = None
+        self.lastTextReaded= ""
         pass
 
-    def initScene(self):
-        self.lastTextReaded= ""
+    def initScene(self, gameState):
+        self.gameState = gameState
         pass
 
 
     def exitScene(self):
         pass
+
+    def closeReader(self):
+        if self.readingProcess != None:
+            self.readingProcess.terminate()
+            self.readingProcess.wait()
     def process_input(self, events, pressed_keys, button):
         for event in events:
             self.exitcheck(event)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print("boton presionado")
                 mouse_pos = pygame.mouse.get_pos()
+                self.closeReader()
                 self.exitbutton(mouse_pos)
+        return False
 
     def exitbutton(self, mouse_pos):
         if self.exit_button != None and self.exit_button.collidepoint(mouse_pos):
@@ -46,6 +55,7 @@ class Scene:
 
     def exitcheck(self, event):
         if event.type == pygame.QUIT:
+                self.closeReader()
                 pygame.quit()
                 sys.exit()
                 return None

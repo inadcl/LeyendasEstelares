@@ -2,8 +2,10 @@
 import os
 from typing import Tuple
 
+from Scenes.GameFlowScene import GameFlowScene
 from Scenes.SceneManager import SceneManager
 from Scenes.TitleScene import TitleScene
+from data.GameState import GameState
 from data.create_db import create_db
 
 import pyttsx3
@@ -20,6 +22,10 @@ screen_width = 1024
 screen_height = 768
 
 
+def sceneChanger(scene_manager):
+    pass
+
+
 if __name__ == '__main__':
     global new_game_button
     global last_color
@@ -27,17 +33,20 @@ if __name__ == '__main__':
     jugador: Jugador = None
     last_mouse_position = (0, 0)
     create_db()
-    misiones = leer_misiones()
     pygame.init()
 
-    scene_manager = SceneManager(TitleScene())
+    scene_manager = SceneManager(TitleScene(), GameFlowScene())
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF)
+    gamestate = GameState()
+    scene_manager.initScene(gamestate)
     while True:
-        scene_manager.initScene()
-        scene_manager.process_input(pygame.event.get(), pygame.key.get_pressed(), None)
+        new_scene = scene_manager.process_input(pygame.event.get(), pygame.key.get_pressed(), None)
+        if new_scene != None:
+            scene_manager.switch_to_scene(new_scene)
         scene_manager.render(screen)
-        scene_manager.update()
         pygame.display.flip()
+        scene_manager.update()
+        sceneChanger(scene_manager)
 
     # Define el tamaño de la pantalla de carga
     # screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF)

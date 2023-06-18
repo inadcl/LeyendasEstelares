@@ -1,9 +1,11 @@
 class SceneManager:
-    def __init__(self, initial_scene):
-        self.current_scene = initial_scene
 
-    def initScene(self):
-        self.current_scene.initScene()
+    def __init__(self, initial_scene, next_scene):
+        self.current_scene = initial_scene
+        self.next_scene = next_scene
+
+    def initScene(self, gameState):
+        self.current_scene.initScene(gameState)
 
     def exitScene(self):
         self.current_scene.exitScene()
@@ -12,7 +14,11 @@ class SceneManager:
         self.current_scene = scene
 
     def process_input(self, events, pressed_keys, button):
-        self.current_scene.process_input(events, pressed_keys, button)
+        change_scene = self.current_scene.process_input(events, pressed_keys, button)
+        if change_scene:
+            self.current_scene = self.next_scene
+            #self.next_scene = self.game_over
+
 
     def update(self):
         self.current_scene.update()

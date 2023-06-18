@@ -24,7 +24,6 @@ def mostrar_pantalla_inicio(screen_width, screen_height, screen):
     screen.fill(bg_color)
     screen.blit(text, text_rect)
 
-    pygame.display.flip()
     return crear_boton(screen_width, screen_height)
 
 
@@ -50,7 +49,6 @@ def draw_exit_by_state(screen):
     button_text = font.render("Exit", True, (0, 0, 0))
     pygame.draw.rect(screen, normal_button_color, button)
     screen.blit(button_text, button.topleft)
-    pygame.display.flip()
     return button
 
 def draw_button_by_state(screen, button, text, hover):
@@ -64,6 +62,6 @@ def draw_button_by_state(screen, button, text, hover):
     else:
         pygame.draw.rect(screen, normal_button_color, button)
     screen.blit(button_text, button.topleft)
-    pygame.display.flip()
+    #pygame.display.flip()
     return button
 

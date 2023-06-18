@@ -3,10 +3,13 @@ import os
 
 import pygame
 
+from Scenes.GameFlowScene import GameFlowScene
 from Scenes.Scene import Scene
 import sys
 
+from data.GameState import GameState
 from data.leermisiones import leer_personajes
+from data.stringutils import wraptext
 
 pos_image = pygame.Rect(400,50,250,250)
 pos_leftarrow = pygame.Rect(125,275,150,150)
@@ -20,8 +23,10 @@ def debugRect(screen, color, debugtest):
 
 class TitleScene(Scene):
     init = False
+    gamestate:GameState;
 
-    def initScene(self):
+    def initScene(self, gameState):
+        self.gameState = gameState
         if self.init == False:
             self.oldtext = "Elige jugador."
             self.init = True
@@ -40,26 +45,8 @@ class TitleScene(Scene):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self.selectButton(mouse_pos)
-
-    def selectButton(self, mouse_pos):
-
-        if self.right_arrow != None and pos_rightarrow.collidepoint(mouse_pos):
-            print("right")
-
-            if self.posicionActual == len(self.personajes)-1:
-                self.posicionActual = 0
-            else:
-                self.posicionActual = self.posicionActual + 1
-
-        elif self.left_arrow != None and pos_leftarrow.collidepoint(mouse_pos):
-            print("left")
-            if self.posicionActual == 0:
-                self.posicionActual = len(self.personajes)-1
-            else:
-                self.posicionActual = self.posicionActual - 1
-        elif pos_image.collidepoint(mouse_pos):
-            print(self.posicionActual)
-
+                return self.selectCharacter(mouse_pos)
+        return None
 
     def update(self):
         pass
@@ -111,7 +98,10 @@ class TitleScene(Scene):
         #only for test positions:
         debugtest = None
         debugRect(screen,color_gris, debugtest)
-        pygame.display.flip()
+        self.gameState.set_karma(karma)
+        self.gameState.set_ataque(ataque)
+        self.gameState.set_defensa(defensa)
+        self.gameState.set_nombre(personaje)
 
         if self.oldtext is None or self.oldtext != descripcion:
             self.oldtext = descripcion
@@ -161,7 +151,7 @@ class TitleScene(Scene):
         fondo_rect.center = (525, 350)
         screen.blit(fondo, fondo_rect)
 
-        lineas = self.wraptext(descripcion, fuente, 500)
+        lineas = wraptext(descripcion, fuente, 500)
         for i, linea in enumerate(lineas):
             texto_renderizado = fuente.render(linea, True, "#0000ff")
             screen.blit(texto_renderizado, (225, 450 + i * fuente.get_height()))
@@ -193,15 +183,31 @@ class TitleScene(Scene):
         fondo_rect.center = (825, 120)
         screen.blit(fondo, fondo_rect)
 
-    def wraptext(self, texto, fuente, width):
-        lineas = []
-        palabras = texto.split()
-        linea_actual = palabras[0]
-        for palabra in palabras[1:]:
-            if fuente.size(linea_actual + " " + palabra)[0] <= width:
-                linea_actual += " " + palabra
+
+    def selectButton(self, mouse_pos):
+
+        if self.right_arrow != None and pos_rightarrow.collidepoint(mouse_pos):
+            print("right")
+
+            if self.posicionActual == len(self.personajes)-1:
+                self.posicionActual = 0
             else:
-                lineas.append(linea_actual)
-                linea_actual = palabra
-        lineas.append(linea_actual)
-        return lineas
+                self.posicionActual = self.posicionActual + 1
+
+        elif self.left_arrow != None and pos_leftarrow.collidepoint(mouse_pos):
+            print("left")
+            if self.posicionActual == 0:
+                self.posicionActual = len(self.personajes)-1
+            else:
+                self.posicionActual = self.posicionActual - 1
+        elif pos_image.collidepoint(mouse_pos):
+            print(self.posicionActual)
+
+    def selectCharacter(self, mouse_pos):
+        if  pos_image.collidepoint(mouse_pos):
+            print("enter")
+            nextScene = GameFlowScene()
+            nextScene.initScene(self.gameState)
+            return nextScene
+        return None
+

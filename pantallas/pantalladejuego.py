@@ -14,7 +14,7 @@ def mostrarJuego(screen):
     screen.blit(background_image, (0, 0))
 
     # Actualizar la pantalla
-    pygame.display.flip()
+    #pygame.display.flip()
 
 
 def mostrar_imagen(screen, imagen):
@@ -24,7 +24,7 @@ def mostrar_imagen(screen, imagen):
     screen.blit(background_image, (0, 0))
 
     # Actualizar la pantalla
-    pygame.display.flip()
+    #pygame.display.flip()
 
 def mostrar_texto(screen, texto):
     # Dibujar la imagen de fondo
@@ -58,7 +58,7 @@ def mostrar_texto(screen, texto):
     # Dibuja el fondo y el texto
     screen.blit(text_surface, text_rect)
     # Actualizar la pantalla
-    pygame.display.flip()
+    #pygame.display.flip()
 
 def draw_mission_button(screen):
 
@@ -71,5 +71,5 @@ def draw_mission_button(screen):
     button_text = font.render("Mision", True, (0, 0, 0))
     pygame.draw.rect(screen, normal_button_color, button)
     screen.blit(button_text, button.topleft)
-    pygame.display.flip()
+    #pygame.display.flip()
     return button

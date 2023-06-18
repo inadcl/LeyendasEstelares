@@ -31,4 +31,4 @@ def hover_inicio_mouse_click(new_game_button, mouse_pos, screen):
         else:
                 print("Hover out of  new game "+ str(mouse_pos[0]) +","+ str(mouse_pos[1]))
                 draw_button_by_state(screen, new_game_button, "Nuevo juego", False)
-        pygame.display.flip()
+        #pygame.display.flip()
