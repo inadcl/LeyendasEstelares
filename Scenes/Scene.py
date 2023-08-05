@@ -11,7 +11,7 @@ screen_height = 768
 
 class Scene:
     lastTextReaded=""
-    gamestate:GameState;
+    activeGameState:GameState;
     def callReader(self, text):
         if (self.lastTextReaded != text and text != None):
             try:
@@ -26,8 +26,8 @@ class Scene:
         self.lastTextReaded= ""
         pass
 
-    def initScene(self, gameState):
-        self.gameState = gameState
+    def initScene(self, activeGameState):
+        self.activeGameState = activeGameState
         pass
 
 

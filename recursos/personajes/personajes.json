@@ -1,25 +1,25 @@
 {
   "personajes": [
     {
-      "karma": 0,
-      "ataque": 0,
-      "defensa": 0,
+      "karma": 10,
+      "ataque": 5,
+      "defensa": 5,
       "image": "jax.png",
       "nombre": "Jax Starflame",
       "descripcion": "Jax Starflame es un humano de un lejano sistema estelar. Tiene el pelo rubio y desordenado y una barba incipiente. Sus ojos son de un tono azul eléctrico, revelando su naturaleza decidida y audaz. Jax es un líder nato, carismático y capaz de tomar decisiones duras cuando es necesario. A pesar de su aspecto resistente, tiene una pasión por la ciencia y la exploración del universo."
     },
     {
-      "karma": 0,
-      "ataque": 0,
-      "defensa": 0,
+      "karma": 5,
+      "ataque": 5,
+      "defensa": 5,
       "image": "selene.png",
       "nombre": "Selene Zephyra",
       "descripcion": "Selene Zephyra es una misteriosa alienígena de una raza desconocida. Es alta y esbelta, con piel azulada y largos cabellos blancos que flotan como si estuviera en constante ingravidez. Sus ojos son de un vibrante verde esmeralda. A pesar de su apariencia delicada, Selene es extremadamente inteligente y hábil en tecnología avanzada. Tiene un aura tranquila y sosegada, habla con una voz suave pero llena de autoridad."
     },
     {
       "karma": 0,
-      "ataque": 0,
-      "defensa": 0,
+      "ataque": 10,
+      "defensa": 10,
       "image": "rokthul.png",
       "nombre": "Rok'Thul",
       "descripcion": "Rok'Thul es un imponente alienígena de la especie Gorun. Su cuerpo robusto y musculoso está cubierto de escamas verdes y duras como el acero. Tiene dos pares de ojos amarillos y una mandíbula llena de colmillos afilados. Aunque puede parecer amenazador a primera vista, Rok'Thul es sorprendentemente amable y leal. Valora el honor y la fortaleza, y es un formidable aliado en cualquier conflicto."

@@ -1,11 +1,16 @@
+from data.leermisiones import leer_misiones
+
+
 class GameState:
     def __init__(self):
         self.karma = 0
         self.defensa = 0
         self.ataque = 0
         self.vida = 100
-        self.nombre_elegido = None
-
+        self.nombre = None
+        self.imagen= ""
+        self.misiones = leer_misiones()
+        print(len(self.misiones))
         # y cualquier otra variable que desees almacenar
 
     def set_karma(self, karma):
@@ -19,6 +24,9 @@ class GameState:
 
     def set_nombre(self, nombre):
         self.nombre = nombre
+
+    def set_imagen(self, imagen):
+        self.imagen = imagen
 
     def aumentar_karma(self, cantidad):
         self.karma += cantidad
@@ -43,3 +51,13 @@ class GameState:
 
     def disminuir_ataque(self, cantidad):
         self.ataque = cantidad
+
+    def tratar_karma(self, param):
+        if "+" in param:
+            param.replace("+", "")
+            self.aumentar_karma(int(param))
+        elif "-" in param:
+            param.replace("-", "")
+            self.aumentar_karma(int(param))
+
+        pass

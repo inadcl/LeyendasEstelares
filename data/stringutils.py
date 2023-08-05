@@ -1,3 +1,5 @@
+import pygame
+
 
 def wraptext(texto, fuente, width):
     lineas = []
@@ -11,3 +13,9 @@ def wraptext(texto, fuente, width):
             linea_actual = palabra
     lineas.append(linea_actual)
     return lineas
+
+
+
+def debugRect(screen, color, debugtest):
+    if debugtest != None:
+        pygame.draw.rect(screen, color, debugtest)

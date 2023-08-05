@@ -4,8 +4,8 @@ class SceneManager:
         self.current_scene = initial_scene
         self.next_scene = next_scene
 
-    def initScene(self, gameState):
-        self.current_scene.initScene(gameState)
+    def initScene(self, activeGameState):
+        self.current_scene.initScene(activeGameState)
 
     def exitScene(self):
         self.current_scene.exitScene()
@@ -23,5 +23,5 @@ class SceneManager:
     def update(self):
         self.current_scene.update()
 
-    def render(self, screen):
-        self.current_scene.render(screen)
+    def render(self, screen, activeGameState):
+        self.current_scene.render(screen, activeGameState)
