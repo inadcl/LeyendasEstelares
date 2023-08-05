@@ -18,6 +18,7 @@
                   "accion":
                     {
                       "texto": "La IA te agradece y te enseña tecnologías avanzadas.",
+                      "defensa": "+2",
                       "karma": "+2",
                       "consecuencias": "Obtienes acceso a nuevas mejoras para tu nave."
                     }
@@ -59,6 +60,7 @@
             {
               "texto": "Te unes a la batalla y logras inclinar la balanza a favor de la facción que te pidió ayuda.",
               "karma": "+1",
+              "defensa": "-2",
               "consecuencias": "La facción te recompensa con recursos y mejora tu reputación entre sus miembros."
             }
         },
@@ -84,6 +86,8 @@
             {
               "texto": "Decides ayudar a los alienígenas a luchar contra la plaga de insectos y logras erradicarlos.",
               "karma": "+2",
+              "defensa": "+2",
+              "ataque": "+1",
               "consecuencias": "La especie alienígena te agradece por tu ayuda y te proporciona acceso a recursos valiosos y conocimientos sobre la región."
             }
         },
@@ -109,6 +113,8 @@
             {
               "texto": "Te enfrentas a los piratas espaciales y logras ahuyentarlos, salvando a la nave mercante.",
               "karma": "+2",
+              "defensa": "-1",
+              "ataque": "+1",
               "consecuencias": "La tripulación de la nave mercante te agradece y te ofrece una recompensa en forma de recursos y piezas para mejorar tu nave."
             }
 
@@ -135,6 +141,7 @@
           "accion":
             {
               "texto": "Decides compartir el hallazgo con los investigadores y trabajar juntos para estudiar la tecnología.",
+              "defensa": "+1",
               "karma": "+2",
               "consecuencias": "Colaboras con los investigadores, lo que te permite obtener información valiosa sobre la tecnología y mejorar tu nave."
             }
@@ -145,7 +152,9 @@
           "accion":
             {
               "texto": "Decides reclamar el artefacto para ti y expulsar a los investigadores del área.",
-              "karma": "-1",
+              "karma": "-4",
+              "defensa": "+2",
+              "ataque": "+1",
               "consecuencias": "Te quedas con la tecnología, pero ganas la enemistad de los investigadores, lo que podría dificultar futuras colaboraciones."
             }
 
@@ -163,6 +172,8 @@
             {
               "texto": "Decides intercambiar tus recursos por el cristal de energía.",
               "karma": "0",
+              "ataque": "-2",
+              "defensa": "-2",
               "consecuencias": "El cristal de energía resulta ser extremadamente útil para potenciar tu nave, pero te quedas con pocos recursos para otras mejoras o reparaciones."
             }
 
@@ -172,7 +183,7 @@
           "accion":
             {
               "texto": "Rechazas el trato y decides conservar tus recursos.",
-              "karma": "0",
+              "karma": "-4",
               "consecuencias": "Sigues teniendo una gran cantidad de recursos para futuras mejoras o reparaciones, pero pierdes la oportunidad de adquirir el raro cristal de energía."
             }
 

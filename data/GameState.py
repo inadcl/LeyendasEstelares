@@ -58,6 +58,20 @@ class GameState:
             self.aumentar_karma(int(param))
         elif "-" in param:
             param.replace("-", "")
-            self.aumentar_karma(int(param))
+            self.disminuir_karma(int(param))
 
-        pass
+
+    def tratar_defensa(self, param):
+        if "+" in param:
+            param.replace("+", "")
+            self.aumentar_defensa(int(param))
+        elif "-" in param:
+            param.replace("-", "")
+            self.disminuir_defensa(int(param))
+    def tratar_ataque(self, param):
+        if "+" in param:
+            param.replace("+", "")
+            self.aumentar_ataque(int(param))
+        elif "-" in param:
+            param.replace("-", "")
+            self.disminuir_ataque(int(param))
