@@ -171,9 +171,8 @@
           "accion":
             {
               "texto": "Decides intercambiar tus recursos por el cristal de energía.",
-              "karma": "0",
               "ataque": "-2",
-              "defensa": "-2",
+              "defensa": "+2",
               "consecuencias": "El cristal de energía resulta ser extremadamente útil para potenciar tu nave, pero te quedas con pocos recursos para otras mejoras o reparaciones."
             }
 
@@ -183,7 +182,6 @@
           "accion":
             {
               "texto": "Rechazas el trato y decides conservar tus recursos.",
-              "karma": "-4",
               "consecuencias": "Sigues teniendo una gran cantidad de recursos para futuras mejoras o reparaciones, pero pierdes la oportunidad de adquirir el raro cristal de energía."
             }
 

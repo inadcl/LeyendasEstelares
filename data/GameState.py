@@ -29,49 +29,49 @@ class GameState:
         self.imagen = imagen
 
     def aumentar_karma(self, cantidad):
-        self.karma += cantidad
+        self.karma = self.karma + cantidad
 
     def disminuir_karma(self, cantidad):
-        self.karma -= cantidad
+        self.karma = self.karma - cantidad
 
     def aumentar_vida(self, cantidad):
-        self.vida += cantidad
+        self.vida = self.vida + cantidad
 
     def disminuir_vida(self, cantidad):
-        self.vida -= cantidad
+        self.vida = self.vida - cantidad
 
     def aumentar_defensa(self, cantidad):
-        self.defensa = cantidad
+        self.defensa = self.defensa + cantidad
 
     def disminuir_defensa(self, cantidad):
-        self.defensa = cantidad
+        self.defensa = self.defensa - cantidad
 
     def aumentar_ataque(self, cantidad):
-        self.ataque = cantidad
+        self.ataque = self.ataque + cantidad
 
     def disminuir_ataque(self, cantidad):
-        self.ataque = cantidad
+        self.ataque = self.ataque - cantidad
 
     def tratar_karma(self, param):
         if "+" in param:
-            param.replace("+", "")
+            param = param.replace("+", "")
             self.aumentar_karma(int(param))
         elif "-" in param:
-            param.replace("-", "")
+            param = param.replace("-", "")
             self.disminuir_karma(int(param))
 
 
     def tratar_defensa(self, param):
         if "+" in param:
-            param.replace("+", "")
+            param = param.replace("+", "")
             self.aumentar_defensa(int(param))
         elif "-" in param:
-            param.replace("-", "")
+            param = param.replace("-", "")
             self.disminuir_defensa(int(param))
     def tratar_ataque(self, param):
         if "+" in param:
-            param.replace("+", "")
+            param = param.replace("+", "")
             self.aumentar_ataque(int(param))
         elif "-" in param:
-            param.replace("-", "")
+            param = param.replace("-", "")
             self.disminuir_ataque(int(param))

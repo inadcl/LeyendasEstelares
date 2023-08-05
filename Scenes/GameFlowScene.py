@@ -8,6 +8,11 @@ from data.DrawUtils import addText, dibujarFondos
 from data.leermisiones import leer_misiones, leer_mensaje_inicial
 from data.stringutils import debugRect, wraptext
 
+#TODO
+# hover en el boton de navegar cuando sea accesible
+# hover en  de navegar cuando sea accesible
+# Añadir eventos con combtaes
+
 
 class GameFlowScene(Scene):
     def __init__(self, activeGameState=None):
