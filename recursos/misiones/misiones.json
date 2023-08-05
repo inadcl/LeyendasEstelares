@@ -187,6 +187,78 @@
 
         }
       ]
+    }, {
+      "repetible": false,
+      "image": "planetaMisterioso.png",
+      "conversacion": "Detectas un planeta cubierto por una densa neblina y señales de vida. ¿Decides aterrizar?",
+      "opciones": [
+        {
+          "texto": "Aterrizar",
+          "accion": {
+            "texto": "Descubres una civilización primitiva que te ve como una amenaza.",
+            "karma": "-1",
+            "ataque": "-2",
+            "consecuencias": "Tienes que defenderte de los habitantes, pero si logras comunicarte con ellos, podrías obtener su confianza y recursos."
+          }
+        },
+        {
+          "texto": "No aterrizar",
+          "accion": {
+            "texto": "Decides no correr el riesgo y sigues explorando el espacio.",
+            "karma": "+1",
+            "consecuencias": "No enfrentas posibles amenazas, pero también pierdes la oportunidad de descubrir secretos del planeta."
+          }
+        }
+      ]
+    },
+    {
+      "repetible": true,
+      "image": "agujeroNegro.png",
+      "conversacion": "Un agujero negro aparece en tu trayectoria. ¿Intentas recolectar energía de él o lo evitas?",
+      "opciones": [
+        {
+          "texto": "Recolectar energía",
+          "accion": {
+            "texto": "Logras obtener energía increíblemente potente, pero tu nave sufre daños.",
+            "defensa": "-3",
+            "ataque": "+3",
+            "consecuencias": "Tu nave tiene mejor potencia pero requiere reparaciones urgentes."
+          }
+        },
+        {
+          "texto": "Evitarlo",
+          "accion": {
+            "texto": "Evitas el agujero negro y sigues tu camino sin problemas.",
+            "karma": "0",
+            "consecuencias": "Continúas tu viaje sin alteraciones ni riesgos adicionales."
+          }
+        }
+      ]
+    },
+    {
+      "repetible": false,
+      "image": "civilizacionPerdida.png",
+      "conversacion": "Encuentras los restos de una antigua civilización espacial. ¿Buscas entre los escombros o lo consideras un lugar sagrado y te vas?",
+      "opciones": [
+        {
+          "texto": "Buscar",
+          "accion": {
+            "texto": "Descubres tecnologías antiguas y artefactos valiosos.",
+            "defensa": "+2",
+            "ataque": "+1",
+            "karma": "-2",
+            "consecuencias": "Tu nave mejora con las tecnologías, pero algunas civilizaciones pueden verte como un profanador."
+          }
+        },
+        {
+          "texto": "Respetar y marchar",
+          "accion": {
+            "texto": "Decides dejar el lugar en paz y continuar tu viaje.",
+            "karma": "+3",
+            "consecuencias": "Las civilizaciones avanzadas respetan tu decisión, lo que mejora tu reputación."
+          }
+        }
+      ]
     }
   ]
 }
