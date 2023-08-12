@@ -40,7 +40,11 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.DOUBLEBUF)
     activeGameState = GameState()
     scene_manager.initScene(activeGameState)
+    clock = pygame.time.Clock()
     while True:
+        clock.tick(60)# Esto limitará tu bucle a 60 iteraciones por segundo
+        activeGameState.clock = clock
+
         scene_manager.process_input(pygame.event.get(), pygame.key.get_pressed(), None)
         scene_manager.render(screen, activeGameState)
         pygame.display.flip()

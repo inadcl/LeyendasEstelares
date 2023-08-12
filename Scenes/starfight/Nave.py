@@ -9,31 +9,47 @@ from data.resource_utils import generateImagePath
 class Nave:
     def __init__(self, x, y):
 
-        self.image = pygame.image.load(generateImagePath(os.path.dirname(os.path.abspath(__file__)), "starfight", "player.png"))
+        self.image = pygame.image.load(
+            generateImagePath(os.path.dirname(os.path.abspath(__file__)), "starfight", "player.png"))
         self.image_rotada = pygame.transform.rotate(self.image, -90)
         self.rect = self.image_rotada.get_rect(topleft=(x, y))
         self.misiles = []
+        self.goUp = False
+        self.goDown = False
+        self.fire = False
 
     def mover_arriba(self):
-        if self.rect.y > 100:
-            print("arriba" + str(self.rect.y))
-            self.rect.y -= 5  # Ajusta este valor para cambiar la velocidad de movimiento
+        self.goDown = False
+        self.goUp = True
 
     def mover_abajo(self):
-        if self.rect.y < 950:
-            print("abajo" + str(self.rect.y))
-            self.rect.y += 5  # Ajusta este valor para cambiar la velocidad de movimiento
+        self.goUp = False
+        self.goDown = True
+
     def lanzar_misil(self):
         misil = Misil(self.rect.midright)
         self.misiles.append(misil)
 
-    def update(self):
+    def update(self, dt):
+        character_speed = 2000  # velocidad en píxeles por segundo
+        if self.goUp and self.rect.y > 100:
+            self.goUp = False
+            print("arriba" + str(self.rect.y))
+            print("deltatime" + str(dt))
+            self.rect.y -= character_speed * dt  # Ajusta este valor para cambiar la velocidad de movimiento
+
+        if self.goDown and self.rect.y < 650:
+            self.goDown = False
+            print("abajo" + str(self.rect.y))
+            print("deltatime" + str(dt))
+            self.rect.y += character_speed * dt  # Ajusta este valor para cambiar la velocidad de movimiento
+
         for misil in self.misiles:
-            misil.update()
+            misil.update(dt)
 
             # Eliminar misiles fuera de la pantalla
-            #todo fix screen size
-            if misil.rect.left > 1024:
+            # todo fix screen size
+            if misil.rect.left > 1000:
                 self.misiles.remove(misil)
 
             # for misil in self.misiles:

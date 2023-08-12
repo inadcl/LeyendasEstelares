@@ -151,6 +151,7 @@ class GameFlowScene(Scene):
             self.opcionB = None
 
     def update(self):
+        super().update()
         pass
 
     def generateImagePath(self, folder, filename):

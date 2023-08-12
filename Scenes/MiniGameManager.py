@@ -51,9 +51,7 @@ class MiniGameManager(Scene):
 
 
     def render(self, screen, activeGameState):
-        if not self.renderRequired:
-            return
-        else:
+        if self.renderRequired:
             self.renderRequired = False
             self.activeGameState = activeGameState
 
@@ -64,4 +62,4 @@ class MiniGameManager(Scene):
             pygame.display.flip()
             super().render(screen)
             # posicion avatar
-        self.activeGame.render(screen,activeGameState)
+        self.activeGame.render(screen, activeGameState)

@@ -41,7 +41,8 @@ class Starfight(Scene):
         return None
 
     def update(self):
-        self.nave.update()
+        self.renderRequired = True
+        self.nave.update(self.activeGameState.get_delta_time())
         if self.activeGameState.defensa == 0:
             print("gameover")
             #todo: gameover
