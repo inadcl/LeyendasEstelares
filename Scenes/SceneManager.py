@@ -14,9 +14,11 @@ class SceneManager:
         self.current_scene = scene
 
     def process_input(self, events, pressed_keys, button):
-        change_scene = self.current_scene.process_input(events, pressed_keys, button)
-        if change_scene:
-            self.current_scene = self.next_scene
+        self.next_scene = self.current_scene.process_input(events, pressed_keys, button)
+        if self.next_scene != None:
+            self.switch_to_scene(self.next_scene)
+        #if change_scene:
+        #    self.current_scene = self.next_scene
             #self.next_scene = self.game_over
 
 

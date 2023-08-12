@@ -69,4 +69,4 @@ class Scene:
         return self.exit_button
 
     def switch_to_scene(self, next_scene):
-        self.next = next_scene
+        self.next_scene = next_scene

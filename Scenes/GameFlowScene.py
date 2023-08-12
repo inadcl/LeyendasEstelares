@@ -3,6 +3,7 @@ import random
 
 import pygame
 
+from Scenes.MiniGameManager import MiniGameManager
 from Scenes.Scene import Scene, screen_width, screen_height
 from data.DrawUtils import addText, dibujarFondos
 from data.leermisiones import leer_misiones, leer_mensaje_inicial
@@ -25,6 +26,7 @@ class GameFlowScene(Scene):
         self.misionActual = None
         self.opcionA = None
         self.opcionB = None
+        self.alien = None
         self.renderRequired = True
         if activeGameState is not None:
             self.initScene(activeGameState)
@@ -78,7 +80,7 @@ class GameFlowScene(Scene):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                self.selectButton(mouse_pos)
+                return self.selectButton(mouse_pos)
         return None
 
     def selectButton(self, mouse_pos):
@@ -86,56 +88,67 @@ class GameFlowScene(Scene):
         print(mouse_pos)
         if pygame.Rect(25, 375, 150, 150).collidepoint(mouse_pos):
             if self.opcionA == None and self.opcionB == None:
-                print("right")
+                print("selected: new mission")
                 randMisionPosition = random.randint(0, len(self.activeGameState.misiones) - 1)
                 randMission = self.activeGameState.misiones[randMisionPosition]
                 if not randMission["repetible"]:
                     self.activeGameState.misiones.remove(randMission)
-                # todo draw mission
+                # asignamos la nueva mision
                 self.misionActual = randMission
                 self.conversacionActual = self.misionActual["conversacion"]
                 self.opcionA = self.misionActual["opciones"][0]
                 self.opcionB = self.misionActual["opciones"][1]
                 self.folder = "misiones"
                 self.filename = self.misionActual["image"]
+                if "alien" in self.misionActual.keys():
+                    self.alien = self.misionActual["alien"]
+                else:
+                    self.alien = None
                 self.renderRequired = True
 
         if self.opcionA != None and pygame.Rect(250, 725, 200, 40).collidepoint(mouse_pos):
             self.renderRequired = True
-            print("opcionA")
-            if "consecuencias" in self.opcionA["accion"].keys():
-                self.opcionA["accion"]["texto"] + "\n" + self.opcionA["accion"]["consecuencias"]
-            self.conversacionActual = self.opcionA["accion"]["texto"]
-            if "karma" in self.opcionA["accion"].keys():
-                self.activeGameState.tratar_karma(self.opcionA["accion"]["karma"])
-            if "defensa" in self.opcionA["accion"].keys():
-                self.activeGameState.tratar_defensa(self.opcionA["accion"]["defensa"])
-            if "ataque" in self.opcionA["accion"].keys():
-                self.activeGameState.tratar_ataque(self.opcionA["accion"]["ataque"])
-            if "opciones" in self.opcionA["accion"].keys():
-                self.opcionB = self.opcionA["accion"]["opciones"][1]
-                self.opcionA = self.opcionA["accion"]["opciones"][0]
+            print("opcionA selected")
+            if "minijuego" in self.opcionA["accion"].keys():
+                self.minijuego=self.opcionA["accion"]["minijuego"]
+                if self.minijuego == "starfight":
+                    self.next_scene = MiniGameManager(self, "starfight", self.misionActual["alien"], self.activeGameState)
+                    if self.next_scene != None:
+                        self.switch_to_scene(self.next_scene)
+                        return self.next_scene
             else:
-                self.opcionA = None
-                self.opcionB = None
+                self.aplicar_opcion(self.opcionA)
         if self.opcionB != None and pygame.Rect(525, 725, 200, 40).collidepoint(mouse_pos):
             self.renderRequired = True
             print("opcionB")
-            if "consecuencias" in self.opcionB["accion"].keys():
-                self.opcionB["accion"]["texto"] + "\n" + self.opcionA["accion"]["consecuencias"]
-            self.conversacionActual = self.opcionB["accion"]["texto"]
-            if "karma" in self.opcionB["accion"].keys():
-                self.activeGameState.tratar_karma(self.opcionB["accion"]["karma"])
-            if "defensa" in self.opcionB["accion"].keys():
-                self.activeGameState.tratar_defensa(self.opcionB["accion"]["defensa"])
-            if "ataque" in self.opcionB["accion"].keys():
-                self.activeGameState.tratar_ataque(self.opcionB["accion"]["ataque"])
-            if "opciones" in self.opcionB["accion"].keys():
-                self.opcionA = self.opcionB["accion"]["opciones"][0]
-                self.opcionB = self.opcionB["accion"]["opciones"][1]
+            if "minijuego" in self.opcionB["accion"].keys():
+                self.minijuego=self.opcionB["accion"]["minijuego"]
+                if self.minijuego == "starfight":
+                    self.next_scene = MiniGameManager(self, "starfight", self.misionActual["alien"], self.activeGameState)
+                    if self.next_scene != None:
+                        self.switch_to_scene(self.next_scene)
+                        return self.next_scene
             else:
-                self.opcionA = None
-                self.opcionB = None
+                self.aplicar_opcion(self.opcionB)
+
+    def aplicar_opcion(self, opcionSeleccionada):
+        if "consecuencias" in opcionSeleccionada["accion"].keys():
+            opcionSeleccionada["accion"]["texto"] + "\n" + opcionSeleccionada["accion"]["consecuencias"]
+        self.conversacionActual = opcionSeleccionada["accion"]["texto"]
+        if "karma" in opcionSeleccionada["accion"].keys():
+            self.activeGameState.tratar_karma(opcionSeleccionada["accion"]["karma"])
+        if "defensa" in opcionSeleccionada["accion"].keys():
+            self.activeGameState.tratar_defensa(opcionSeleccionada["accion"]["defensa"])
+        if "ataque" in opcionSeleccionada["accion"].keys():
+            self.activeGameState.tratar_ataque(opcionSeleccionada["accion"]["ataque"])
+        if "opciones" in opcionSeleccionada["accion"].keys():
+            opcionA = opcionSeleccionada["accion"]["opciones"][0]
+            opcionB = opcionSeleccionada["accion"]["opciones"][1]
+            self.opcionA = opcionA
+            self.opcionB = opcionB
+        else:
+            self.opcionA = None
+            self.opcionB = None
 
     def update(self):
         pass
@@ -161,7 +174,10 @@ class GameFlowScene(Scene):
 
             image_path = self.activeGameState.imagen
             self.dibujarPersonaje(screen, image_path)
-            self.dibujarAlien(screen, "ruido.png")
+            if self.alien == None:
+                self.dibujarAlien(screen, 'personajes', "ruido.png")
+            else:
+                self.dibujarAlien(screen, "aliens", self.alien["image"])
 
             nombre_rect = (900, 740)
             karma_rect = (970, 625)
@@ -258,8 +274,8 @@ class GameFlowScene(Scene):
         personaje_image = pygame.transform.scale(pygame.image.load(personaje), (150, 150))
         screen.blit(personaje_image, pygame.Rect(850, 375, 150, 150))
 
-    def dibujarAlien(self, screen, imagen):
-        personaje = os.path.join('recursos', 'imagenes', 'personajes', imagen)
+    def dibujarAlien(self, screen, folder, imagen):
+        personaje = os.path.join('recursos', 'imagenes', folder, imagen)
         numeros = [90, 180, 270, 360]
 
         numero_aleatorio = 0
