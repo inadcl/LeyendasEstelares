@@ -22,10 +22,6 @@ screen_width = 1024
 screen_height = 768
 
 
-def sceneChanger(scene_manager):
-    pass
-
-
 if __name__ == '__main__':
     global new_game_button
     global last_color
@@ -41,12 +37,12 @@ if __name__ == '__main__':
     activeGameState = GameState()
     scene_manager.initScene(activeGameState)
     clock = pygame.time.Clock()
+    activeScene = scene_manager.current_scene
     while True:
         clock.tick(60)# Esto limitará tu bucle a 60 iteraciones por segundo
         activeGameState.clock = clock
-
+        activeScene.current_scene = scene_manager.switch_scene(scene_manager.current_scene)
         scene_manager.process_input(pygame.event.get(), pygame.key.get_pressed(), None)
+        scene_manager.update()
         scene_manager.render(screen, activeGameState)
         pygame.display.flip()
-        scene_manager.update()
-        sceneChanger(scene_manager)

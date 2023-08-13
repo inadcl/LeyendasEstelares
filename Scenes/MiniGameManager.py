@@ -19,13 +19,15 @@ class Minijuegos(Enum):
             return Minijuegos.STARFIGHT.name
 
 class MiniGameManager(Scene):
-    def __init__(self, gameflowscene, minijuego, alien, activeGameState:GameState):
+    def __init__(self, gameflowscene, minijuego, alien, activeGameState:GameState, minigameOption):
+        super().__init__()
         self.readingProcess = None
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.gameflowscene = gameflowscene
         self.minijuego = Minijuegos.getEnum(minijuego)
         self.alien = alien
         self.renderRequired = True
+        self.minigameOption = minigameOption
         if self.minijuego == Minijuegos.STARFIGHT.name:
             self.activeGame = Starfight(gameflowscene, alien, activeGameState)
         else:
@@ -43,10 +45,30 @@ class MiniGameManager(Scene):
 
     def process_input(self, events, pressed_keys, button):
         super().process_input(events, pressed_keys, button)
-        return self.activeGame.process_input(events, pressed_keys, button)
+        new_scene = self.activeGame.process_input(events, pressed_keys, button)
+        if new_scene != None:
+            self.switch_on = True
+            self.add_new_scene(new_scene)
+            return None
 
     def update(self):
-        self.activeGame.update()
+        status = self.activeGame.update()
+        if status != None:
+            if status:
+                if self.gameflowscene != None:
+                        self.switch_on = True
+                        self.gameflowscene.renderRequired = True
+                        self.gameflowscene.minigameoption = self.minigameOption
+                        self.add_new_scene(self.gameflowscene)
+                        return None
+            else:
+                #todo create game over
+                if self.gameflowscene != None:
+                        self.switch_on = True
+                        self.gameflowscene.renderRequired = True
+                        self.gameflowscene.minigameoption = self.minigameOption
+                        self.add_new_scene(self.gameflowscene)
+                        return None
 
 
 

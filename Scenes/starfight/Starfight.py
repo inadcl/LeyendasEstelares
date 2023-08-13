@@ -1,17 +1,15 @@
 import os
-import random
 
 import pygame
 
-from Scenes.Scene import Scene, screen_width, screen_height
+from Scenes.Scene import Scene
+from Scenes.starfight.AlienNave import AlienNave
 from Scenes.starfight.Nave import Nave
 from data import GameState
-from data.DrawUtils import addText, dibujarFondos
-from data.leermisiones import leer_misiones, leer_mensaje_inicial
-from data.stringutils import debugRect, wraptext
 
 class Starfight(Scene):
     def __init__(self, gameflowscene, alien, activeGameState:GameState):
+        super().__init__()
         self.readingProcess = None
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.gameflowscene = gameflowscene
@@ -20,6 +18,9 @@ class Starfight(Scene):
         if activeGameState is not None:
             self.initScene(activeGameState)
         self.nave = Nave(100,100)
+        self.alienship = AlienNave(900,500)
+        self.game_over = False
+        self.game_win = False
 
     def initScene(self, activeGameState):
         super().initScene(activeGameState)
@@ -42,12 +43,38 @@ class Starfight(Scene):
 
     def update(self):
         self.renderRequired = True
+        if self.game_over:
+            return False
+        if self.game_win:
+            return True
+
+        for misil in self.nave.misiles:
+            if misil.live and misil.rect.colliderect(self.alienship.rect):
+                self.alien.defensa = self.alien.defensa - self.activeGameState.ataque
+                if self.alien.defensa <= 0:
+                    print("enemigo derrotado")
+                    self.game_win = True
+                else:
+                    self.misil.live = False
+
+        for misil in self.alienship.misiles:
+            if misil.live and misil.rect.colliderect(self.nave.rect):
+                self.activeGameState.disminuir_defensa(self.alien.ataque)
+                if self.activeGameState.defensa <= 0:
+                    print("Jugador muerto")
+                    self.game_over = True
+                else:
+                    self.misil.live = False
+
         self.nave.update(self.activeGameState.get_delta_time())
-        if self.activeGameState.defensa == 0:
+        self.alienship.update(self.activeGameState.get_delta_time())
+        if self.activeGameState.defensa <= 0:
             print("gameover")
             #todo: gameover
-        if self.alien["defensa"] == 0:
+        if self.alien.defensa <= 0:
             print("enemigo derrotado")
+
+        return None
 
 
     def generateImagePath(self, folder, filename):
@@ -55,7 +82,7 @@ class Starfight(Scene):
 
     def render(self, screen, activeGameState):
         self.renderRequired= True
-        if not self.renderRequired:
+        if not self.renderRequired or self.game_win or self.game_over:
             return
         else:
             self.renderRequired = False
@@ -69,4 +96,5 @@ class Starfight(Scene):
             super().render(screen)
             # posicion avatar
         self.nave.render(screen)
+        self.alienship.render(screen)
         pygame.display.flip()

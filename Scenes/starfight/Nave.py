@@ -45,18 +45,15 @@ class Nave:
             self.rect.y += character_speed * dt  # Ajusta este valor para cambiar la velocidad de movimiento
 
         for misil in self.misiles:
-            misil.update(dt)
+            if not misil.live:
+                self.misiles.remove(misil)
+
+            misil.update(dt, True)
 
             # Eliminar misiles fuera de la pantalla
             # todo fix screen size
-            if misil.rect.left > 1000:
+            if misil.rect.left > 1000 or misil.rect.left < 0:
                 self.misiles.remove(misil)
-
-            # for misil in self.misiles:
-            #     if misil.rect.colliderect(
-            #             self.rect):  # 'otro_rect' es el rectángulo de otro objeto con el que quieres detectar la colisión
-            #         # Aquí manejas la lógica de la colisión, por ejemplo, eliminar el misil o reducir la salud de un enemigo
-            #         self.nave.misiles.remove(misil)
 
     def render(self, screen):
         screen.blit(self.image_rotada, self.rect)

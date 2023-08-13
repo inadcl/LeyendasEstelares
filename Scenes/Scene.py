@@ -24,6 +24,7 @@ class Scene:
     def __init__(self):
         self.readingProcess = None
         self.lastTextReaded= ""
+        self.switch_on = False
         pass
 
     def initScene(self, activeGameState):
@@ -68,5 +69,11 @@ class Scene:
         self.exit_button = draw_exit_by_state(screen)
         return self.exit_button
 
-    def switch_to_scene(self, next_scene):
+    def add_new_scene(self, next_scene):
         self.next_scene = next_scene
+
+    def get_new_scene(self):
+        if not self.switch_on:
+            return None
+
+        return self.next_scene

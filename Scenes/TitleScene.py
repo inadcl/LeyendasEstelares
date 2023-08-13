@@ -24,6 +24,7 @@ class TitleScene(Scene):
     activeGameState:GameState;
 
     def __init__(self, activeGameState=None):
+        super().__init__()
         if activeGameState is not None:
             self.initScene(activeGameState)
         pass
@@ -48,7 +49,12 @@ class TitleScene(Scene):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self.selectButton(mouse_pos)
-                return self.selectCharacter(mouse_pos)
+                new_scene = self.selectCharacter(mouse_pos)
+
+                if new_scene != None:
+                        self.switch_on = True
+                        self.add_new_scene(new_scene)
+                        return None
         return None
 
     def update(self):

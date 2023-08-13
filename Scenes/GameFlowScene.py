@@ -2,14 +2,15 @@ import os
 import random
 
 import pygame
-
 from Scenes.MiniGameManager import MiniGameManager
-from Scenes.Scene import Scene, screen_width, screen_height
+from Scenes.Scene import Scene
+from Scenes.starfight.Alien import Alien
 from data.DrawUtils import addText, dibujarFondos
-from data.leermisiones import leer_misiones, leer_mensaje_inicial
-from data.stringutils import debugRect, wraptext
+from data.leermisiones import leer_mensaje_inicial
+from data.stringutils import wraptext
 
-#TODO
+
+# TODO
 # hover en el boton de navegar cuando sea accesible
 # hover en  de navegar cuando sea accesible
 # Añadir eventos con combtaes
@@ -17,6 +18,7 @@ from data.stringutils import debugRect, wraptext
 
 class GameFlowScene(Scene):
     def __init__(self, activeGameState=None):
+        super().__init__()
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.folder = 'ui'
         self.filename = 'background.png'
@@ -28,6 +30,7 @@ class GameFlowScene(Scene):
         self.opcionB = None
         self.alien = None
         self.renderRequired = True
+        self.minigameoption = None
         if activeGameState is not None:
             self.initScene(activeGameState)
 
@@ -60,10 +63,10 @@ class GameFlowScene(Scene):
             super().callReader(mensaje_inicial)
 
         if opcionA != None and "texto" in opcionA.keys():
-            texto_renderizado = fuente.render("    "+opcionA["texto"], True, "#0000ff")
+            texto_renderizado = fuente.render("    " + opcionA["texto"], True, "#0000ff")
             screen.blit(texto_renderizado, (250, 735))
         if opcionB != None and "texto" in opcionB.keys():
-            texto_renderizado = fuente.render("    "+opcionB["texto"], True, "#0000ff")
+            texto_renderizado = fuente.render("    " + opcionB["texto"], True, "#0000ff")
             screen.blit(texto_renderizado, (525, 735))
 
         # add input buttons
@@ -80,7 +83,10 @@ class GameFlowScene(Scene):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                return self.selectButton(mouse_pos)
+                new_scene = self.selectButton(mouse_pos)
+                if new_scene != None:
+                    self.switch_on = True
+                    self.add_new_scene(new_scene)
         return None
 
     def selectButton(self, mouse_pos):
@@ -110,24 +116,28 @@ class GameFlowScene(Scene):
             self.renderRequired = True
             print("opcionA selected")
             if "minijuego" in self.opcionA["accion"].keys():
-                self.minijuego=self.opcionA["accion"]["minijuego"]
+                self.minijuego = self.opcionA["accion"]["minijuego"]
                 if self.minijuego == "starfight":
-                    self.next_scene = MiniGameManager(self, "starfight", self.misionActual["alien"], self.activeGameState)
-                    if self.next_scene != None:
-                        self.switch_to_scene(self.next_scene)
-                        return self.next_scene
+                    self.new_scene = MiniGameManager(self, "starfight", Alien(self.misionActual["alien"]),
+                                                      self.activeGameState, self.opcionA)
+                    if self.new_scene != None:
+                        self.switch_on = True
+                        self.add_new_scene(self.new_scene)
+                        return None
             else:
                 self.aplicar_opcion(self.opcionA)
         if self.opcionB != None and pygame.Rect(525, 725, 200, 40).collidepoint(mouse_pos):
             self.renderRequired = True
             print("opcionB")
             if "minijuego" in self.opcionB["accion"].keys():
-                self.minijuego=self.opcionB["accion"]["minijuego"]
+                self.minijuego = self.opcionB["accion"]["minijuego"]
                 if self.minijuego == "starfight":
-                    self.next_scene = MiniGameManager(self, "starfight", self.misionActual["alien"], self.activeGameState)
-                    if self.next_scene != None:
-                        self.switch_to_scene(self.next_scene)
-                        return self.next_scene
+                    self.next_scene = MiniGameManager(self, "starfight", Alien(self.misionActual["alien"]),
+                                                      self.activeGameState)
+                    if self.new_scene != None:
+                        self.switch_on = True
+                        self.add_new_scene(self.new_scene)
+                        return None
             else:
                 self.aplicar_opcion(self.opcionB)
 
@@ -152,6 +162,9 @@ class GameFlowScene(Scene):
 
     def update(self):
         super().update()
+        if self.minigameoption != None:
+            self.aplicar_opcion(self.minigameoption)
+            self.minigameoption = None
         pass
 
     def generateImagePath(self, folder, filename):
