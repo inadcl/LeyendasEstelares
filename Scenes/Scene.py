@@ -44,13 +44,15 @@ class Scene:
             self.exitcheck(event)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print("boton presionado")
+                #todo control to close the reader only if match in any button
                 mouse_pos = pygame.mouse.get_pos()
-                self.closeReader()
+                # self.closeReader()
                 self.exitbutton(mouse_pos)
         return False
 
     def exitbutton(self, mouse_pos):
         if self.exit_button != None and self.exit_button.collidepoint(mouse_pos):
+            self.closeReader()
             pygame.quit()
             sys.exit()
 

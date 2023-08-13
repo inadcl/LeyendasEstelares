@@ -105,7 +105,7 @@ class TitleScene(Scene):
         karma_rect = (825, 175)
         ataque_rect =  (825, 150)
         defensa_rect = (825, 125)
-        addText(screen, nombre, "Karma: " + str(karma), "Ataque: " + str(ataque), "Defensa: " + str(defensa), nombre_rect, karma_rect, ataque_rect, defensa_rect)
+        addText(screen, nombre, "Karma: " + str(karma), "Ataque: " + str(ataque), "Defensa: " + str(defensa), nombre_rect, karma_rect, ataque_rect, defensa_rect, 36)
         self.addDesc(screen, descripcion)
         super().render(screen)
         # Suponiendo que left_arrow es otra imagen que has cargado previamente
@@ -162,6 +162,8 @@ class TitleScene(Scene):
     def selectButton(self, mouse_pos):
 
         if self.right_arrow != None and pos_rightarrow.collidepoint(mouse_pos):
+
+            super().closeReader()
             print("right")
 
             if self.posicionActual == len(self.personajes)-1:
@@ -170,6 +172,8 @@ class TitleScene(Scene):
                 self.posicionActual = self.posicionActual + 1
 
         elif self.left_arrow != None and pos_leftarrow.collidepoint(mouse_pos):
+
+            super().closeReader()
             print("left")
             if self.posicionActual == 0:
                 self.posicionActual = len(self.personajes)-1
@@ -180,6 +184,7 @@ class TitleScene(Scene):
 
     def selectCharacter(self, mouse_pos):
         if  pos_image.collidepoint(mouse_pos):
+            super().closeReader()
             print("enter")
             nextScene = GameFlowScene()
             nextScene.initScene(self.activeGameState)

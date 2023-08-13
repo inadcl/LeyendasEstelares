@@ -5,7 +5,7 @@ import pygame
 from Scenes.MiniGameManager import MiniGameManager
 from Scenes.Scene import Scene
 from Scenes.starfight.Alien import Alien
-from data.DrawUtils import addText, dibujarFondos
+from data.DrawUtils import addText, dibujarFondos, addAlienText
 from data.leermisiones import leer_mensaje_inicial
 from data.stringutils import wraptext
 
@@ -37,26 +37,38 @@ class GameFlowScene(Scene):
     def addInitialDesc(self, screen, mensaje_inicial):
 
         # Crear una fuente
-        fuente = pygame.font.Font(None, 20)
+        fuente = pygame.font.Font(None, 25)
 
         lineas = wraptext(mensaje_inicial, fuente, 500)
         for i, linea in enumerate(lineas):
             texto_renderizado = fuente.render(linea, True, "#0000ff")
-            screen.blit(texto_renderizado, (225, 450 + i * fuente.get_height()))
+            screen.blit(texto_renderizado, (225, 575 + i * fuente.get_height()))
+        # Posición inicial de y
+        y_pos = 0
+
+        # todo intento de hacer scroll para los textos
+        # arrowup_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "ui")
+        #                                                                         , "uparrow.png")))
+        # screen.blit(arrowup_image, (700, 550, 10, 10))
+        # arrowdown_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "ui")
+        #                                                                           , "downarrow.png")))
+        # screen.blit(arrowdown_image, (700, 650, 10, 10))
 
         if self.oldtext is None or self.oldtext != mensaje_inicial:
             self.oldtext = mensaje_inicial
             super().callReader(mensaje_inicial)
 
+
     def addDescription(self, screen, mensaje_inicial, opcionA, opcionB):
 
         # Crear una fuente
-        fuente = pygame.font.Font(None, 20)
+        fuente = pygame.font.Font(None, 25)
 
         lineas = wraptext(mensaje_inicial, fuente, 500)
+
         for i, linea in enumerate(lineas):
             texto_renderizado = fuente.render(linea, True, "#0000ff")
-            screen.blit(texto_renderizado, (225, 450 + i * fuente.get_height()))
+            screen.blit(texto_renderizado, (225, 575 + i * fuente.get_height()))
 
         if self.oldtext is None or self.oldtext != mensaje_inicial:
             self.oldtext = mensaje_inicial
@@ -92,8 +104,11 @@ class GameFlowScene(Scene):
     def selectButton(self, mouse_pos):
 
         print(mouse_pos)
-        if pygame.Rect(25, 375, 150, 150).collidepoint(mouse_pos):
+
+        if pygame.Rect(935, 635, 65, 65).collidepoint(mouse_pos):
+            super().closeReader()
             if self.opcionA == None and self.opcionB == None:
+                #primera ejecucion cuando se carga una mision nueva
                 print("selected: new mission")
                 randMisionPosition = random.randint(0, len(self.activeGameState.misiones) - 1)
                 randMission = self.activeGameState.misiones[randMisionPosition]
@@ -107,19 +122,21 @@ class GameFlowScene(Scene):
                 self.folder = "misiones"
                 self.filename = self.misionActual["image"]
                 if "alien" in self.misionActual.keys():
-                    self.alien = self.misionActual["alien"]
+                    self.alien = Alien(self.misionActual["alien"])
                 else:
                     self.alien = None
                 self.renderRequired = True
 
         if self.opcionA != None and pygame.Rect(250, 725, 200, 40).collidepoint(mouse_pos):
+            #ejecucion cuando se selcciona la opcion a
+            super().closeReader()
             self.renderRequired = True
             print("opcionA selected")
             if "minijuego" in self.opcionA["accion"].keys():
                 self.minijuego = self.opcionA["accion"]["minijuego"]
                 if self.minijuego == "starfight":
-                    self.new_scene = MiniGameManager(self, "starfight", Alien(self.misionActual["alien"]),
-                                                      self.activeGameState, self.opcionA)
+                    self.new_scene = MiniGameManager(self, "starfight", self.alien,
+                                                     self.activeGameState, self.opcionA)
                     if self.new_scene != None:
                         self.switch_on = True
                         self.add_new_scene(self.new_scene)
@@ -127,12 +144,14 @@ class GameFlowScene(Scene):
             else:
                 self.aplicar_opcion(self.opcionA)
         if self.opcionB != None and pygame.Rect(525, 725, 200, 40).collidepoint(mouse_pos):
+            # ejecucion cuando se selcciona la opcion B
+            super().closeReader()
             self.renderRequired = True
             print("opcionB")
             if "minijuego" in self.opcionB["accion"].keys():
                 self.minijuego = self.opcionB["accion"]["minijuego"]
                 if self.minijuego == "starfight":
-                    self.next_scene = MiniGameManager(self, "starfight", Alien(self.misionActual["alien"]),
+                    self.next_scene = MiniGameManager(self, "starfight", self.alien,
                                                       self.activeGameState)
                     if self.new_scene != None:
                         self.switch_on = True
@@ -191,17 +210,34 @@ class GameFlowScene(Scene):
             if self.alien == None:
                 self.dibujarAlien(screen, 'personajes', "ruido.png")
             else:
-                self.dibujarAlien(screen, "aliens", self.alien["image"])
+                self.dibujarAlien(screen, "aliens", self.alien.image)
 
-            nombre_rect = (900, 740)
-            karma_rect = (970, 625)
-            ataque_rect = (970, 650)
-            defensa_rect = (970, 675)
+            nombre_rect = (850, 730)
+            karma_rect = (970, 565)
+            ataque_rect = (970, 590)
+            defensa_rect = (970, 615)
             addText(screen, self.activeGameState.nombre, "K: " + str(self.activeGameState.karma),
                     "A: " + str(self.activeGameState.ataque), "D: " + str(self.activeGameState.defensa), nombre_rect,
-                    karma_rect, ataque_rect, defensa_rect)
-            message = ""
-            #        self.misionActual = leer_misiones()[self.misionActual]
+                    karma_rect, ataque_rect, defensa_rect, 36)
+
+
+            nombre_rect = (850, 730)
+            karma_rect = (970, 565)
+            ataque_rect = (970, 590)
+            defensa_rect = (970, 615)
+            addText(screen, self.activeGameState.nombre, "K: " + str(self.activeGameState.karma),
+                    "A: " + str(self.activeGameState.ataque), "D: " + str(self.activeGameState.defensa), nombre_rect,
+                    karma_rect, ataque_rect, defensa_rect, 36)
+
+            if self.alien != None:
+                nombre_alien_rect = (90, 725)
+                karma_alien_rect = (65, 750)
+                ataque_alien_rect = (85, 750)
+                defensa_alien_rect = (105, 750)
+                addAlienText(screen, self.alien.nombre, "K: " + str(self.alien.karma),
+                        "A: " + str(self.alien.ataque), "D: " + str(self.alien.defensa), nombre_alien_rect,
+                        karma_alien_rect, ataque_alien_rect, defensa_alien_rect, 36, 15)
+
             if self.misionActual == None:
                 self.addInitialDesc(screen, leer_mensaje_inicial())
             else:
@@ -213,9 +249,9 @@ class GameFlowScene(Scene):
     def dibujarFondos(self, screen):
         # descripcion
         rect_x = 200
-        rect_y = 425
+        rect_y = 550
         rect_width = 550
-        rect_height = 300
+        rect_height = 210
         color_interior = "#5a5a5a"
         color_borde = "#a5a5a5"
         dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
@@ -228,24 +264,24 @@ class GameFlowScene(Scene):
         dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
 
         # alien
-        rect_x = 25
-        rect_y = 575
-        rect_width = 150
-        rect_height = 150
+        rect_x = 20
+        rect_y = 550
+        rect_width = 160
+        rect_height = 210
         dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
 
         # dado
-        rect_x = 850
-        rect_y = 375
-        rect_width = 150
-        rect_height = 150
-        dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
+        # rect_x = 850
+        # rect_y = 375
+        # rect_width = 150
+        # rect_height = 150
+        # dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
 
         # salto
-        rect_x = 25
-        rect_y = 375
-        rect_width = 150
-        rect_height = 150
+        rect_x = 935
+        rect_y = 635
+        rect_width = 65
+        rect_height = 65
         dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
 
         # opciones dialogo
@@ -268,25 +304,24 @@ class GameFlowScene(Scene):
         background_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "nave")
                                                                                    , "skin_nave.png")))
         screen.blit(background_image, (0, 0))
-        avatar_image = pygame.image.load(os.path.join("recursos", os.path.join(os.path.join("imagenes", "nave")
-                                                                               , "skin_nave.png")))
-        screen.blit(background_image, (0, 0))
         pygame.Rect(775, 575, 150, 150)
         pass
 
     def dibujarPersonaje(self, screen, imagen):
         personaje = os.path.join('recursos', 'imagenes', 'personajes', imagen)
         personaje_image = pygame.transform.scale(pygame.image.load(personaje), (150, 150))
-        screen.blit(personaje_image, pygame.Rect(775, 575, 150, 150))
+        screen.blit(personaje_image, pygame.Rect(775, 555, 150, 150))
 
     def dibujarUI(self, screen):
-        personaje = os.path.join('recursos', 'imagenes', 'ui', "turbo.png")
-        personaje_image = pygame.transform.scale(pygame.image.load(personaje), (150, 150))
-        screen.blit(personaje_image, pygame.Rect(25, 375, 150, 150))
 
-        personaje = os.path.join('recursos', 'imagenes', 'ui', "dado.png")
-        personaje_image = pygame.transform.scale(pygame.image.load(personaje), (150, 150))
-        screen.blit(personaje_image, pygame.Rect(850, 375, 150, 150))
+        #defensa_rect = (970, 625)
+        personaje = os.path.join('recursos', 'imagenes', 'ui', "turbo.png")
+        personaje_image = pygame.transform.scale(pygame.image.load(personaje), (65, 65))
+        screen.blit(personaje_image, pygame.Rect(935, 635, 65, 65))
+        # dado
+        # personaje = os.path.join('recursos', 'imagenes', 'ui', "dado.png")
+        # personaje_image = pygame.transform.scale(pygame.image.load(personaje), (150, 150))
+        # screen.blit(personaje_image, pygame.Rect(850, 375, 150, 150))
 
     def dibujarAlien(self, screen, folder, imagen):
         personaje = os.path.join('recursos', 'imagenes', folder, imagen)
@@ -297,4 +332,4 @@ class GameFlowScene(Scene):
             numero_aleatorio = random.choice(numeros)
         personaje_image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(personaje), (150, 150)),
                                                   numero_aleatorio)
-        screen.blit(personaje_image, pygame.Rect(25, 575, 150, 150))
+        screen.blit(personaje_image, pygame.Rect(25, 555, 150, 150))

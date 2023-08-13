@@ -5,9 +5,11 @@
       "repetible": true,
       "image": "piratas.png",
       "alien": {
+        "nombre": "J.T. Kirk",
         "image": "alien5.png",
         "defensa": 5,
-        "ataque": 5
+        "ataque": 5,
+        "karma": 2
     },
       "opciones": [
         {

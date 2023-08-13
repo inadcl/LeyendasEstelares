@@ -55,7 +55,8 @@ class Starfight(Scene):
                     print("enemigo derrotado")
                     self.game_win = True
                 else:
-                    self.misil.live = False
+                    if self.misil.live != None:
+                        self.misil.live = False
 
         for misil in self.alienship.misiles:
             if misil.live and misil.rect.colliderect(self.nave.rect):
@@ -64,7 +65,8 @@ class Starfight(Scene):
                     print("Jugador muerto")
                     self.game_over = True
                 else:
-                    self.misil.live = False
+                    if self.misil.live != None:
+                        self.misil.live = False
 
         self.nave.update(self.activeGameState.get_delta_time())
         self.alienship.update(self.activeGameState.get_delta_time())
