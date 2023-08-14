@@ -10,6 +10,7 @@ import sys
 from data.DrawUtils import addText, dibujarFondos
 from data.GameState import GameState
 from data.leermisiones import leer_personajes
+from data.resource_utils import generateSoundPath
 from data.stringutils import wraptext
 
 pos_image = pygame.Rect(400,50,250,250)
@@ -27,7 +28,14 @@ class TitleScene(Scene):
         super().__init__()
         if activeGameState is not None:
             self.initScene(activeGameState)
-        pass
+
+        self.arrow_sonido = pygame.mixer.Sound(
+            generateSoundPath(os.path.dirname(os.path.abspath(__file__)), "ui", "arrow.wav"))
+        self.arrow_sonido.set_volume(0.5)
+        self.selected_sonido = pygame.mixer.Sound(
+            generateSoundPath(os.path.dirname(os.path.abspath(__file__)), "ui", "selected.wav"))
+        self.selected_sonido.set_volume(0.5)
+
     def initScene(self, activeGameState):
         super().initScene(activeGameState)
         self.activeGameState = activeGameState
@@ -162,7 +170,7 @@ class TitleScene(Scene):
     def selectButton(self, mouse_pos):
 
         if self.right_arrow != None and pos_rightarrow.collidepoint(mouse_pos):
-
+            self.arrow_sonido.play()
             super().closeReader()
             print("right")
 
@@ -172,7 +180,7 @@ class TitleScene(Scene):
                 self.posicionActual = self.posicionActual + 1
 
         elif self.left_arrow != None and pos_leftarrow.collidepoint(mouse_pos):
-
+            self.arrow_sonido.play()
             super().closeReader()
             print("left")
             if self.posicionActual == 0:
@@ -180,6 +188,7 @@ class TitleScene(Scene):
             else:
                 self.posicionActual = self.posicionActual - 1
         elif pos_image.collidepoint(mouse_pos):
+            self.selected_sonido.play()
             print(self.posicionActual)
 
     def selectCharacter(self, mouse_pos):

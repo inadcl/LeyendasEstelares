@@ -7,7 +7,7 @@
       "alien": {
         "nombre": "J.T. Kirk",
         "image": "alien5.png",
-        "defensa": 5,
+        "defensa": 50,
         "ataque": 5,
         "karma": 2
     },

@@ -1,7 +1,7 @@
 import pygame
 
 
-def addAlienText(screen, nombre, karma, ataque, defensa, nombre_rect, karma_rect, ataque_rect, defensa_rect, text_size, stats_size):
+def dibujar_stats(screen, nombre, karma, ataque, defensa, nombre_rect, karma_rect, ataque_rect, defensa_rect, text_size, stats_size):
 
     # Crear una fuente
     fuente = pygame.font.Font(None, text_size)

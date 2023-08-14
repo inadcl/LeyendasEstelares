@@ -1,4 +1,8 @@
+import os
+
 import pygame
+
+from data.resource_utils import generateSoundPathLevel2
 
 
 class Misil:
@@ -8,6 +12,9 @@ class Misil:
         self.rect = self.image.get_rect(topleft=position)
         self.velocidad = 1000
         self.live = True
+        disparo_sonido = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight","fire.wav"))
+        disparo_sonido.set_volume(0.5)
+        disparo_sonido.play()
 
     def update(self, dt, right):
         if right:

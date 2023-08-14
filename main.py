@@ -30,6 +30,7 @@ if __name__ == '__main__':
     last_mouse_position = (0, 0)
     create_db()
     pygame.init()
+    pygame.mixer.init()
 
     mensaje_inicial = leer_mensaje_inicial()
     scene_manager = SceneManager(TitleScene(), GameFlowScene())

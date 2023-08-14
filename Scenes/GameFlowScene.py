@@ -5,8 +5,9 @@ import pygame
 from Scenes.MiniGameManager import MiniGameManager
 from Scenes.Scene import Scene
 from Scenes.starfight.Alien import Alien
-from data.DrawUtils import addText, dibujarFondos, addAlienText
+from data.DrawUtils import addText, dibujarFondos, dibujar_stats
 from data.leermisiones import leer_mensaje_inicial
+from data.resource_utils import generateSoundPath
 from data.stringutils import wraptext
 
 
@@ -31,6 +32,8 @@ class GameFlowScene(Scene):
         self.alien = None
         self.renderRequired = True
         self.minigameoption = None
+        self.click_sonido = pygame.mixer.Sound(generateSoundPath(os.path.dirname(os.path.abspath(__file__)), "ui", "click.wav"))
+        self.click_sonido.set_volume(0.5)
         if activeGameState is not None:
             self.initScene(activeGameState)
 
@@ -109,6 +112,7 @@ class GameFlowScene(Scene):
             super().closeReader()
             if self.opcionA == None and self.opcionB == None:
                 #primera ejecucion cuando se carga una mision nueva
+                self.click_sonido.play()
                 print("selected: new mission")
                 randMisionPosition = random.randint(0, len(self.activeGameState.misiones) - 1)
                 randMission = self.activeGameState.misiones[randMisionPosition]
@@ -128,6 +132,7 @@ class GameFlowScene(Scene):
                 self.renderRequired = True
 
         if self.opcionA != None and pygame.Rect(250, 725, 200, 40).collidepoint(mouse_pos):
+            self.click_sonido.play()
             #ejecucion cuando se selcciona la opcion a
             super().closeReader()
             self.renderRequired = True
@@ -144,6 +149,7 @@ class GameFlowScene(Scene):
             else:
                 self.aplicar_opcion(self.opcionA)
         if self.opcionB != None and pygame.Rect(525, 725, 200, 40).collidepoint(mouse_pos):
+            self.click_sonido.play()
             # ejecucion cuando se selcciona la opcion B
             super().closeReader()
             self.renderRequired = True
@@ -190,6 +196,8 @@ class GameFlowScene(Scene):
         return os.path.join(self.current_dir, '..', 'recursos', 'imagenes', folder, filename)
 
     def render(self, screen, activeGameState):
+        if self.alien == None:
+            self.dibujarAlien(screen, 'personajes', "ruido.png")
         if not self.renderRequired:
             return
         else:
@@ -231,12 +239,12 @@ class GameFlowScene(Scene):
 
             if self.alien != None:
                 nombre_alien_rect = (90, 725)
-                karma_alien_rect = (65, 750)
+                karma_alien_rect = (50, 750)
                 ataque_alien_rect = (85, 750)
-                defensa_alien_rect = (105, 750)
-                addAlienText(screen, self.alien.nombre, "K: " + str(self.alien.karma),
+                defensa_alien_rect = (125, 750)
+                dibujar_stats(screen, self.alien.nombre, "K: " + str(self.alien.karma),
                         "A: " + str(self.alien.ataque), "D: " + str(self.alien.defensa), nombre_alien_rect,
-                        karma_alien_rect, ataque_alien_rect, defensa_alien_rect, 36, 15)
+                              karma_alien_rect, ataque_alien_rect, defensa_alien_rect, 36, 15)
 
             if self.misionActual == None:
                 self.addInitialDesc(screen, leer_mensaje_inicial())
