@@ -23,7 +23,7 @@ class AlienNave(Nave):
 
     def update(self, dt):
 
-        self.intervalo_ataque = random.randint(1000, 3000)
+        self.intervalo_ataque = random.randint(500, 1500)
         entero_aleatorio = random.randint(0, 20)
         character_speed = 300  # velocidad en píxeles por segundo
         # if entero_aleatorio == 1 and self.rect.y > 100:
@@ -47,7 +47,7 @@ class AlienNave(Nave):
                 self.rect.y -= character_speed * dt
 
         entero_aleatorio = random.randint(0, 40)
-        if entero_aleatorio > 5:
+        if entero_aleatorio > 25:
             tiempo_actual = pygame.time.get_ticks()
             if tiempo_actual - self.tiempo_ultimo_ataque > self.intervalo_ataque:
                 misil = Misil(self.rect.midleft)
