@@ -32,6 +32,34 @@
           }
         }
       ]
+    }, {
+      "conversacion": "Te has teletransportado a un campo de asteroides, no te queda otra que intentar esquivarlos",
+      "repetible": true,
+      "image": "asteroides.png",
+      "alien": {
+        "defensa": 1,
+        "ataque": 10
+    },
+      "opciones": [
+        {
+          "texto": "Atravesar",
+          "accion": {
+            "texto": "Atraviesas el campo de asteroides con exito",
+            "defensa": "+5",
+            "ataque": "+5",
+            "minijuego": "asteroids",
+            "consecuencias": "Has sobrevivido al campo de asteroides, tu habilidad en defensa y ataque sube."
+          }
+        },
+        {
+          "texto": "Huir",
+          "accion": {
+            "texto": "Decides huir pero inevitablemente tu nave resultará dañada. (-10 de defensa)",
+            "defensa": "-10",
+            "consecuencias": "Tu nave sufre severos daños al teletransportarse a una nueva localizacion"
+          }
+        }
+      ]
     }
   ]
 }

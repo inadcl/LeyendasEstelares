@@ -141,8 +141,8 @@ class GameFlowScene(Scene):
             print("opcionA selected")
             if "minijuego" in self.opcionA["accion"].keys():
                 self.minijuego = self.opcionA["accion"]["minijuego"]
-                if self.minijuego == "starfight":
-                    self.new_scene = MiniGameManager(self, "starfight", self.alien,
+                if self.minijuego != None:
+                    self.new_scene = MiniGameManager(self, self.minijuego, self.alien,
                                                      self.activeGameState, self.opcionA)
                     if self.new_scene != None:
                         self.switch_on = True
@@ -158,8 +158,8 @@ class GameFlowScene(Scene):
             print("opcionB")
             if "minijuego" in self.opcionB["accion"].keys():
                 self.minijuego = self.opcionB["accion"]["minijuego"]
-                if self.minijuego == "starfight":
-                    self.next_scene = MiniGameManager(self, "starfight", self.alien,
+                if self.minijuego != None:
+                    self.next_scene = MiniGameManager(self, self.minijuego, self.alien,
                                                       self.activeGameState)
                     if self.new_scene != None:
                         self.switch_on = True
@@ -218,7 +218,7 @@ class GameFlowScene(Scene):
 
             image_path = self.activeGameState.imagen
             self.dibujarPersonaje(screen, image_path)
-            if self.alien == None:
+            if self.alien == None or self.alien.image == None:
                 self.dibujarAlien(screen, 'personajes', "ruido.png")
             else:
                 self.dibujarAlien(screen, "aliens", self.alien.image)

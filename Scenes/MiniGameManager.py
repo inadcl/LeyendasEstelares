@@ -5,16 +5,21 @@ import pygame
 
 from Scenes.GameOverScene import GameOverScene
 from Scenes.Scene import Scene
+from Scenes.asteroids.asteroids_game_controller import AsteroidsGameController
 from Scenes.starfight.Starfight import Starfight
 from data import GameState
 from enum import Enum
 class Minijuegos(Enum):
     STARFIGHT = 1
+    ASTEROIDS = 2
 
     @staticmethod
     def getEnum(minijuego):
         if minijuego.upper() == Minijuegos.STARFIGHT.name:
             return Minijuegos.STARFIGHT.name
+
+        if minijuego.upper() == Minijuegos.ASTEROIDS.name:
+            return Minijuegos.ASTEROIDS.name
 
 class MiniGameManager(Scene):
     def __init__(self, gameflowscene, minijuego, alien, activeGameState:GameState, minigameOption):
@@ -28,6 +33,8 @@ class MiniGameManager(Scene):
         self.minigameOption = minigameOption
         if self.minijuego == Minijuegos.STARFIGHT.name:
             self.activeGame = Starfight(gameflowscene, alien, activeGameState)
+        elif self.minijuego == Minijuegos.ASTEROIDS.name:
+            self.activeGame = AsteroidsGameController(gameflowscene, alien, activeGameState)
         else:
             self.activeGame = None
         if activeGameState is not None:

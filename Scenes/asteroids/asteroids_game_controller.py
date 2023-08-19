@@ -1,17 +1,18 @@
 import os
+import random
 
 import pygame
 
 from Scenes.Scene import Scene
-from Scenes.starfight.AlienNave import AlienNave
-from Scenes.starfight.Nave import Nave
+from Scenes.asteroids.Nave import Nave
+from Scenes.asteroids.asteroid import Asteroid
 from data import GameState
 from data.DrawUtils import dibujar_stats, dibujarFondos
 from data.resource_utils import generateSoundPathLevel2
 from pantallas import pantallasize
 
 
-class Starfight(Scene):
+class AsteroidsGameController(Scene):
     def __init__(self, gameflowscene, alien, activeGameState:GameState):
         super().__init__()
         self.readingProcess = None
@@ -21,12 +22,15 @@ class Starfight(Scene):
         self.renderRequired = True
         if activeGameState is not None:
             self.initScene(activeGameState)
-        self.nave = Nave( pantallasize.getWidthPosition(100), pantallasize.getHeightPosition(100))
-        self.alienship = AlienNave( pantallasize.getWidthPosition(900), pantallasize.getHeightPosition(500))
+        self.nave = Nave( pantallasize.getWidthPosition(150), pantallasize.getHeightPosition(100))
         self.game_over = False
         self.game_win = False
         self.disparo_sonido = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight","explosion.wav"))
         self.disparo_sonido.set_volume(0.5)
+        self.asteroids = []
+        self.last_spawn_time = pygame.time.get_ticks()
+        self.spawn_delay = random.randint(1000, 5000)  # 1-5 segundos
+
 
     def initScene(self, activeGameState):
         super().initScene(activeGameState)
@@ -58,31 +62,36 @@ class Starfight(Scene):
             return False
         if self.game_win:
             return True
+        current_time = pygame.time.get_ticks()
+
+        # Comprobar si es el momento de generar un nuevo asteroide
+        if current_time - self.last_spawn_time > self.spawn_delay:
+            self.spawn_asteroid()
+            self.last_spawn_time = current_time
+            self.spawn_delay = random.randint(100, 3000)  # 1-5 segundos
+
+        # Actualizar todos los asteroides existentes
+        now =pygame.time.get_ticks()
+        dt = self.activeGameState.get_delta_time()
+        for asteroid in self.asteroids:
+            asteroid.update(dt, now)
+
+        # Eliminar asteroides que están fuera de la pantalla (por la izquierda)
+        self.asteroids = [a for a in self.asteroids if a.x > pantallasize.getWidthPosition(0)]
 
         for misil in self.nave.misiles:
-            if misil.live and misil.rect.colliderect(self.alienship.rect):
-                self.alien.defensa = self.alien.defensa - self.activeGameState.ataque
-                if self.alien.defensa <= 0:
-                    self.disparo_sonido.play()
-                    print("enemigo derrotado")
-                    self.game_win = True
-                else:
-                    if misil != None:
+            for asteroid in self.asteroids:
+                if misil.live and misil.rect.colliderect(asteroid.rect):
+                    self.alien.defensa = self.alien.defensa - self.activeGameState.ataque
+                    if self.alien.defensa <= 0:
+                        self.disparo_sonido.play()
                         misil.live = False
-
-        for misil in self.alienship.misiles:
-            if misil.live and misil.rect.colliderect(self.nave.rect):
-                self.activeGameState.disminuir_defensa(self.alien.ataque)
-                if self.activeGameState.defensa <= 0:
-                    self.disparo_sonido.play()
-                    print("Jugador muerto")
-                    self.game_over = True
-                else:
-                    if misil != None:
-                        misil.live = False
+                        asteroid.hit( )
+                    else:
+                        if misil != None:
+                            misil.live = False
 
         self.nave.update(self.activeGameState.get_delta_time())
-        self.alienship.update(self.activeGameState.get_delta_time())
 
         return None
 
@@ -96,6 +105,9 @@ class Starfight(Scene):
             return
         else:
             self.renderRequired = False
+
+            for asteroid in self.asteroids:
+                asteroid.render(screen)
             self.activeGameState = activeGameState
 
             # Set the background color to black
@@ -112,7 +124,8 @@ class Starfight(Scene):
 
         self.uirender(screen, activeGameState)
         self.nave.render(screen)
-        self.alienship.render(screen)
+        for asteroid in self.asteroids:
+            asteroid.render(screen)
         pygame.display.flip()
 
     def uirender(self, screen, activeGameState):
@@ -136,7 +149,7 @@ class Starfight(Scene):
                          "A: " + str(self.alien.ataque), "D: " + str(self.alien.defensa), nombre_alien_rect,
                           karma_alien_rect, ataque_alien_rect, defensa_alien_rect, 36, 15)
 
-        if self.alien.image!= None:
+        if self.alien.image != None:
             self.dibujar_avatar(screen, "aliens", self.alien.image, image_alien_rect)
         nombre_player_rect = (pantallasize.getWidthPosition(440), pantallasize.getHeightPosition(40))
         karma_playern_rect = (pantallasize.getWidthPosition(400), pantallasize.getHeightPosition(65))
@@ -156,3 +169,12 @@ class Starfight(Scene):
         personaje_image = pygame.image.load(personaje)
         imagen_redimensionada = pygame.transform.scale(personaje_image, (50, 50))
         screen.blit(imagen_redimensionada, rect)
+
+
+    def spawn_asteroid(self):
+        # Coordenada x fuera del borde derecho de la pantalla
+        x = pantallasize.getWidthPosition(990)
+        # Coordenada y aleatoria
+        y = random.randint(100, 700)
+        new_asteroid = Asteroid(x, pantallasize.getHeightPosition(y))
+        self.asteroids.append(new_asteroid)
