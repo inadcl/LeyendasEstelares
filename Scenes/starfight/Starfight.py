@@ -49,6 +49,11 @@ class Starfight(Scene):
 
     def update(self):
         self.renderRequired = True
+        if self.game_over or self.game_win:
+            for misil in self.nave.misiles:
+                self.nave.misiles.remove(misil)
+            for misil in self.alienship.misiles:
+                self.alienship.misiles.remove(misil)
         if self.game_over:
             return False
         if self.game_win:
@@ -78,11 +83,6 @@ class Starfight(Scene):
 
         self.nave.update(self.activeGameState.get_delta_time())
         self.alienship.update(self.activeGameState.get_delta_time())
-        if self.activeGameState.defensa <= 0:
-            print("gameover")
-            #todo: gameover
-        if self.alien.defensa <= 0:
-            print("enemigo derrotado")
 
         return None
 
