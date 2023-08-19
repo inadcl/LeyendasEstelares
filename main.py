@@ -60,7 +60,13 @@ if __name__ == '__main__':
     while True:
         clock.tick(60)# Esto limitará tu bucle a 60 iteraciones por segundo
         activeGameState.clock = clock
+        if scene_manager.current_scene != None and scene_manager.current_scene.restartGame():
+            activeGameState = GameState()
+            scene_manager = SceneManager(TitleScene(), GameFlowScene())
+            scene_manager.initScene(activeGameState)
+
         activeScene.current_scene = scene_manager.switch_scene(scene_manager.current_scene)
+
         scene_manager.process_input(pygame.event.get(), pygame.key.get_pressed(), None)
         scene_manager.update()
         scene_manager.render(screen, activeGameState)

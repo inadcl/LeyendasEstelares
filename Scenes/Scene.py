@@ -12,6 +12,9 @@ screen_height = 768
 class Scene:
     lastTextReaded=""
     activeGameState:GameState;
+
+    def restartGame(self):
+        return False
     def callReader(self, text):
         if (self.lastTextReaded != text and text != None):
             try:

@@ -3,12 +3,10 @@ import random
 
 import pygame
 
-from Scenes.Scene import Scene, screen_width, screen_height
+from Scenes.GameOverScene import GameOverScene
+from Scenes.Scene import Scene
 from Scenes.starfight.Starfight import Starfight
 from data import GameState
-from data.DrawUtils import addText, dibujarFondos
-from data.leermisiones import leer_misiones, leer_mensaje_inicial
-from data.stringutils import debugRect, wraptext
 from enum import Enum
 class Minijuegos(Enum):
     STARFIGHT = 1
@@ -67,7 +65,7 @@ class MiniGameManager(Scene):
                         self.switch_on = True
                         self.gameflowscene.renderRequired = True
                         self.gameflowscene.minigameoption = self.minigameOption
-                        self.add_new_scene(self.gameflowscene)
+                        self.add_new_scene(GameOverScene(self.activeGameState))
                         return None
 
 
