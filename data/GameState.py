@@ -14,7 +14,6 @@ class GameState:
         print(len(self.misiones))
         # y cualquier otra variable que desees almacenar
 
-
     def get_delta_time(self):
         dt = self.clock.tick(60) / 1000.0  # tiempo en segundos desde el último frame
         return dt

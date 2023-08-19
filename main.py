@@ -8,18 +8,14 @@ from Scenes.TitleScene import TitleScene
 from data.GameState import GameState
 from data.create_db import create_db
 
-import pyttsx3
 import pygame
-import sys
 
-from data.leermisiones import leer_misiones, leer_mensaje_inicial
+from data.leermisiones import leer_mensaje_inicial
 from jugador.jugador import Jugador
-from pantallas.inicio import mostrar_pantalla_inicio
-from pantallas.pantalladejuego import mostrarJuego, draw_mission_button, mostrar_imagen, mostrar_texto
-from userinput.mouse_events import hover_inicio_mouse_click
+from pantallas import pantallasize
 
-screen_width = 1024
-screen_height = 768
+game_width = 1024
+game_height = 768
 
 
 if __name__ == '__main__':
@@ -30,7 +26,29 @@ if __name__ == '__main__':
     last_mouse_position = (0, 0)
     create_db()
     pygame.init()
+    game_width = 1024
+    game_height = 768
+    screen_info = pygame.display.Info()
+    screen_width = screen_info.current_w
+    screen_height = screen_info.current_h
+    scale_width = screen_width / game_width
+    scale_height = screen_height / game_height
+    scale = min(scale_width, scale_height)
+
+    new_game_width = int(game_width * scale)
+    new_game_height = int(game_height * scale)
+
+    pantallasize.x_offset = (screen_width - new_game_width) // 2
+    pantallasize.y_offset = (screen_height - new_game_height) // 2
+    pantallasize.scale_width = scale_width
+    pantallasize.scale_height = scale_height
+    pantallasize.full_height = screen_info.current_h
+    pantallasize.full_width = screen_info.current_w
+
+    global full_width
+    global full_height
     pygame.mixer.init()
+
 
     mensaje_inicial = leer_mensaje_inicial()
     scene_manager = SceneManager(TitleScene(), GameFlowScene())

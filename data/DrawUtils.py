@@ -1,5 +1,7 @@
 import pygame
 
+from pantallas import pantallasize
+
 
 def dibujar_stats(screen, nombre, karma, ataque, defensa, nombre_rect, karma_rect, ataque_rect, defensa_rect, text_size, stats_size):
 

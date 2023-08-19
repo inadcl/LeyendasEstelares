@@ -12,10 +12,8 @@ from data.GameState import GameState
 from data.leermisiones import leer_personajes
 from data.resource_utils import generateSoundPath
 from data.stringutils import wraptext
+from pantallas import pantallasize
 
-pos_image = pygame.Rect(400,50,250,250)
-pos_leftarrow = pygame.Rect(125,275,150,150)
-pos_rightarrow = pygame.Rect(725,275,150,150)
 
 
 
@@ -95,10 +93,10 @@ class TitleScene(Scene):
         # Carga la imagen.
 
         # Dibuja el fondo y las imágenes de las flechas en la pantalla.
-        screen.blit(background, (0, 0))
-        screen.blit(self.right_arrow, (700, 250))
-        screen.blit(self.left_arrow, (100, 250))
-        screen.blit(personaje, (400, 50))
+        screen.blit(background, (pantallasize.getWidthPosition(0),  pantallasize.getHeightPosition(0)))
+        screen.blit(self.right_arrow, (pantallasize.getWidthPosition(700),  pantallasize.getHeightPosition(250)))
+        screen.blit(self.left_arrow, (pantallasize.getWidthPosition(100),  pantallasize.getHeightPosition(250)))
+        screen.blit(personaje, (pantallasize.getWidthPosition(400),  pantallasize.getHeightPosition(50)))
 
         nombre = self.personajerow["nombre"]
         descripcion = self.personajerow["descripcion"]
@@ -109,10 +107,10 @@ class TitleScene(Scene):
         defensa = self.personajerow["defensa"]
 
         self.dibujarFondos(screen)
-        nombre_rect= (525, 350)
-        karma_rect = (825, 175)
-        ataque_rect =  (825, 150)
-        defensa_rect = (825, 125)
+        nombre_rect= (pantallasize.getWidthPosition(525),  pantallasize.getHeightPosition(350))
+        karma_rect = (pantallasize.getWidthPosition(825),  pantallasize.getHeightPosition(175))
+        ataque_rect =  (pantallasize.getWidthPosition(825),  pantallasize.getHeightPosition(150))
+        defensa_rect = (pantallasize.getWidthPosition(825),  pantallasize.getHeightPosition(125))
         addText(screen, nombre, "Karma: " + str(karma), "Ataque: " + str(ataque), "Defensa: " + str(defensa), nombre_rect, karma_rect, ataque_rect, defensa_rect, 36)
         self.addDesc(screen, descripcion)
         super().render(screen)
@@ -135,22 +133,22 @@ class TitleScene(Scene):
 
 
     def dibujarFondos(self, screen):
-        rect_x = 200
-        rect_y = 425
+        rect_x = pantallasize.getWidthPosition(200)
+        rect_y = pantallasize.getHeightPosition(425)
         rect_width = 550
         rect_height = 300
         color_interior = "#5a5a5a"
         color_borde = "#a5a5a5"
         dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
 
-        rect_x = 425
-        rect_y = 330
+        rect_x = pantallasize.getWidthPosition(425)
+        rect_y = pantallasize.getHeightPosition(330)
         rect_width = 200
         rect_height = 40
         pygame.draw.rect(screen, color_interior, (rect_x - 4, rect_y - 4, rect_width + 8, rect_height + 8))
         pygame.draw.rect(screen, color_borde, (rect_x, rect_y, rect_width, rect_height))
-        rect_x = 745
-        rect_y = 100
+        rect_x = pantallasize.getWidthPosition(745)
+        rect_y = pantallasize.getHeightPosition(100)
         rect_width = 175
         rect_height = 100
         pygame.draw.rect(screen, color_interior, (rect_x - 4, rect_y - 4, rect_width + 8, rect_height + 8))
@@ -164,11 +162,14 @@ class TitleScene(Scene):
         lineas = wraptext(descripcion, fuente, 500)
         for i, linea in enumerate(lineas):
             texto_renderizado = fuente.render(linea, True, "#0000ff")
-            screen.blit(texto_renderizado, (225, 450 + i * fuente.get_height()))
+            screen.blit(texto_renderizado, (pantallasize.getWidthPosition(225),  pantallasize.getHeightPosition(450 + i * fuente.get_height())))
 
 
     def selectButton(self, mouse_pos):
 
+        pos_image = pygame.Rect(pantallasize.getWidthPosition(400), pantallasize.getHeightPosition(50), 250, 250)
+        pos_leftarrow = pygame.Rect(pantallasize.getWidthPosition(125), pantallasize.getHeightPosition(275), 150, 150)
+        pos_rightarrow = pygame.Rect(pantallasize.getWidthPosition(725), pantallasize.getHeightPosition(275), 150, 150)
         if self.right_arrow != None and pos_rightarrow.collidepoint(mouse_pos):
             self.arrow_sonido.play()
             super().closeReader()
@@ -192,6 +193,7 @@ class TitleScene(Scene):
             print(self.posicionActual)
 
     def selectCharacter(self, mouse_pos):
+        pos_image = pygame.Rect(pantallasize.getWidthPosition(400),  pantallasize.getHeightPosition(50),250,250) 
         if  pos_image.collidepoint(mouse_pos):
             super().closeReader()
             print("enter")

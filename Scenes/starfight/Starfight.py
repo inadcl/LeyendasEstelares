@@ -8,8 +8,7 @@ from Scenes.starfight.Nave import Nave
 from data import GameState
 from data.DrawUtils import dibujar_stats, dibujarFondos
 from data.resource_utils import generateSoundPathLevel2
-
-
+from pantallas import pantallasize
 
 
 class Starfight(Scene):
@@ -22,8 +21,8 @@ class Starfight(Scene):
         self.renderRequired = True
         if activeGameState is not None:
             self.initScene(activeGameState)
-        self.nave = Nave(100,100)
-        self.alienship = AlienNave(900,500)
+        self.nave = Nave( pantallasize.getWidthPosition(100), pantallasize.getHeightPosition(100))
+        self.alienship = AlienNave( pantallasize.getWidthPosition(900), pantallasize.getHeightPosition(500))
         self.game_over = False
         self.game_win = False
         self.disparo_sonido = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight","explosion.wav"))
@@ -100,7 +99,11 @@ class Starfight(Scene):
             self.activeGameState = activeGameState
 
             # Set the background color to black
-            screen.fill((0, 0, 0))
+            screen.fill((128, 128, 128))
+            # Dibuja el fondo del área de juego
+            game_surface = pygame.Surface((1024, 768))
+            game_surface.fill((0,0,0))
+            screen.blit(game_surface, (pantallasize.getWidthPosition(0), pantallasize.getHeightPosition(0)))
 
             # Refresh the display
             pygame.display.flip()
@@ -115,30 +118,30 @@ class Starfight(Scene):
     def uirender(self, screen, activeGameState):
 
         # alien
-        rect_x = 300
-        rect_y = 20
+        rect_x = pantallasize.getWidthPosition(300)
+        rect_y =  pantallasize.getHeightPosition(20)
         rect_width = 560
         rect_height = 65
         color_interior = "#5a5a5a"
         color_borde = "#a5a5a5"
         dibujarFondos(screen, rect_x, rect_y, rect_width, rect_height, color_interior, color_borde)
 
-        nombre_alien_rect = (800, 40)
-        karma_alien_rect = (760, 65)
-        ataque_alien_rect = (795, 65)
-        defensa_alien_rect = (835, 65)
-        image_alien_rect = (700, 27, 50,50)
+        nombre_alien_rect = (pantallasize.getWidthPosition(800), pantallasize.getHeightPosition(40))
+        karma_alien_rect = (pantallasize.getWidthPosition(760), pantallasize.getHeightPosition(65))
+        ataque_alien_rect = (pantallasize.getWidthPosition(795), pantallasize.getHeightPosition(65))
+        defensa_alien_rect = (pantallasize.getWidthPosition(835), pantallasize.getHeightPosition(65))
+        image_alien_rect = (pantallasize.getWidthPosition(700), pantallasize.getHeightPosition(27), 50,50)
         dibujar_stats(screen, self.alien.nombre, "K: " + str(self.alien.karma),
                      "A: " + str(self.alien.ataque), "D: " + str(self.alien.defensa), nombre_alien_rect,
                       karma_alien_rect, ataque_alien_rect, defensa_alien_rect, 36, 15)
 
         if self.alien.image!= None:
             self.dibujar_avatar(screen, "aliens", self.alien.image, image_alien_rect)
-        nombre_player_rect = (440, 40)
-        karma_playern_rect = (400, 65)
-        ataque_player_rect = (435, 65)
-        defensa_player_rect = (375, 65)
-        image_player_rect = (305, 27, 50,50)
+        nombre_player_rect = (pantallasize.getWidthPosition(440), pantallasize.getHeightPosition(40))
+        karma_playern_rect = (pantallasize.getWidthPosition(400), pantallasize.getHeightPosition(65))
+        ataque_player_rect = (pantallasize.getWidthPosition(435), pantallasize.getHeightPosition(65))
+        defensa_player_rect = (pantallasize.getWidthPosition(375), pantallasize.getHeightPosition(65))
+        image_player_rect = (pantallasize.getWidthPosition(305), pantallasize.getHeightPosition(27), 50,50)
         dibujar_stats(screen, self.activeGameState.nombre, "K: " + str(self.activeGameState.karma),
                      "A: " + str(self.activeGameState.ataque), "D: " + str(self.activeGameState.defensa), nombre_player_rect,
                       karma_playern_rect, ataque_player_rect, defensa_player_rect, 36, 15)

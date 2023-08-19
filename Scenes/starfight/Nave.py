@@ -4,6 +4,7 @@ import pygame
 
 from Scenes.starfight.Misil import Misil
 from data.resource_utils import generateImagePath
+from pantallas import pantallasize
 
 
 class Nave:
@@ -32,13 +33,13 @@ class Nave:
 
     def update(self, dt):
         character_speed = 2000  # velocidad en píxeles por segundo
-        if self.goUp and self.rect.y > 100:
+        if self.goUp and self.rect.y > pantallasize.getHeightPosition(100):
             self.goUp = False
             print("arriba" + str(self.rect.y))
             print("deltatime" + str(dt))
             self.rect.y -= character_speed * dt  # Ajusta este valor para cambiar la velocidad de movimiento
 
-        if self.goDown and self.rect.y < 650:
+        if self.goDown and self.rect.y < pantallasize.getHeightPosition(650):
             self.goDown = False
             print("abajo" + str(self.rect.y))
             print("deltatime" + str(dt))
@@ -52,7 +53,7 @@ class Nave:
 
             # Eliminar misiles fuera de la pantalla
             # todo fix screen size
-            if misil.rect.left > 1000 or misil.rect.left < 0:
+            if misil.rect.left > pantallasize.getWidthPosition(1000) or misil.rect.left < pantallasize.getWidthPosition(0):
                 self.misiles.remove(misil)
 
     def render(self, screen):
