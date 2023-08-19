@@ -6,6 +6,7 @@ import pygame
 from Scenes.starfight.Misil import Misil
 from Scenes.starfight.Nave import Nave
 from data.resource_utils import generateImagePath
+from pantallas import pantallasize
 
 
 class AlienNave(Nave):
@@ -59,7 +60,7 @@ class AlienNave(Nave):
 
             # Eliminar misiles fuera de la pantalla
             # todo fix screen size
-            if misil.rect.right < 0:
+            if misil.rect.right < pantallasize.getWidthPosition(0):
                 self.misiles.remove(misil)
 
     def render(self, screen):
