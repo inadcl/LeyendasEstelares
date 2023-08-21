@@ -16,12 +16,11 @@ def init():
     print("Y Offset:", y_offset)
 
 def getWidthPosition(x):
-    init()
     return x+ scale_width * x_offset
 
 
 def getHeightPosition(y):
-    return y + scale_height * y_offset
+    return y + scale_height * 100
 
 def getFullHeight():
     return scale_height+y_offset

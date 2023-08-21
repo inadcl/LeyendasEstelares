@@ -25,8 +25,8 @@ class AsteroidsGameController(Scene):
         self.nave = Nave( pantallasize.getWidthPosition(150), pantallasize.getHeightPosition(100))
         self.game_over = False
         self.game_win = False
-        self.disparo_sonido = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight","explosion.wav"))
-        self.disparo_sonido.set_volume(0.5)
+        self.disparo_hit_explosion = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight", "explosion.wav"))
+        self.disparo_hit_explosion.set_volume(0.5)
         self.asteroids = []
         self.last_spawn_time = pygame.time.get_ticks()
         self.spawn_delay = random.randint(1000, 5000)  # 1-5 segundos
@@ -56,8 +56,8 @@ class AsteroidsGameController(Scene):
         if self.game_over or self.game_win:
             for misil in self.nave.misiles:
                 self.nave.misiles.remove(misil)
-            for misil in self.alienship.misiles:
-                self.alienship.misiles.remove(misil)
+            for asteroid in self.asteroids:
+                self.asteroids.remove(asteroid)
         if self.game_over:
             return False
         if self.game_win:
@@ -77,19 +77,33 @@ class AsteroidsGameController(Scene):
             asteroid.update(dt, now)
 
         # Eliminar asteroides que están fuera de la pantalla (por la izquierda)
-        self.asteroids = [a for a in self.asteroids if a.x > pantallasize.getWidthPosition(0)]
-
+        self.asteroids = [a for a in self.asteroids if a.x > pantallasize.getWidthPosition(0) and a.y > pantallasize.getHeightPosition(100) and a.y < pantallasize.getHeightPosition(728)]
         for misil in self.nave.misiles:
             for asteroid in self.asteroids:
                 if misil.live and misil.rect.colliderect(asteroid.rect):
                     self.alien.defensa = self.alien.defensa - self.activeGameState.ataque
                     if self.alien.defensa <= 0:
-                        self.disparo_sonido.play()
+                        self.disparo_hit_explosion.play()
                         misil.live = False
-                        asteroid.hit( )
+                        new_asteroids_size = asteroid.hit( )
+                        if new_asteroids_size != None:
+                            self.asteroids.append(Asteroid(asteroid.x, asteroid.y, True, False, new_asteroids_size))
+                            self.asteroids.append(Asteroid(asteroid.x, asteroid.y, False, True, new_asteroids_size))
+                            self.asteroids.remove(asteroid)
+                        else:
+                            self.asteroids.remove(asteroid)
                     else:
                         if misil != None:
                             misil.live = False
+
+        for asteroid in self.asteroids:
+            if self.nave.rect.colliderect(asteroid.rect):
+                self.disparo_hit_explosion.play()
+                self.activeGameState.disminuir_defensa(self.alien.ataque)
+                if self.activeGameState.defensa <= 0:
+                    print("Jugador muerto")
+                    self.game_over = True
+                self.asteroids.remove(asteroid)
 
         self.nave.update(self.activeGameState.get_delta_time())
 

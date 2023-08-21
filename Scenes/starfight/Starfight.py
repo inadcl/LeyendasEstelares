@@ -25,8 +25,8 @@ class Starfight(Scene):
         self.alienship = AlienNave( pantallasize.getWidthPosition(900), pantallasize.getHeightPosition(500))
         self.game_over = False
         self.game_win = False
-        self.disparo_sonido = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight","explosion.wav"))
-        self.disparo_sonido.set_volume(0.5)
+        self.disparo_hit_explosion = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight", "explosion.wav"))
+        self.disparo_hit_explosion.set_volume(0.5)
 
     def initScene(self, activeGameState):
         super().initScene(activeGameState)
@@ -63,7 +63,8 @@ class Starfight(Scene):
             if misil.live and misil.rect.colliderect(self.alienship.rect):
                 self.alien.defensa = self.alien.defensa - self.activeGameState.ataque
                 if self.alien.defensa <= 0:
-                    self.disparo_sonido.play()
+                    #todo check sonido
+                    self.disparo_hit_explosion.play()
                     print("enemigo derrotado")
                     self.game_win = True
                 else:
@@ -74,7 +75,7 @@ class Starfight(Scene):
             if misil.live and misil.rect.colliderect(self.nave.rect):
                 self.activeGameState.disminuir_defensa(self.alien.ataque)
                 if self.activeGameState.defensa <= 0:
-                    self.disparo_sonido.play()
+                    self.disparo_hit_explosion.play()
                     print("Jugador muerto")
                     self.game_over = True
                 else:
