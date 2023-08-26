@@ -15,6 +15,8 @@ from pantallas import pantallasize
 class AsteroidsGameController(Scene):
     def __init__(self, gameflowscene, alien, activeGameState:GameState):
         super().__init__()
+        TIEMPO_DE_DISPARO = 1000
+        TURNOS_JUEGO = 1000
         self.readingProcess = None
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.gameflowscene = gameflowscene
@@ -29,7 +31,14 @@ class AsteroidsGameController(Scene):
         self.disparo_hit_explosion.set_volume(0.5)
         self.asteroids = []
         self.last_spawn_time = pygame.time.get_ticks()
-        self.spawn_delay = random.randint(1000, 5000)  # 1-5 segundos
+        self.spawn_delay = random.randint(1000, 3000)  # 1-5 segundos
+        self.contador = 60 # tiempo de juego
+        self.puedo_disparar = True
+
+        self.shoot_timer_event = pygame.USEREVENT + 2
+        self.timer_event = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.timer_event, TURNOS_JUEGO)
+        pygame.time.set_timer(self.shoot_timer_event, TIEMPO_DE_DISPARO)
 
 
     def initScene(self, activeGameState):
@@ -42,17 +51,33 @@ class AsteroidsGameController(Scene):
         super().process_input(events, pressed_keys, button)
         # handle_inicio_mouse_click(mission_button, draw_exit_by_state(screen), pygame.mouse.get_pos())
         for event in events:
+            if event.type == self.timer_event:
+                self.contador -= 1
+                if self.contador <= 55:
+                    self.spawn_delay = random.randint(0, 500)  # 1-5 segundos
+                if self.contador <= 15:
+                    self.spawn_delay = random.randint(1000,3000)  # 1-5 segundos
+
+                if self.contador <= 0:
+                    self.spawn_delay = random.randint(5000, 15000)  # 1-5 segundos
+            if event.type == self.shoot_timer_event:
+                self.puedo_disparar = True
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:  # Lanzar misil con la tecla espacio
-                    self.nave.lanzar_misil()
-                elif event.key == pygame.K_UP:  # Si se presiona la flecha hacia arriba
+                    if self.puedo_disparar:
+                        self.nave.lanzar_misil()
+                        self.puedo_disparar = False
+                elif event.key == pygame.K_UP or event.key == pygame.K_w:  # Si se presiona la flecha hacia arriba
                     self.nave.mover_arriba()
-                elif event.key == pygame.K_DOWN:  # Si se presiona la flecha hacia abajo
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:  # Si se presiona la flecha hacia abajo
                     self.nave.mover_abajo()
         return None
 
     def update(self):
         self.renderRequired = True
+        if len(self.asteroids) == 0 and self.contador <= 0:
+            self.game_win = True
         if self.game_over or self.game_win:
             for misil in self.nave.misiles:
                 self.nave.misiles.remove(misil)
@@ -63,7 +88,6 @@ class AsteroidsGameController(Scene):
         if self.game_win:
             return True
         current_time = pygame.time.get_ticks()
-
         # Comprobar si es el momento de generar un nuevo asteroide
         if current_time - self.last_spawn_time > self.spawn_delay:
             self.spawn_asteroid()
@@ -73,6 +97,8 @@ class AsteroidsGameController(Scene):
         # Actualizar todos los asteroides existentes
         now =pygame.time.get_ticks()
         dt = self.activeGameState.get_delta_time()
+
+
         for asteroid in self.asteroids:
             asteroid.update(dt, now)
 

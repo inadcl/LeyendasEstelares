@@ -14,6 +14,7 @@ from pantallas import pantallasize
 class Starfight(Scene):
     def __init__(self, gameflowscene, alien, activeGameState:GameState):
         super().__init__()
+        TIEMPO_DE_DISPARO = 1000
         self.readingProcess = None
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.gameflowscene = gameflowscene
@@ -23,10 +24,16 @@ class Starfight(Scene):
             self.initScene(activeGameState)
         self.nave = Nave( pantallasize.getWidthPosition(100), pantallasize.getHeightPosition(100))
         self.alienship = AlienNave( pantallasize.getWidthPosition(900), pantallasize.getHeightPosition(500))
+        self.contador = False
+        self.puedo_disparar = False
         self.game_over = False
         self.game_win = False
         self.disparo_hit_explosion = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight", "explosion.wav"))
         self.disparo_hit_explosion.set_volume(0.5)
+        self.misilescount = 0
+        self.ultimomisil = 0
+        self.shoot_timer_event = pygame.USEREVENT + 2
+        pygame.time.set_timer(self.shoot_timer_event, TIEMPO_DE_DISPARO)
 
     def initScene(self, activeGameState):
         super().initScene(activeGameState)
@@ -38,12 +45,16 @@ class Starfight(Scene):
         super().process_input(events, pressed_keys, button)
         # handle_inicio_mouse_click(mission_button, draw_exit_by_state(screen), pygame.mouse.get_pos())
         for event in events:
+            if event.type == self.shoot_timer_event:
+                self.puedo_disparar = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:  # Lanzar misil con la tecla espacio
-                    self.nave.lanzar_misil()
-                elif event.key == pygame.K_UP:  # Si se presiona la flecha hacia arriba
+                    if self.puedo_disparar:
+                        self.nave.lanzar_misil()
+                        self.puedo_disparar = False
+                elif event.key == pygame.K_UP or event.key == pygame.K_w:  # Si se presiona la flecha hacia arriba
                     self.nave.mover_arriba()
-                elif event.key == pygame.K_DOWN:  # Si se presiona la flecha hacia abajo
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:  # Si se presiona la flecha hacia abajo
                     self.nave.mover_abajo()
         return None
 
@@ -111,12 +122,12 @@ class Starfight(Scene):
             super().render(screen)
             # posicion avatar
 
-        self.uirender(screen, activeGameState)
+        self.uirender(screen)
         self.nave.render(screen)
         self.alienship.render(screen)
         pygame.display.flip()
 
-    def uirender(self, screen, activeGameState):
+    def uirender(self, screen):
 
         # alien
         rect_x = pantallasize.getWidthPosition(300)

@@ -88,7 +88,7 @@ class Asteroid(Nave):
         return self.sprites[index]
 
     def update(self, dt, now):
-        # Movimiento del asteroiderrrrrrrrrrrrrrrrrrr
+        # Movimiento del asteroid
         angulo_arriba = math.radians(45)  # Convertir 45 grados a radianes
         angulo_abajo = math.radians(-45)  # Convertir -45 grados a radianes
 

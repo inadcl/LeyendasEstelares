@@ -2,6 +2,8 @@ import os
 import random
 
 import pygame
+
+from Scenes.GameOverScene import GameOverScene
 from Scenes.MiniGameManager import MiniGameManager
 from Scenes.Scene import Scene
 from Scenes.starfight.Alien import Alien
@@ -34,6 +36,7 @@ class GameFlowScene(Scene):
         self.alien = None
         self.renderRequired = True
         self.minigameoption = None
+        self.gameoverscene = None
         self.click_sonido = pygame.mixer.Sound(generateSoundPath(os.path.dirname(os.path.abspath(__file__)), "ui", "click.wav"))
         self.click_sonido.set_volume(0.5)
         if activeGameState is not None:
@@ -113,6 +116,13 @@ class GameFlowScene(Scene):
         if pygame.Rect(pantallasize.getWidthPosition(935), pantallasize.getHeightPosition(635), 65, 65).collidepoint(mouse_pos):
             super().closeReader()
             if self.opcionA == None and self.opcionB == None:
+                if self.activeGameState.defensa <= 0:
+                    self.gameover = True
+                    self.new_scene = GameOverScene(self.activeGameState)
+                    if self.new_scene != None:
+                        self.switch_on = True
+                        self.add_new_scene(self.new_scene)
+                        return None
                 #primera ejecucion cuando se carga una mision nueva
                 self.click_sonido.play()
                 print("selected: new mission")

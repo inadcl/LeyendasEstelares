@@ -1,6 +1,39 @@
 {
   "misiones": [
     {
+      "conversacion": "Recibes una señal de socorro de una nave mercante que está siendo atacada por piratas espaciales. ¿Quieres intervenir?",
+      "repetible": true,
+      "image": "piratas.png",
+      "alien": {
+        "nombre": "J.T. Kirk",
+        "image": "alien5.png",
+        "defensa": 50,
+        "ataque": 5,
+        "karma": 2
+    },
+      "opciones": [
+        {
+          "texto": "Intervenir",
+          "accion": {
+            "texto": "Te enfrentas a los piratas espaciales y logras ahuyentarlos, salvando a la nave mercante.",
+            "karma": "+2",
+            "defensa": "+1",
+            "ataque": "+1",
+            "minijuego": "starfight",
+            "consecuencias": "La tripulación de la nave mercante te agradece y te ofrece una recompensa en forma de recursos y piezas para mejorar tu nave."
+          }
+        },
+        {
+          "texto": "Ignorar",
+          "accion": {
+            "texto": "Decides no intervenir y continúas tu viaje.",
+            "karma": "-1",
+            "consecuencias": "La nave mercante es saqueada por los piratas, lo que afecta negativamente tu reputación y podría tener repercusiones en el futuro."
+          }
+        }
+      ]
+    },
+    {
       "conversacion": "Te has teletransportado a un campo de asteroides, no te queda otra que intentar esquivarlos",
       "repetible": true,
       "image": "asteroides.png",
