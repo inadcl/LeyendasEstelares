@@ -12,7 +12,7 @@ from pantallas import pantallasize
 
 
 class Starfight(Scene):
-    def __init__(self, gameflowscene, alien, activeGameState:GameState):
+    def __init__(self, gameflowscene, alien, activeGameState: GameState):
         super().__init__()
         TIEMPO_DE_DISPARO = 1000
         self.readingProcess = None
@@ -22,13 +22,14 @@ class Starfight(Scene):
         self.renderRequired = True
         if activeGameState is not None:
             self.initScene(activeGameState)
-        self.nave = Nave( pantallasize.getWidthPosition(100), pantallasize.getHeightPosition(100))
-        self.alienship = AlienNave( pantallasize.getWidthPosition(900), pantallasize.getHeightPosition(500))
+        self.nave = Nave(pantallasize.getWidthPosition(100), pantallasize.getHeightPosition(100))
+        self.alienship = AlienNave(pantallasize.getWidthPosition(900), pantallasize.getHeightPosition(500))
         self.contador = False
         self.puedo_disparar = False
         self.game_over = False
         self.game_win = False
-        self.disparo_hit_explosion = pygame.mixer.Sound(generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight", "explosion.wav"))
+        self.disparo_hit_explosion = pygame.mixer.Sound(
+            generateSoundPathLevel2(os.path.dirname(os.path.abspath(__file__)), "starfight", "explosion.wav"))
         self.disparo_hit_explosion.set_volume(0.5)
         self.misilescount = 0
         self.ultimomisil = 0
@@ -74,7 +75,7 @@ class Starfight(Scene):
             if misil.live and misil.rect.colliderect(self.alienship.rect):
                 self.alien.defensa = self.alien.defensa - self.activeGameState.ataque
                 if self.alien.defensa <= 0:
-                    #todo check sonido
+                    # todo check sonido
                     self.disparo_hit_explosion.play()
                     print("enemigo derrotado")
                     self.game_win = True
@@ -98,12 +99,11 @@ class Starfight(Scene):
 
         return None
 
-
     def generateImagePath(self, folder, filename):
         return os.path.join(self.current_dir, '..', 'recursos', 'imagenes', folder, filename)
 
     def render(self, screen, activeGameState):
-        self.renderRequired= True
+        self.renderRequired = True
         if not self.renderRequired or self.game_win or self.game_over:
             return
         else:
@@ -114,7 +114,7 @@ class Starfight(Scene):
             screen.fill((128, 128, 128))
             # Dibuja el fondo del área de juego
             game_surface = pygame.Surface((1024, 768))
-            game_surface.fill((0,0,0))
+            game_surface.fill((0, 0, 0))
             screen.blit(game_surface, (pantallasize.getWidthPosition(0), pantallasize.getHeightPosition(0)))
 
             # Refresh the display
@@ -131,7 +131,7 @@ class Starfight(Scene):
 
         # alien
         rect_x = pantallasize.getWidthPosition(300)
-        rect_y =  pantallasize.getHeightPosition(20)
+        rect_y = pantallasize.getHeightPosition(20)
         rect_width = 560
         rect_height = 65
         color_interior = "#5a5a5a"
@@ -142,26 +142,26 @@ class Starfight(Scene):
         karma_alien_rect = (pantallasize.getWidthPosition(760), pantallasize.getHeightPosition(65))
         ataque_alien_rect = (pantallasize.getWidthPosition(795), pantallasize.getHeightPosition(65))
         defensa_alien_rect = (pantallasize.getWidthPosition(835), pantallasize.getHeightPosition(65))
-        image_alien_rect = (pantallasize.getWidthPosition(700), pantallasize.getHeightPosition(27), 50,50)
+        image_alien_rect = (pantallasize.getWidthPosition(700), pantallasize.getHeightPosition(27), 50, 50)
         if self.alien != None and self.alien.nombre != None:
             dibujar_stats(screen, self.alien.nombre, "K: " + str(self.alien.karma),
-                         "A: " + str(self.alien.ataque), "D: " + str(self.alien.defensa), nombre_alien_rect,
+                          "A: " + str(self.alien.ataque), "D: " + str(self.alien.defensa), nombre_alien_rect,
                           karma_alien_rect, ataque_alien_rect, defensa_alien_rect, 36, 15)
 
-        if self.alien.image!= None:
+        if self.alien.image != None:
             self.dibujar_avatar(screen, "aliens", self.alien.image, image_alien_rect)
         nombre_player_rect = (pantallasize.getWidthPosition(440), pantallasize.getHeightPosition(40))
         karma_playern_rect = (pantallasize.getWidthPosition(400), pantallasize.getHeightPosition(65))
         ataque_player_rect = (pantallasize.getWidthPosition(435), pantallasize.getHeightPosition(65))
         defensa_player_rect = (pantallasize.getWidthPosition(375), pantallasize.getHeightPosition(65))
-        image_player_rect = (pantallasize.getWidthPosition(305), pantallasize.getHeightPosition(27), 50,50)
+        image_player_rect = (pantallasize.getWidthPosition(305), pantallasize.getHeightPosition(27), 50, 50)
         dibujar_stats(screen, self.activeGameState.nombre, "K: " + str(self.activeGameState.karma),
-                     "A: " + str(self.activeGameState.ataque), "D: " + str(self.activeGameState.defensa), nombre_player_rect,
+                      "A: " + str(self.activeGameState.ataque), "D: " + str(self.activeGameState.defensa),
+                      nombre_player_rect,
                       karma_playern_rect, ataque_player_rect, defensa_player_rect, 36, 15)
 
-        if self.activeGameState.imagen!= None:
+        if self.activeGameState.imagen != None:
             self.dibujar_avatar(screen, "personajes", self.activeGameState.imagen, image_player_rect)
-
 
     def dibujar_avatar(self, screen, folder, imagen, rect):
         personaje = os.path.join('recursos', 'imagenes', folder, imagen)

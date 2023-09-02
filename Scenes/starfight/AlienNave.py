@@ -27,19 +27,11 @@ class AlienNave(Nave):
         self.intervalo_ataque = random.randint(500, 1500)
         entero_aleatorio = random.randint(0, 20)
         character_speed = 300  # velocidad en píxeles por segundo
-        # if entero_aleatorio == 1 and self.rect.y > 100:
-        #     entero_aleatorio = 0
-        #     print("arriba" + str(self.rect.y))
-        #     print("deltatime" + str(dt))
-        #     self.rect.y -= character_speed * dt  # Ajusta este valor para cambiar la velocidad de movimiento
-        #
-        # if entero_aleatorio == 2 and self.rect.y < 650:
-        #     entero_aleatorio = 0
-        #     print("abajo" + str(self.rect.y))
-        #     print("deltatime" + str(dt))
-        #     self.rect.y += character_speed * dt  # Ajusta este valor para cambiar la velocidad de movimiento
+
         if not self.moviendo or abs(self.rect.y - self.destino_y) < 5:
-            self.destino_y = random.randint(100, 650)
+            #limite de movimiento del enemigo, 100 arriba y 650 abajo (modificado con la funcion offset)
+
+            self.destino_y = random.randint(int(pantallasize.getHeightPosition(100)), int(pantallasize.getHeightPosition(650)))
             self.moviendo = True
         else:
             if self.rect.y < self.destino_y:
