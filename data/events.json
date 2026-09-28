@@ -1,0 +1,258 @@
+[
+	{
+		"id": "senal_periodica",
+		"type": "signal",
+		"title": "Señal periódica",
+		"text": "Un pulso débil repite tres tonos cada once segundos desde un desfiladero cercano. Es una señal artificial y sigue activa.",
+		"choices": [
+			{
+				"text": "Triangular el origen con el analizador",
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.6,
+					"success": {"text": "Localizas un repetidor enterrado y descargas su registro de navegación.", "effects": {"data": 2, "set_flags": ["mapa_vael"]}},
+					"fail": {"text": "La interferencia satura el equipo. Tardas horas en recalibrarlo.", "effects": {"oxygen": -3}}
+				}
+			},
+			{
+				"text": "Responder con los tres tonos",
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.5,
+					"success": {"text": "La señal cambia de patrón. Ha reconocido tu respuesta.", "effects": {"rep": {"vael": 1}, "set_flags": ["vael_contacto"]}},
+					"fail": {"text": "El pulso se interrumpe y no vuelve. Quizá fue un error responder.", "effects": {"morale": -1}}
+				}
+			},
+			{
+				"text": "Documentar y seguir adelante",
+				"result": {"text": "Registras la señal sin intervenir. Es lo prudente.", "effects": {"data": 1}}
+			}
+		]
+	},
+	{
+		"id": "eco_de_baliza",
+		"type": "signal",
+		"title": "Eco en la roca",
+		"text": "Una segunda emisión, más grave, rebota entre las paredes. No es un mensaje: parece una calibración. Alguien mide la distancia hasta tu posición.",
+		"choices": [
+			{
+				"text": "Dejar el transmisor abierto y observar",
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.55,
+					"success": {"text": "Entiendes el patrón: es un sistema de guía que ahora puedes seguir.", "effects": {"data": 2, "set_flags": ["guia_baliza"]}},
+					"fail": {"text": "La emisión te desorienta durante un buen rato.", "effects": {"morale": -2}}
+				}
+			},
+			{
+				"text": "Apagar los transmisores y esperar",
+				"result": {"text": "Guardas silencio. El eco tarda en extinguirse.", "effects": {"oxygen": -1}}
+			},
+			{
+				"text": "Informar a la Meridiana",
+				"result": {"text": "El capitán agradece el informe. Protocolo cumplido.", "effects": {"rep": {"concordato": 1}}}
+			}
+		]
+	},
+	{
+		"id": "camara_sellada",
+		"type": "ruins",
+		"title": "Cámara sellada",
+		"text": "Una puerta de aleación negra, sin bisagras ni cerradura. Los sensores detectan una cámara hueca detrás y una débil corriente en el umbral.",
+		"choices": [
+			{
+				"text": "Forzar el cierre con la carga del traje",
+				"risk": {
+					"chance": 0.45,
+					"success": {"text": "La puerta cede. Dentro hay un archivo cristalino intacto.", "effects": {"data": 3}},
+					"fail": {"text": "Un arco de energía recorre el traje y daña una junta. El archivo queda inutilizado.", "effects": {"oxygen": -4, "morale": -1}}
+				}
+			},
+			{
+				"text": "Estudiar el mecanismo sin tocarlo",
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {"text": "Descubres el patrón de apertura. La puerta se desliza en silencio.", "effects": {"data": 3}},
+					"fail": {"text": "Pierdes tiempo sin llegar a ninguna conclusión.", "effects": {"oxygen": -2}}
+				}
+			},
+			{
+				"text": "Dejarla intacta",
+				"result": {"text": "No tienes derecho a profanar lo que no comprendes. Registras su posición y te marchas.", "effects": {"morale": 1, "rep": {"vael": 1}, "set_flags": ["respeto_vael"]}}
+			}
+		]
+	},
+	{
+		"id": "murales_vael",
+		"type": "ruins",
+		"title": "Anfiteatro de relieves",
+		"text": "Los muros de un anfiteatro semienterrado están cubiertos de relieves: figuras que ascienden hacia un cielo de estrellas y se disuelven en luz.",
+		"choices": [
+			{
+				"text": "Catalogar cada panel",
+				"result": {"text": "Es un trabajo lento, pero el archivo será valioso.", "effects": {"data": 2, "oxygen": -2}}
+			},
+			{
+				"text": "Interpretar el relato",
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.6,
+					"success": {"text": "Comprendes que los Vael no murieron: cambiaron de forma.", "effects": {"data": 1, "rep": {"vael": 1}, "set_flags": ["vael_transformacion"]}},
+					"fail": {"text": "Tu interpretación resulta errónea y te deja un mal sabor de boca.", "effects": {"morale": -1}}
+				}
+			},
+			{
+				"text": "Descansar bajo el arco",
+				"result": {"text": "Un momento de calma en un lugar que parece diseñado para ello.", "effects": {"morale": 2, "oxygen": -2}}
+			}
+		]
+	},
+	{
+		"id": "sonda_perdida",
+		"type": "wreck",
+		"title": "Sonda perdida",
+		"text": "Una sonda del Concordato, extraviada hace décadas, yace medio hundida en el hielo. El casco está rasgado, pero el núcleo de datos parece entero.",
+		"choices": [
+			{
+				"text": "Recuperar el núcleo de datos",
+				"risk": {
+					"chance": 0.7,
+					"success": {"text": "El núcleo conserva doce años de mediciones.", "effects": {"data": 3, "rep": {"concordato": 1}}},
+					"fail": {"text": "El hielo cede y pierdes tiempo y oxígeno en el rescate.", "effects": {"oxygen": -3}}
+				}
+			},
+			{
+				"text": "Reactivar la sonda",
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.5,
+					"success": {"text": "La sonda despierta y transmite un último informe completo.", "effects": {"data": 4}},
+					"fail": {"text": "Un cortocircuito la destruye ante tus ojos.", "effects": {"morale": -1}}
+				}
+			},
+			{
+				"text": "Dejarla como monumento",
+				"result": {"text": "Marcas el lugar con una baliza pasiva y guardas un minuto de silencio.", "effects": {"morale": 1}}
+			}
+		]
+	},
+	{
+		"id": "nave_expedicionaria",
+		"type": "wreck",
+		"title": "Nave ajena",
+		"text": "Restos de una nave de exploración que no es del Concordato. La escotilla está abierta; dentro hay un solo asiento, aún orientado hacia una ventana rota.",
+		"choices": [
+			{
+				"text": "Registrar el interior",
+				"risk": {
+					"chance": 0.55,
+					"success": {"text": "Hallas un cuaderno con diagramas de la baliza central.", "effects": {"data": 2, "set_flags": ["diagrama_baliza"]}},
+					"fail": {"text": "Parte de los restos se desploma. Sales ileso, pero con el traje dañado.", "effects": {"oxygen": -3}}
+				}
+			},
+			{
+				"text": "Buscar restos de la tripulación",
+				"result": {"text": "No hay nadie. Solo el asiento vacío y una sensación difícil de explicar.", "effects": {"morale": -2, "data": 1}}
+			},
+			{
+				"text": "Enviar sus coordenadas al Concordato",
+				"result": {"text": "Quedan registradas para una futura recuperación.", "effects": {"rep": {"concordato": 1}}}
+			}
+		]
+	},
+	{
+		"id": "colonia_liquenes",
+		"type": "life",
+		"title": "Colonia luminosa",
+		"text": "Una colonia de organismos filamentosos cubre la ladera, brillando con un pulso lento. Reaccionan a tu sombra.",
+		"choices": [
+			{
+				"text": "Tomar muestras",
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.7,
+					"success": {"text": "Sus tejidos liberan oxígeno en pequeñas cantidades.", "effects": {"data": 2, "oxygen": 3}},
+					"fail": {"text": "Las muestras se degradan al instante y contaminan el traje.", "effects": {"oxygen": -2}}
+				}
+			},
+			{
+				"text": "Observar a distancia",
+				"result": {"text": "Registras su comportamiento sin alterarlo.", "effects": {"data": 1, "morale": 1}}
+			},
+			{
+				"text": "Cruzar la colonia para ahorrar camino",
+				"result": {"text": "Los filamentos se apagan a tu paso. Ahorras aire, pero nadie dice nada en el canal.", "effects": {"oxygen": 2, "morale": -1, "set_flags": ["colonia_danada"]}}
+			}
+		]
+	},
+	{
+		"id": "ser_de_cristal",
+		"type": "life",
+		"title": "Forma cristalina",
+		"text": "Una forma cristalina de tu altura emerge de la roca y se detiene frente a ti. No emite sonido, pero el traductor registra vibraciones ordenadas.",
+		"choices": [
+			{
+				"text": "Mantener la calma y esperar",
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.6,
+					"success": {"text": "La forma se inclina. Sientes, más que oyes, un saludo.", "effects": {"rep": {"vael": 2}, "morale": 1, "set_flags": ["vael_contacto"]}},
+					"fail": {"text": "Se retira sin gesto alguno. El silencio pesa.", "effects": {"morale": -1}}
+				}
+			},
+			{
+				"text": "Descifrar sus vibraciones",
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.5,
+					"success": {"text": "Aíslas un patrón matemático: una invitación.", "effects": {"data": 3, "set_flags": ["vael_contacto"]}},
+					"fail": {"text": "El traductor se satura y pierdes el rastro.", "effects": {"oxygen": -2}}
+				}
+			},
+			{
+				"text": "Retroceder y avisar a la nave",
+				"result": {"text": "Te retiras despacio. La forma no te sigue.", "effects": {"rep": {"concordato": 1}, "morale": -1}}
+			}
+		]
+	},
+	{
+		"id": "baliza_central",
+		"type": "beacon",
+		"title": "La baliza",
+		"text": "Una torre de cristal negro se alza en el centro del valle. Late con el mismo pulso de tres tonos. En su base hay una abertura del tamaño de una persona; la luz interior cambia según te acercas.",
+		"choices": [
+			{
+				"text": "Presentarte como emisario ante la baliza",
+				"requires": {"flag": "vael_contacto", "hint": "Requiere haber establecido contacto con los Vael"},
+				"risk": {
+					"chance": 0.8,
+					"success": {"text": "La baliza abre un canal. Los Vael, transformados en luz, te dan la bienvenida y comparten su registro estelar.", "effects": {"data": 5, "rep": {"vael": 2}, "set_flags": ["baliza_dialogo"]}},
+					"fail": {"text": "El canal se abre a medias. Recibes fragmentos inconexos.", "effects": {"data": 2, "morale": -1}}
+				}
+			},
+			{
+				"text": "Activar la secuencia con los datos recopilados",
+				"tag": "ciencia",
+				"requires": {"any_flag": ["diagrama_baliza", "mapa_vael", "guia_baliza"], "hint": "Requiere haber estudiado el sistema de la baliza"},
+				"risk": {
+					"chance": 0.75,
+					"success": {"text": "La secuencia acierta. La baliza despliega un mapa de rutas estelares desconocidas.", "effects": {"data": 5, "set_flags": ["baliza_mapa"]}},
+					"fail": {"text": "La secuencia es incompleta. La baliza se apaga durante un minuto.", "effects": {"data": 1, "oxygen": -2}}
+				}
+			},
+			{
+				"text": "Escanear la baliza a distancia",
+				"result": {"text": "Obtienes un registro parcial sin interferir con ella.", "effects": {"data": 2}}
+			},
+			{
+				"text": "Desactivar la baliza (orden del Concordato)",
+				"risk": {
+					"chance": 0.6,
+					"success": {"text": "La baliza se apaga. Es lo que el Concordato ordenaría, pero el silencio se siente como una pérdida.", "effects": {"data": 2, "rep": {"concordato": 2, "vael": -2}, "set_flags": ["baliza_apagada"]}},
+					"fail": {"text": "La baliza resiste y libera una descarga.", "effects": {"oxygen": -4, "morale": -2, "rep": {"vael": -1}}}
+				}
+			}
+		]
+	}
+]

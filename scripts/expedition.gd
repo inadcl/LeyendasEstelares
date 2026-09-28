@@ -1,0 +1,53 @@
+class_name Expedition
+extends RefCounted
+## Una salida a la superficie: mapa + jugador + reglas de movimiento y eventos.
+
+const VISION := 2
+
+var state
+var planet: Dictionary
+var events: Dictionary
+var map := PlanetData.new()
+var player := Vector2i.ZERO
+var objective_done := false
+
+
+func _init(state_, planet_: Dictionary, events_: Dictionary, seed_value: int) -> void:
+	state = state_
+	planet = planet_
+	events = events_
+	map.generate(planet, events, seed_value)
+	player = map.ship_cell
+	map.reveal(player, VISION)
+
+
+func can_move(c: Vector2i) -> bool:
+	return HexGrid.distance(player, c) == 1 and map.is_passable(c)
+
+
+## Mueve al jugador (gasta oxígeno). Devuelve {poi, failure, home}.
+func move(c: Vector2i) -> Dictionary:
+	state.spend_oxygen(map.move_cost(c))
+	player = c
+	map.reveal(player, VISION)
+	var home := c == map.ship_cell and objective_done
+	var poi := map.poi_at(c)
+	if not poi.is_empty() and poi["resolved"]:
+		poi = {}
+	return {
+		"poi": poi,
+		"failure": "" if home else state.failure_reason(),
+		"home": home,
+	}
+
+
+func event_of(poi: Dictionary) -> Dictionary:
+	return events[poi["event_id"]]
+
+
+func resolve_choice(poi: Dictionary, choice: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	var result := EventRunner.resolve(choice, state, rng)
+	poi["resolved"] = true
+	if poi["objective"]:
+		objective_done = true
+	return result

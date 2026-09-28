@@ -1,0 +1,24 @@
+[
+	{
+		"id": "tessarine",
+		"name": "Tessarine IV",
+		"seed": 4127,
+		"poi_count": 6,
+		"max_beacon_cost": 22,
+		"beacon_event": "baliza_central",
+		"event_pool": [
+			"senal_periodica", "eco_de_baliza", "camara_sellada", "murales_vael",
+			"sonda_perdida", "nave_expedicionaria", "colonia_liquenes", "ser_de_cristal"
+		],
+		"intro": "Tessarine IV es una luna rocosa sin atmósfera respirable. Hace tres días la Meridiana captó un pulso de tres tonos, repetido cada once segundos, procedente de una estructura artificial anterior a cualquier registro del Concordato.\n\nDescenderás con reservas limitadas de oxígeno. Explora, decide con criterio y regresa a la nave. El Concordato exige información, pero también que la tripulación vuelva.",
+		"outro_success": "Regresas a la Meridiana con el traje al límite y el registro completo de la expedición. En el puente, nadie habla mientras se cargan los datos.",
+		"outro_abort": "Ordenas la evacuación antes de completar la misión. La Meridiana te recoge sin preguntas; el informe, sin embargo, quedará incompleto.",
+		"epilogues": [
+			{"flag": "baliza_dialogo", "text": "Los Vael, transformados en luz, han abierto un canal permanente con la Meridiana."},
+			{"flag": "baliza_mapa", "text": "La baliza ha revelado rutas estelares desconocidas para el Concordato."},
+			{"flag": "baliza_apagada", "text": "Cumpliste la orden de silenciar la baliza. El pulso de tres tonos ya no suena en Tessarine IV."},
+			{"flag": "colonia_danada", "text": "La colonia de filamentos de la ladera no se ha vuelto a encender."},
+			{"flag": "respeto_vael", "text": "Dejaste intacta la cámara sellada. Es posible que alguien lo haya notado."}
+		]
+	}
+]
