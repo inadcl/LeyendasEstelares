@@ -8,6 +8,7 @@ var expedition: Expedition
 var enabled := true
 var _hover := Vector2i(-1, -1)
 
+const KEY_DIRS: Array[int] = [KEY_D, KEY_E, KEY_Q, KEY_A, KEY_Z, KEY_C]
 const _HEX_OFFSET := Vector2(HexGrid.W / 2.0, HexGrid.H / 2.0)
 
 
@@ -37,9 +38,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not enabled or expedition == null:
 		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var c := cell_at(get_local_mouse_position())
+		var local := make_input_local(event) as InputEventMouseButton
+		var c := cell_at(local.position)
 		if c != Vector2i(-1, -1):
 			cell_clicked.emit(c)
+	elif event is InputEventKey and event.pressed and not event.echo:
+		# Teclas alrededor de la S: D=E, E=NE, Q=NO, A=O, Z=SO, C=SE (mismo orden que HexGrid.neighbors).
+		var idx: int = KEY_DIRS.find(event.keycode)
+		if idx >= 0:
+			cell_clicked.emit(HexGrid.neighbors(expedition.player)[idx])
+			get_viewport().set_input_as_handled()
 
 
 func _draw() -> void:

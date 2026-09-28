@@ -24,6 +24,7 @@ var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	mouse_filter = Control.MOUSE_FILTER_IGNORE  # si no, este Control se come los clics del mapa
 	_rng.randomize()
 	var seed_value := int(planet.get("seed", 1)) + _rng.randi() % 100000
 	expedition = Expedition.new(GameState, planet, Content.events, seed_value)
@@ -78,7 +79,7 @@ func _build_hud() -> void:
 	v.add_child(HSeparator.new())
 	_goal_label = UITheme.label("", UITheme.WARN, 11)
 	v.add_child(_goal_label)
-	var hint := UITheme.label("Clic en un hexágono resaltado para avanzar. El número es el oxígeno que cuesta. Guarda aire para volver.", UITheme.DIM, 10)
+	var hint := UITheme.label("Clic en un hexágono resaltado para avanzar (o teclas Q E / A D / Z C). El número es el oxígeno que cuesta. Guarda aire para volver.", UITheme.DIM, 10)
 	v.add_child(hint)
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL

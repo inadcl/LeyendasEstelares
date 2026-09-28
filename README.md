@@ -17,14 +17,16 @@ anteriores. Tono serio, de ciencia ficción exploratoria: primer contacto, dilem
 
 ## Ejecutar
 
-1. Abre la carpeta con Godot 4.3+ y pulsa *Play*, o desde terminal: `godot --path .`
+1. Abre la carpeta con Godot 4.3 o superior (probado en 4.3 y 4.7) y pulsa *Play*, o desde terminal: `godot --path .`
+   Controles: clic en un hexágono resaltado, o teclas Q E (arriba) · A D (lados) · Z C (abajo).
 2. El arte ya está generado en `art/`. Para regenerarlo: `python3 tools/gen_art.py`
 
 ## Pruebas
 
 ```
 godot --headless --path . --import          # solo la primera vez
-godot --headless --path . res://tests/run_tests.tscn
+godot --headless --path . res://tests/run_tests.tscn   # lógica y bot
+godot --headless --path . res://tests/ui_test.tscn    # clic y teclado reales
 ```
 
 Valida los datos, la geometría hexagonal, la generación de mapas (300 semillas) y simula partidas

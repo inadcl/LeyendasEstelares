@@ -6,6 +6,7 @@ var _current: Control
 
 func _ready() -> void:
 	theme = UITheme.build()
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_show_title()
 
 
