@@ -52,8 +52,9 @@ func _ready() -> void:
 	_check(not (_main._current is SectorScreen), "se abre la pantalla del nodo (%s)" % camp.node(target)["type"])
 
 	# Planeta: clic y teclado reales sobre el mapa hexagonal
+	_refill()
 	var planet_id := _find_node(camp, "planet", false)
-	_main._on_jumped(planet_id)
+	_visit(camp, planet_id)
 	await _frames()
 	_check(_main._current is MapScreen, "pantalla de planeta")
 	var screen: MapScreen = _main._current
@@ -90,8 +91,9 @@ func _ready() -> void:
 
 	# Contacto: recorre la conversación pulsando botones
 	for sp in Content.campaign["species"]:
+		_refill()
 		var cid := _find_node(camp, "contact", false, sp)
-		_main._on_jumped(cid)
+		_visit(camp, cid)
 		await _frames()
 		_check(_main._current is ContactScreen, "pantalla de contacto (%s)" % sp)
 		var guard := 0
@@ -106,8 +108,9 @@ func _ready() -> void:
 		_check(_main._current is SectorScreen, "el contacto %s termina y vuelve al mapa" % sp)
 
 	# Anomalía
+	_refill()
 	var aid := _find_node(camp, "anomaly", false)
-	_main._on_jumped(aid)
+	_visit(camp, aid)
 	await _frames()
 	_check(_main._current is AnomalyScreen, "pantalla de anomalía")
 	var guard2 := 0
@@ -118,7 +121,7 @@ func _ready() -> void:
 	_check(_main._current is SectorScreen, "la anomalía termina y vuelve al mapa")
 
 	# Final: el planeta final aparece sin opción de saltarlo y da la victoria
-	_main._on_jumped(camp.sector.final_id)
+	_visit(camp, camp.sector.final_id)
 	await _frames()
 	_check(_buttons(_main._current, "Do not descend").is_empty(), "el planeta final no se puede saltar")
 	_main._current.finished.emit({"result": "success", "reason": ""})
@@ -130,6 +133,24 @@ func _ready() -> void:
 
 	print("\n%s (%d fallos)" % ["UI OK" if _failures == 0 else "FALLOS", _failures])
 	get_tree().quit(0 if _failures == 0 else 1)
+
+
+## Los resultados son aleatorios (pueden restar combustible o moral): se rellenan para que la prueba no dependa del azar.
+func _refill() -> void:
+	# Además se reabren los nodos: al teletransportar la nave a nodos sueltos, todos los destinos
+	# de uno podrían estar ya visitados y la campaña acabaría por falta de rutas.
+	for id in _main._campaign.sector.nodes:
+		if _main._campaign.sector.nodes[id]["type"] != "start":
+			_main._campaign.sector.nodes[id]["done"] = false
+	GameState.fuel = GameState.max_fuel
+	GameState.morale = GameState.max_morale
+	GameState.oxygen = GameState.max_oxygen
+
+
+## Equivale a saltar al nodo: la nave se sitúa allí y se abre su pantalla.
+func _visit(camp: Campaign, id: String) -> void:
+	camp.current = id
+	_main._on_jumped(id)
 
 
 func _frames(n := 3) -> void:
