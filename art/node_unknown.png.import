@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5jh02fde233"
-path="res://.godot/imported/tile_roca.png-50c39817689b8b5110f1e69f308c824d.ctex"
+uid="uid://mrv7tdojymcg"
+path="res://.godot/imported/node_unknown.png-dad5f5ef62bff987115863a0faf60182.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/tile_roca.png"
-dest_files=["res://.godot/imported/tile_roca.png-50c39817689b8b5110f1e69f308c824d.ctex"]
+source_file="res://art/node_unknown.png"
+dest_files=["res://.godot/imported/node_unknown.png-dad5f5ef62bff987115863a0faf60182.ctex"]
 
 [params]
 

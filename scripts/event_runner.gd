@@ -5,23 +5,26 @@ extends RefCounted
 const TAG_BONUS := 0.2
 
 
-## "" si la opción se puede elegir; si no, el motivo (texto para el jugador).
-static func lock_reason(choice: Dictionary, state) -> String:
+## "" si la opción se puede elegir; si no, `hint` (o "locked" si no se pasó texto).
+static func lock_reason(choice: Dictionary, state, hint := "") -> String:
 	var req: Dictionary = choice.get("requires", {})
-	var hint: String = req.get("hint", "No disponible")
+	var locked := false
 	if req.has("trait") and not state.has_trait(req["trait"]):
-		return hint
+		locked = true
 	if req.has("flag") and not state.has_flag(req["flag"]):
-		return hint
+		locked = true
 	if req.has("any_flag"):
 		var ok := false
 		for f in req["any_flag"]:
 			ok = ok or state.has_flag(f)
-		if not ok:
-			return hint
+		locked = locked or not ok
 	if req.has("not_flag") and state.has_flag(req["not_flag"]):
-		return hint
-	return ""
+		locked = true
+	if req.has("min_data") and state.data < int(req["min_data"]):
+		locked = true
+	if not locked:
+		return ""
+	return hint if hint != "" else "locked"
 
 
 static func success_chance(choice: Dictionary, state) -> float:
@@ -33,14 +36,16 @@ static func success_chance(choice: Dictionary, state) -> float:
 	return clampf(chance, 0.05, 0.95)
 
 
-## Resuelve la opción: aplica efectos y devuelve {text, lines, success}.
-static func resolve(choice: Dictionary, state, rng: RandomNumberGenerator) -> Dictionary:
+## Resuelve la opción `index` del evento: aplica efectos y devuelve {text, lines, success}.
+static func resolve(event_id: String, index: int, choice: Dictionary, state, rng: RandomNumberGenerator) -> Dictionary:
 	var branch: Dictionary
 	var success := true
+	var suffix := "res"
 	if choice.has("risk"):
 		success = rng.randf() < success_chance(choice, state)
 		branch = choice["risk"]["success"] if success else choice["risk"]["fail"]
+		suffix = "ok" if success else "fail"
 	else:
 		branch = choice["result"]
 	var lines: Array[String] = state.apply_effects(branch.get("effects", {}))
-	return {"text": branch.get("text", ""), "lines": lines, "success": success}
+	return {"text": T.ev(event_id, "c%d.%s" % [index, suffix]), "lines": lines, "success": success}

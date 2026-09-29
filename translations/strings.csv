@@ -1,0 +1,471 @@
+keys,en,es
+event.senal_periodica.title,Periodic signal,Señal periódica
+event.senal_periodica.text,"A faint pulse repeats three tones every eleven seconds from a nearby canyon. It is an artificial signal, and it is still active.",Un pulso débil repite tres tonos cada once segundos desde un desfiladero cercano. Es una señal artificial y sigue activa.
+event.senal_periodica.c0.text,Triangulate the source with the analyzer,Triangular el origen con el analizador
+event.senal_periodica.c0.ok,You locate a buried repeater and download its navigation log.,Localizas un repetidor enterrado y descargas su registro de navegación.
+event.senal_periodica.c0.fail,Interference overloads the equipment. It takes hours to recalibrate.,La interferencia satura el equipo. Tardas horas en recalibrarlo.
+event.senal_periodica.c1.text,Reply with the three tones,Responder con los tres tonos
+event.senal_periodica.c1.ok,The signal changes pattern. It has acknowledged your reply.,La señal cambia de patrón. Ha reconocido tu respuesta.
+event.senal_periodica.c1.fail,The pulse stops and does not return. Perhaps replying was a mistake.,El pulso se interrumpe y no vuelve. Quizá fue un error responder.
+event.senal_periodica.c2.text,Document it and move on,Documentar y seguir adelante
+event.senal_periodica.c2.res,You log the signal without interfering. It is the prudent choice.,Registras la señal sin intervenir. Es lo prudente.
+event.eco_de_baliza.title,Echo in the rock,Eco en la roca
+event.eco_de_baliza.text,"A second, deeper emission bounces between the walls. It is not a message: it looks like a calibration. Someone is measuring the distance to your position.","Una segunda emisión, más grave, rebota entre las paredes. No es un mensaje: parece una calibración. Alguien mide la distancia hasta tu posición."
+event.eco_de_baliza.c0.text,Leave the transmitter open and observe,Dejar el transmisor abierto y observar
+event.eco_de_baliza.c0.ok,You understand the pattern: it is a guidance system you can now follow.,Entiendes el patrón: es un sistema de guía que ahora puedes seguir.
+event.eco_de_baliza.c0.fail,The emission disorients you for quite a while.,La emisión te desorienta durante un buen rato.
+event.eco_de_baliza.c1.text,Switch off the transmitters and wait,Apagar los transmisores y esperar
+event.eco_de_baliza.c1.res,You keep silent. The echo takes a long time to fade.,Guardas silencio. El eco tarda en extinguirse.
+event.eco_de_baliza.c2.text,Report to the Meridiana,Informar a la Meridiana
+event.eco_de_baliza.c2.res,The captain thanks you for the report. Protocol observed.,El capitán agradece el informe. Protocolo cumplido.
+event.camara_sellada.title,Sealed chamber,Cámara sellada
+event.camara_sellada.text,A black alloy door with no hinges or lock. The sensors detect a hollow chamber behind it and a faint current at the threshold.,"Una puerta de aleación negra, sin bisagras ni cerradura. Los sensores detectan una cámara hueca detrás y una débil corriente en el umbral."
+event.camara_sellada.c0.text,Force the seal with the suit's charge,Forzar el cierre con la carga del traje
+event.camara_sellada.c0.ok,The door gives way. Inside is an intact crystalline archive.,La puerta cede. Dentro hay un archivo cristalino intacto.
+event.camara_sellada.c0.fail,An arc of energy runs through the suit and damages a seal. The archive is ruined.,Un arco de energía recorre el traje y daña una junta. El archivo queda inutilizado.
+event.camara_sellada.c1.text,Study the mechanism without touching it,Estudiar el mecanismo sin tocarlo
+event.camara_sellada.c1.ok,You discover the opening pattern. The door slides open in silence.,Descubres el patrón de apertura. La puerta se desliza en silencio.
+event.camara_sellada.c1.fail,You waste time without reaching any conclusion.,Pierdes tiempo sin llegar a ninguna conclusión.
+event.camara_sellada.c2.text,Leave it untouched,Dejarla intacta
+event.camara_sellada.c2.res,You have no right to desecrate what you do not understand. You record its position and leave.,No tienes derecho a profanar lo que no comprendes. Registras su posición y te marchas.
+event.murales_vael.title,Amphitheater of reliefs,Anfiteatro de relieves
+event.murales_vael.text,The walls of a half-buried amphitheater are covered in reliefs: figures rising toward a sky of stars and dissolving into light.,Los muros de un anfiteatro semienterrado están cubiertos de relieves: figuras que ascienden hacia un cielo de estrellas y se disuelven en luz.
+event.murales_vael.c0.text,Catalog every panel,Catalogar cada panel
+event.murales_vael.c0.res,"Slow work, but the archive will be valuable.","Es un trabajo lento, pero el archivo será valioso."
+event.murales_vael.c1.text,Interpret the story,Interpretar el relato
+event.murales_vael.c1.ok,You understand that the Vael did not die: they changed form.,Comprendes que los Vael no murieron: cambiaron de forma.
+event.murales_vael.c1.fail,Your interpretation proves wrong and leaves a bad taste.,Tu interpretación resulta errónea y te deja un mal sabor de boca.
+event.murales_vael.c2.text,Rest beneath the arch,Descansar bajo el arco
+event.murales_vael.c2.res,A moment of calm in a place that seems designed for it.,Un momento de calma en un lugar que parece diseñado para ello.
+event.sonda_perdida.title,Lost probe,Sonda perdida
+event.sonda_perdida.text,"A Concordat probe, lost decades ago, lies half-sunk in the ice. The hull is torn, but the data core looks intact.","Una sonda del Concordato, extraviada hace décadas, yace medio hundida en el hielo. El casco está rasgado, pero el núcleo de datos parece entero."
+event.sonda_perdida.c0.text,Recover the data core,Recuperar el núcleo de datos
+event.sonda_perdida.c0.ok,The core holds twelve years of measurements.,El núcleo conserva doce años de mediciones.
+event.sonda_perdida.c0.fail,The ice gives way and you lose time and oxygen in the rescue.,El hielo cede y pierdes tiempo y oxígeno en el rescate.
+event.sonda_perdida.c1.text,Reactivate the probe,Reactivar la sonda
+event.sonda_perdida.c1.ok,The probe wakes and transmits one last complete report.,La sonda despierta y transmite un último informe completo.
+event.sonda_perdida.c1.fail,A short circuit destroys it before your eyes.,Un cortocircuito la destruye ante tus ojos.
+event.sonda_perdida.c2.text,Leave it as a monument,Dejarla como monumento
+event.sonda_perdida.c2.res,You mark the spot with a passive beacon and hold a minute of silence.,Marcas el lugar con una baliza pasiva y guardas un minuto de silencio.
+event.nave_expedicionaria.title,Foreign ship,Nave ajena
+event.nave_expedicionaria.text,"Wreckage of an exploration ship that is not from the Concordat. The hatch is open; inside is a single seat, still facing a broken window.","Restos de una nave de exploración que no es del Concordato. La escotilla está abierta; dentro hay un solo asiento, aún orientado hacia una ventana rota."
+event.nave_expedicionaria.c0.text,Search the interior,Registrar el interior
+event.nave_expedicionaria.c0.ok,You find a notebook with diagrams of the central beacon.,Hallas un cuaderno con diagramas de la baliza central.
+event.nave_expedicionaria.c0.fail,"Part of the wreckage collapses. You are unhurt, but the suit is damaged.","Parte de los restos se desploma. Sales ileso, pero con el traje dañado."
+event.nave_expedicionaria.c1.text,Look for the crew's remains,Buscar restos de la tripulación
+event.nave_expedicionaria.c1.res,There is no one. Just the empty seat and a feeling that is hard to explain.,No hay nadie. Solo el asiento vacío y una sensación difícil de explicar.
+event.nave_expedicionaria.c2.text,Send its coordinates to the Concordat,Enviar sus coordenadas al Concordato
+event.nave_expedicionaria.c2.res,They are logged for a future recovery.,Quedan registradas para una futura recuperación.
+event.colonia_liquenes.title,Luminous colony,Colonia luminosa
+event.colonia_liquenes.text,"A colony of filamentous organisms covers the hillside, glowing with a slow pulse. They react to your shadow.","Una colonia de organismos filamentosos cubre la ladera, brillando con un pulso lento. Reaccionan a tu sombra."
+event.colonia_liquenes.c0.text,Take samples,Tomar muestras
+event.colonia_liquenes.c0.ok,Their tissues release oxygen in small amounts.,Sus tejidos liberan oxígeno en pequeñas cantidades.
+event.colonia_liquenes.c0.fail,The samples degrade at once and contaminate the suit.,Las muestras se degradan al instante y contaminan el traje.
+event.colonia_liquenes.c1.text,Observe from a distance,Observar a distancia
+event.colonia_liquenes.c1.res,You record their behavior without disturbing it.,Registras su comportamiento sin alterarlo.
+event.colonia_liquenes.c2.text,Cut across the colony to save distance,Cruzar la colonia para ahorrar camino
+event.colonia_liquenes.c2.res,"The filaments go dark as you pass. You save air, but nobody says a word on the channel.","Los filamentos se apagan a tu paso. Ahorras aire, pero nadie dice nada en el canal."
+event.ser_de_cristal.title,Crystalline form,Forma cristalina
+event.ser_de_cristal.text,"A crystalline form your own height emerges from the rock and stops in front of you. It makes no sound, but the translator registers ordered vibrations.","Una forma cristalina de tu altura emerge de la roca y se detiene frente a ti. No emite sonido, pero el traductor registra vibraciones ordenadas."
+event.ser_de_cristal.c0.text,Stay calm and wait,Mantener la calma y esperar
+event.ser_de_cristal.c0.ok,"The form bows. You feel, more than hear, a greeting.","La forma se inclina. Sientes, más que oyes, un saludo."
+event.ser_de_cristal.c0.fail,It withdraws without a gesture. The silence weighs on you.,Se retira sin gesto alguno. El silencio pesa.
+event.ser_de_cristal.c1.text,Decipher its vibrations,Descifrar sus vibraciones
+event.ser_de_cristal.c1.ok,You isolate a mathematical pattern: an invitation.,Aíslas un patrón matemático: una invitación.
+event.ser_de_cristal.c1.fail,The translator overloads and you lose the trail.,El traductor se satura y pierdes el rastro.
+event.ser_de_cristal.c2.text,Back away and alert the ship,Retroceder y avisar a la nave
+event.ser_de_cristal.c2.res,You withdraw slowly. The form does not follow.,Te retiras despacio. La forma no te sigue.
+event.baliza_central.title,The beacon,La baliza
+event.baliza_central.text,A tower of black crystal rises in the middle of the valley. It beats with the same three-tone pulse. At its base is an opening the size of a person; the light inside changes as you approach.,Una torre de cristal negro se alza en el centro del valle. Late con el mismo pulso de tres tonos. En su base hay una abertura del tamaño de una persona; la luz interior cambia según te acercas.
+event.baliza_central.c0.text,Present yourself as an emissary to the beacon,Presentarte como emisario ante la baliza
+event.baliza_central.c0.hint,Requires having made contact with the Vael,Requiere haber establecido contacto con los Vael
+event.baliza_central.c0.ok,"The beacon opens a channel. The Vael, transformed into light, welcome you and share their star record.","La baliza abre un canal. Los Vael, transformados en luz, te dan la bienvenida y comparten su registro estelar."
+event.baliza_central.c0.fail,The channel opens only halfway. You receive disconnected fragments.,El canal se abre a medias. Recibes fragmentos inconexos.
+event.baliza_central.c1.text,Activate the sequence with the data you gathered,Activar la secuencia con los datos recopilados
+event.baliza_central.c1.hint,Requires having studied the beacon's system,Requiere haber estudiado el sistema de la baliza
+event.baliza_central.c1.ok,The sequence succeeds. The beacon unfolds a map of unknown star routes.,La secuencia acierta. La baliza despliega un mapa de rutas estelares desconocidas.
+event.baliza_central.c1.fail,The sequence is incomplete. The beacon goes dark for a minute.,La secuencia es incompleta. La baliza se apaga durante un minuto.
+event.baliza_central.c2.text,Scan the beacon from a distance,Escanear la baliza a distancia
+event.baliza_central.c2.res,You obtain a partial record without interfering with it.,Obtienes un registro parcial sin interferir con ella.
+event.baliza_central.c3.text,Deactivate the beacon (Concordat order),Desactivar la baliza (orden del Concordato)
+event.baliza_central.c3.ok,"The beacon goes out. It is what the Concordat would order, but the silence feels like a loss.","La baliza se apaga. Es lo que el Concordato ordenaría, pero el silencio se siente como una pérdida."
+event.baliza_central.c3.fail,The beacon resists and releases a discharge.,La baliza resiste y libera una descarga.
+avatar.vance.name,Dr. Iria Vance,Dra. Iria Vance
+avatar.vance.role,Xenobiologist and analyst,Xenobióloga y analista
+avatar.vance.desc,"She analyzes before acting. Complex systems are legible to her, though she struggles to yield to what she does not understand.","Analiza antes de actuar. Los sistemas complejos le resultan legibles, aunque le cuesta ceder ante lo que no entiende."
+avatar.vance.perk,+20% on scientific actions,+20% en acciones científicas
+avatar.okafor.name,Cmdr. Tomás Okafor,Cmdte. Tomás Okafor
+avatar.okafor.role,First-contact officer,Oficial de primer contacto
+avatar.okafor.desc,Twenty years negotiating on frontiers without maps. He prefers to listen twice before speaking once.,Veinte años negociando en fronteras sin mapa. Prefiere escuchar dos veces antes de hablar una.
+avatar.okafor.perk,+20% on diplomatic actions,+20% en acciones diplomáticas
+faction.concordato,Concordat,Concordato
+faction.vael,Vael,Vael
+event.campamento_minero.title,Mining camp,Campamento minero
+event.campamento_minero.text,"A camp of abandoned containers, tools still leaning against the rock. The logs mark a hurried evacuation.","Un campamento de contenedores abandonados, con herramientas todavía apoyadas contra la roca. Los registros marcan una evacuación apresurada."
+event.campamento_minero.c0.text,Search for the foreman's records,Buscar los registros del capataz
+event.campamento_minero.c0.ok,You find a drilling diary: it mentions a signal under the sand.,Encuentras un diario de perforación: menciona una señal bajo la arena.
+event.campamento_minero.c0.fail,The camp is buried under sand; you waste air digging.,El campamento está sepultado por la arena; pierdes aire excavando.
+event.campamento_minero.c1.text,Recover the fuel from the tanks,Recuperar el combustible de los depósitos
+event.campamento_minero.c1.ok,The tanks still hold usable fuel.,Los depósitos aún conservan combustible utilizable.
+event.campamento_minero.c1.fail,The tanks are contaminated. You lose air cleaning the equipment.,Los depósitos están contaminados. Pierdes aire limpiando el equipo.
+event.campamento_minero.c2.text,Leave the camp as it is,Dejar el campamento como está
+event.campamento_minero.c2.res,You respect the place. Someone may come back for their things.,Respetas el lugar. Alguien puede volver a por sus cosas.
+event.caravana_varada.title,Stranded caravan,Caravana varada
+event.caravana_varada.text,"A convoy of armored vehicles stranded on a dune. No signs of life, but the holds are sealed from the inside.","Un convoy de vehículos blindados varado en una duna. No hay señales de vida, pero las bodegas están selladas desde dentro."
+event.caravana_varada.c0.text,Open a hold carefully,Abrir una bodega con cuidado
+event.caravana_varada.c0.ok,Inside are unused fuel cells.,Dentro hay celdas de combustible sin usar.
+event.caravana_varada.c0.fail,The hold bursts open: a pressure discharge throws you to the ground.,La bodega se abre de golpe: una descarga de presión te tira al suelo.
+event.caravana_varada.c1.text,Scan the interior without opening,Escanear el interior sin abrir
+event.caravana_varada.c1.ok,You locate a safe compartment with navigation data.,Localizas un compartimento seguro con datos de navegación.
+event.caravana_varada.c1.fail,The armor blocks the scanner.,El blindaje bloquea el escáner.
+event.caravana_varada.c2.text,Leave a message for the owners,Dejar un mensaje para los propietarios
+event.caravana_varada.c2.res,You record a message and a greeting. It is the least you can do.,Grabas un mensaje y un saludo. Es lo mínimo.
+event.nido_de_arena.title,Sand nest,Nido de arena
+event.nido_de_arena.text,"The sand stirs beneath your boots. A colony of elongated creatures moves under the surface, and one of them peeks out without fear.","La arena se agita bajo tus botas. Una colonia de criaturas alargadas se desplaza bajo la superficie, y una de ellas asoma sin miedo."
+event.nido_de_arena.c0.text,Offer a sample of water,Ofrecer una muestra de agua
+event.nido_de_arena.c0.ok,The creature accepts it and guides you to a clean water spring.,La criatura la acepta y te guía hasta un manantial de agua limpia.
+event.nido_de_arena.c0.fail,The creature takes fright and the colony scatters.,La criatura se asusta y la colonia se dispersa.
+event.nido_de_arena.c1.text,Capture a specimen to study,Capturar un ejemplar para estudiarlo
+event.nido_de_arena.c1.ok,You secure a healthy specimen; its data is valuable.,Consigues un ejemplar sano; sus datos son valiosos.
+event.nido_de_arena.c1.fail,The specimen escapes and leaves a tear in your suit.,El ejemplar escapa y te deja un desgarro en el traje.
+event.nido_de_arena.c2.text,Back away calmly,Retroceder con calma
+event.nido_de_arena.c2.res,You step back slowly. The creature sinks into the sand again.,Te apartas despacio. La criatura se sumerge otra vez en la arena.
+event.radiofaro_duna.title,Dune beacon,Radiofaro de la duna
+event.radiofaro_duna.text,A self-powered radio beacon loops a distress call in a protocol the Concordat abandoned decades ago.,Un radiofaro autónomo emite en bucle una petición de auxilio en un protocolo que el Concordato abandonó hace décadas.
+event.radiofaro_duna.c0.text,Answer as if there were still an orbital station,Responder como si aún hubiera una estación en órbita
+event.radiofaro_duna.c0.ok,The beacon falls silent and releases a packet of coordinates.,El radiofaro se calla y libera un paquete de coordenadas.
+event.radiofaro_duna.c0.fail,It detects the deception and overloads with a screech.,Detecta el engaño y se sobrecarga con un chirrido.
+event.radiofaro_duna.c1.text,Reprogram it to transmit toward the Meridiana,Reprogramarlo para que emita hacia la Meridiana
+event.radiofaro_duna.c1.ok,The beacon hands over its stellar traffic log.,El radiofaro te entrega su registro de tráfico estelar.
+event.radiofaro_duna.c1.fail,The code is incompatible; you lose time.,El código es incompatible; pierdes tiempo.
+event.radiofaro_duna.c2.text,Switch it off,Apagarlo
+event.radiofaro_duna.c2.res,You shut it down. Silence returns to the dune.,Lo apagas. El silencio vuelve a la duna.
+event.torre_caida.title,The fallen tower,La torre caída
+event.torre_caida.text,"A communications tower lies broken across the sand. Its transmission core is still warm. Rebuilding it would take hours; dismantling it, minutes.","Una torre de comunicaciones yace partida sobre la arena. Su núcleo de emisión sigue caliente. Reconstruirla llevaría horas; desmontarla, minutos."
+event.torre_caida.c0.text,Repair the core and reactivate the tower,Reparar el núcleo y reactivar la torre
+event.torre_caida.c0.ok,The tower transmits toward the sector again. A reply arrives with route data.,La torre vuelve a emitir hacia el sector. Llega una respuesta con datos de ruta.
+event.torre_caida.c0.fail,The repair is partial: the tower flickers and goes out.,La reparación es parcial: la torre parpadea y se apaga.
+event.torre_caida.c1.text,Dismantle the core and take it with you,Desmontar el núcleo y llevártelo
+event.torre_caida.c1.ok,You get the whole core: fuel and data.,Consigues el núcleo entero: combustible y datos.
+event.torre_caida.c1.fail,The core cracks as you extract it.,El núcleo se agrieta al extraerlo.
+event.torre_caida.c2.text,Scan the wreckage without touching it,Escanear los restos sin tocarlos
+event.torre_caida.c2.res,You obtain a clean record without leaving a trace.,"Obtienes un registro limpio, sin dejar rastro."
+event.torre_caida.c3.text,Use the Vael signal to guide the repair,Usar la señal de los Vael para guiar la reparación
+event.torre_caida.c3.hint,Requires having received signals from the Vael,Requiere haber recibido señales de los Vael
+event.torre_caida.c3.ok,The tower resonates with three tones. It works better than ever.,La torre resuena con tres tonos. Funciona mejor que nunca.
+event.torre_caida.c3.fail,The tones do not fit; the tower shuts down.,Los tonos no encajan; la torre se apaga.
+event.bosque_luminoso.title,Luminous forest,Bosque luminoso
+event.bosque_luminoso.text,The low trees glow in time with your steps. Light travels from one crown to the next like a message.,Los árboles bajos brillan al ritmo de tus pasos. La luz viaja de una copa a otra como un mensaje.
+event.bosque_luminoso.c0.text,Follow the trail of light,Seguir el rastro de luz
+event.bosque_luminoso.c0.ok,The light converges on a clearing: a node of the forest's network. You record its pattern.,La luz converge en un claro: un nodo de la red del bosque. Registras su patrón.
+event.bosque_luminoso.c0.fail,You get lost among the trunks and burn air.,Te pierdes entre los troncos y gastas aire.
+event.bosque_luminoso.c1.text,Walk slowly without touching anything,Caminar despacio sin tocar nada
+event.bosque_luminoso.c1.res,The forest calms around you. It is a strange kind of rest.,El bosque se calma a tu alrededor. Es un descanso extraño.
+event.bosque_luminoso.c2.text,Cut a branch to analyze it,Cortar una rama para analizarla
+event.bosque_luminoso.c2.ok,The branch releases oxygen and valuable data.,La rama libera oxígeno y datos valiosos.
+event.bosque_luminoso.c2.fail,The tree goes dark and the whole forest dims for a moment.,El árbol se apaga y todo el bosque se oscurece un instante.
+event.templo_sumergido.title,Sunken temple,Templo sumergido
+event.templo_sumergido.text,"Under the shallow water, moss-covered columns form a circle. The reliefs on their bases recall a language you have seen in some Concordat record.","Bajo el agua somera, columnas cubiertas de musgo forman un círculo. Los relieves de sus bases recuerdan a una escritura que has visto en algún registro del Concordato."
+event.templo_sumergido.c0.text,Copy the reliefs,Copiar los relieves
+event.templo_sumergido.c0.ok,You recognize Vael symbols. You begin to understand their writing.,Reconoces símbolos vael. Empiezas a entender su escritura.
+event.templo_sumergido.c0.fail,The water muddies your work; the record is illegible.,El agua enturbia el trabajo; el registro es ilegible.
+event.templo_sumergido.c1.text,Sound three tones in the center of the circle,Entonar tres tonos en el centro del círculo
+event.templo_sumergido.c1.ok,The columns vibrate. A barely audible answer.,Las columnas vibran. Una respuesta apenas audible.
+event.templo_sumergido.c1.fail,The water stirs and the circle goes dark.,El agua se agita y el círculo se apaga.
+event.templo_sumergido.c2.text,Mark the place and move on,Marcar el lugar y seguir
+event.templo_sumergido.c2.res,You leave a passive beacon at the edge of the circle.,Dejas una baliza pasiva en el borde del círculo.
+event.pecio_orbital.title,Fallen wreckage,Restos caídos
+event.pecio_orbital.text,A fragment of an orbital hull sank into the lagoon. The metal still holds sealed tanks.,Un fragmento de casco orbital se hundió en la laguna. El metal aún conserva depósitos estancos.
+event.pecio_orbital.c0.text,Wade out to the tanks,Vadear hasta los depósitos
+event.pecio_orbital.c0.ok,The tanks still hold fuel.,Los depósitos conservan combustible.
+event.pecio_orbital.c0.fail,The current drags you and you lose equipment.,La corriente te arrastra y pierdes equipo.
+event.pecio_orbital.c1.text,Scan the hull from the shore,Escanear el casco desde la orilla
+event.pecio_orbital.c1.ok,You locate an intact record box.,Localizas una caja de registros intacta.
+event.pecio_orbital.c1.fail,The water distorts the readings.,El agua distorsiona las lecturas.
+event.pecio_orbital.c2.text,Ignore it,Ignorarlo
+event.pecio_orbital.c2.res,The hull is a grave; you prefer not to disturb it.,El casco es una tumba; prefieres no molestarla.
+event.voces_en_la_niebla.title,Voices in the mist,Voces en la niebla
+event.voces_en_la_niebla.text,The mist hums with murmurs that come from nowhere in particular. Your translator proposes three languages and discards them all.,La niebla vibra con murmullos que no vienen de ningún sitio concreto. Tu traductor propone tres lenguas y las descarta todas.
+event.voces_en_la_niebla.c0.text,Listen in silence,Escuchar en silencio
+event.voces_en_la_niebla.c0.ok,"Among the murmurs you make out a name: yours, spoken with curiosity.","Entre los murmullos distingues un nombre: el tuyo, dicho con curiosidad."
+event.voces_en_la_niebla.c0.fail,The murmurs turn insistent and unsettle you.,Los murmullos se vuelven insistentes y te inquietan.
+event.voces_en_la_niebla.c1.text,Record and analyze the spectrum,Grabar y analizar el espectro
+event.voces_en_la_niebla.c1.ok,The spectrum is a structured language. A huge find.,El espectro es un lenguaje estructurado. Un hallazgo enorme.
+event.voces_en_la_niebla.c1.fail,Background noise destroys the recording.,El ruido de fondo destruye la grabación.
+event.voces_en_la_niebla.c2.text,Move away from the mist,Alejarte de la niebla
+event.voces_en_la_niebla.c2.res,You leave the mist with the feeling of having been watched.,Sales de la niebla con la sensación de haber sido observado.
+event.jardin_central.title,The central garden,El jardín central
+event.jardin_central.text,"At the center of the valley, a garden of crystalline structures and luminous roots grows around a well of light. Everything beats to the same rhythm.","En el centro del valle, un jardín de estructuras cristalinas y raíces luminosas crece alrededor de un pozo de luz. Todo late al mismo ritmo."
+event.jardin_central.c0.text,Take samples from the well of light,Tomar muestras del pozo de luz
+event.jardin_central.c0.ok,"The samples are extraordinary: energy, data and a reserve of organic fuel.","Las muestras son extraordinarias: energía, datos y una reserva de combustible orgánico."
+event.jardin_central.c0.fail,The light goes out as you touch it; you gather fragments.,La luz se apaga al tocarla; recoges fragmentos.
+event.jardin_central.c1.text,Protect the garden and only document it,Proteger el jardín y solo documentarlo
+event.jardin_central.c1.res,"You record everything without touching anything. The garden thanks your respect, in its own way.","Lo registras todo sin tocar nada. El jardín agradece tu respeto, a su manera."
+event.jardin_central.c2.text,Communicate with the garden,Comunicarte con el jardín
+event.jardin_central.c2.ok,The garden answers with patterns of light that your translator decodes: a guide to star routes.,El jardín responde con patrones de luz que tu traductor descifra: una guía de rutas estelares.
+event.jardin_central.c2.fail,The garden withdraws. Your presence makes it uneasy.,El jardín se repliega. Tu presencia lo incomoda.
+event.campo_de_asteroides.title,Asteroid field,Campo de asteroides
+event.campo_de_asteroides.text,An asteroid field blocks the direct route. Radar returns are confusing.,Un campo de asteroides bloquea la ruta directa. Los ecos del radar son confusos.
+event.campo_de_asteroides.c0.text,Navigate using trajectory calculations,Navegar con cálculo de trayectorias
+event.campo_de_asteroides.c0.ok,You find a clean corridor and save propellant.,Encuentras un pasillo limpio y ahorras propulsante.
+event.campo_de_asteroides.c0.fail,A minor impact damages the tank.,Un impacto menor daña el depósito.
+event.campo_de_asteroides.c1.text,Cut through at full power,Atravesarlo a máxima potencia
+event.campo_de_asteroides.c1.ok,The Meridiana comes through whole and ahead of schedule.,La Meridiana sale entera y con ventaja de tiempo.
+event.campo_de_asteroides.c1.fail,The impacts cost you fuel and confidence.,Los impactos te cuestan combustible y confianza.
+event.campo_de_asteroides.c2.text,Go around it cautiously,Rodearlo con precaución
+event.campo_de_asteroides.c2.res,"It takes longer, but there are no incidents.","Tardas más, pero no hay incidentes."
+event.nave_a_la_deriva.title,Drifting ship,Nave a la deriva
+event.nave_a_la_deriva.text,"A civilian ship with no power drifts in silence. Its systems seem dormant, not destroyed.","Una nave civil sin energía deriva en silencio. Sus sistemas parecen dormidos, no destruidos."
+event.nave_a_la_deriva.c0.text,Board it and look for supplies,Abordarla y buscar suministros
+event.nave_a_la_deriva.c0.ok,There are reserves in an emergency tank.,Hay reservas en un depósito de emergencia.
+event.nave_a_la_deriva.c0.fail,The hull is leaking; you leave in a hurry with nothing.,El casco tiene fugas; te marchas con prisas y sin nada.
+event.nave_a_la_deriva.c1.text,Reactivate its systems remotely,Reactivar sus sistemas a distancia
+event.nave_a_la_deriva.c1.ok,The ship wakes and hands over its navigation log.,La nave despierta y te entrega su registro de navegación.
+event.nave_a_la_deriva.c1.fail,It shuts down completely. Nothing more can be done.,Se apaga por completo. No hay nada más que hacer.
+event.nave_a_la_deriva.c2.text,Broadcast a distress call on its behalf,Emitir una llamada de auxilio en su nombre
+event.nave_a_la_deriva.c2.ok,A nearby tug answers and thanks you for the alert.,Un remolcador cercano responde y te agradece el aviso.
+event.nave_a_la_deriva.c2.fail,No one answers.,Nadie responde.
+event.nebulosa_ionizada.title,Ionized nebula,Nebulosa ionizada
+event.nebulosa_ionizada.text,An ionized nebula crosses the sector in impossible colors. Sensors saturate but record internal structures.,Una nebulosa ionizada cruza el sector con colores imposibles. Los sensores se saturan pero registran estructuras internas.
+event.nebulosa_ionizada.c0.text,Enter it to take readings,Adentrarse para tomar lecturas
+event.nebulosa_ionizada.c0.ok,The core readings are extraordinary.,Las lecturas del núcleo son extraordinarias.
+event.nebulosa_ionizada.c0.fail,Interference damages the sensors.,La interferencia daña los sensores.
+event.nebulosa_ionizada.c1.text,Observe from the edge,Observar desde el borde
+event.nebulosa_ionizada.c1.res,You record the phenomenon safely.,Registras el fenómeno con seguridad.
+event.nebulosa_ionizada.c2.text,Use the cloud to save fuel,Aprovechar la nube para ahorrar combustible
+event.nebulosa_ionizada.c2.ok,The ionized current pushes you along: you save propellant.,La corriente ionizada te empuja: ahorras propulsante.
+event.nebulosa_ionizada.c2.fail,The cloud knocks you off course.,La nube te desvía del rumbo.
+event.pulso_de_tres_tonos.title,Three-tone pulse,Pulso de tres tonos
+event.pulso_de_tres_tonos.text,"Your antennas pick up the three-tone pulse again, stronger. Someone or something is emitting it from a point further along the route.","Tus antenas captan de nuevo el pulso de tres tonos, más fuerte. Alguien o algo lo emite desde un punto más adelante en la ruta."
+event.pulso_de_tres_tonos.c0.text,Plot the signal's bearing,Trazar el rumbo de la señal
+event.pulso_de_tres_tonos.c0.ok,You refine the route toward the origin.,Afinas la ruta hacia el origen.
+event.pulso_de_tres_tonos.c0.fail,The pulse fades before you can fix it.,El pulso se desvanece antes de fijarlo.
+event.pulso_de_tres_tonos.c1.text,Reply with the three tones,Responder con los tres tonos
+event.pulso_de_tres_tonos.c1.ok,The pulse changes pattern. It has heard you.,El pulso cambia de patrón. Te ha oído.
+event.pulso_de_tres_tonos.c1.fail,The pulse falls silent.,El pulso enmudece.
+event.pulso_de_tres_tonos.c2.text,Log it and carry on,Registrar y continuar
+event.pulso_de_tres_tonos.c2.res,You note it in the ship's log.,Lo anotas en el diario de a bordo.
+event.tormenta_solar.title,Solar storm,Tormenta solar
+event.tormenta_solar.text,A coronal mass ejection is approaching. You have minutes to decide how to protect the ship.,Una eyección de masa coronal se acerca. Tienes minutos para decidir cómo proteger la nave.
+event.tormenta_solar.c0.text,Divert power to the shields,Desviar energía a los escudos
+event.tormenta_solar.c0.ok,The shields hold and the storm passes without damage.,Los escudos aguantan y la tormenta pasa sin daños.
+event.tormenta_solar.c0.fail,The shields fail and fuel is lost in the overload.,Los escudos fallan y se pierde combustible en la sobrecarga.
+event.tormenta_solar.c1.text,Shelter the crew and wait it out,Refugiar a la tripulación y esperar
+event.tormenta_solar.c1.res,"The crew shelters. The storm passes, but it costs time.","La tripulación se refugia. La tormenta pasa, pero cuesta tiempo."
+event.tormenta_solar.c2.text,Use the storm to charge the collectors,Aprovechar la tormenta para cargar los colectores
+event.tormenta_solar.c2.ok,The collectors fill up: extra fuel.,Los colectores se llenan: combustible extra.
+event.tormenta_solar.c2.fail,The overload damages the collectors.,La sobrecarga daña los colectores.
+planet.kaelora.name,Kaelora II,Kaelora II
+planet.kaelora.intro,"Kaelora II is an arid world of scorching winds and an ochre sky. Sensors detect a toppled communications tower and traces of recent mining activity. Someone may have been here before you.\n\nYou will descend with limited oxygen. The fallen tower, to the east, is your objective.","Kaelora II es un mundo árido de vientos abrasadores y cielo ocre. Los sensores detectan una torre de comunicaciones derribada y rastros de actividad minera reciente. Puede que alguien haya estado aquí antes que tú.\n\nDescenderás con oxígeno limitado. La torre caída, al este, es tu objetivo."
+planet.kaelora.outro_success,You return to the ship covered in red dust. The tower's records are already downloading.,Vuelves a la nave cubierto de polvo rojo. Los registros de la torre ya se están descargando.
+planet.kaelora.outro_abort,You evacuate Kaelora II early. The dust keeps what you did not get to see.,Evacúas Kaelora II antes de tiempo. El polvo se queda con lo que no alcanzaste a ver.
+planet.kaelora.epilogue.torre_reparada,"The tower on Kaelora II is transmitting again. Someone, somewhere, will be able to hear it.","La torre de Kaelora II vuelve a emitir. Alguien, en algún lugar, podrá escucharla."
+planet.kaelora.epilogue.torre_saqueada,You stripped the tower for parts. Kaelora II falls silent.,Desmontaste la torre para aprovechar sus piezas. Kaelora II queda en silencio.
+planet.nerea.name,Nerea,Nerea
+planet.nerea.intro,"Nerea is a world of low forests and shallow lagoons under a perpetual mist. The atmosphere is not breathable, but life here is abundant and luminous. There is an unusual growth signal at the center of the valley.\n\nYou will descend with limited oxygen. Reach the central garden, to the east, and return.","Nerea es un mundo de bosques bajos y lagunas someras bajo una niebla perpetua. La atmósfera no es respirable, pero la vida aquí es abundante y luminosa. Hay una señal de crecimiento inusual en el centro del valle.\n\nDescenderás con oxígeno limitado. Alcanza el jardín central, al este, y regresa."
+planet.nerea.outro_success,You return to the Meridiana with luminous spores still clinging to the suit. Biosecurity will take hours to clean it.,Regresas a la Meridiana con esporas luminosas todavía pegadas al traje. Bioseguridad tardará horas en limpiarlo.
+planet.nerea.outro_abort,You leave Nerea without reaching the garden. The mist closes behind you.,Abandonas Nerea sin haber llegado al jardín. La niebla se cierra a tu espalda.
+planet.nerea.epilogue.jardin_protegido,The garden on Nerea keeps growing undisturbed.,El jardín de Nerea sigue creciendo sin interferencias.
+planet.nerea.epilogue.jardin_cosechado,You harvested samples from Nerea's garden. It will never be the same.,Extrajiste muestras del jardín de Nerea. Nunca volverá a ser el mismo.
+planet.tessarine.name,Tessarine IV,Tessarine IV
+planet.tessarine.intro,"You have followed the three-tone pulse across the sector to its source: Tessarine IV, a rocky moon with no breathable atmosphere. The trail ends here.\n\nYou will descend with limited oxygen reserves. Explore, decide with judgment, and return to the ship. What you find at the beacon may change what the Concordat knows about the universe.","Has seguido el pulso de tres tonos a través del sector hasta su origen: Tessarine IV, una luna rocosa sin atmósfera respirable. Aquí termina el rastro.\n\nDescenderás con reservas limitadas de oxígeno. Explora, decide con criterio y regresa a la nave. Lo que encuentres en la baliza puede cambiar lo que el Concordato sabe del universo."
+planet.tessarine.outro_success,"You return to the Meridiana with the suit at its limit and the complete record of the expedition. On the bridge, no one speaks while the data uploads.","Regresas a la Meridiana con el traje al límite y el registro completo de la expedición. En el puente, nadie habla mientras se cargan los datos."
+planet.tessarine.outro_abort,"You order the evacuation before completing the mission. The Meridiana picks you up without questions; the report, however, will remain incomplete.","Ordenas la evacuación antes de completar la misión. La Meridiana te recoge sin preguntas; el informe, sin embargo, quedará incompleto."
+planet.tessarine.epilogue.baliza_dialogo,"The Vael, transformed into light, have opened a permanent channel with the Meridiana.","Los Vael, transformados en luz, han abierto un canal permanente con la Meridiana."
+planet.tessarine.epilogue.baliza_mapa,The beacon has revealed star routes unknown to the Concordat.,La baliza ha revelado rutas estelares desconocidas para el Concordato.
+planet.tessarine.epilogue.baliza_apagada,You carried out the order to silence the beacon. The three-tone pulse no longer sounds on Tessarine IV.,Cumpliste la orden de silenciar la baliza. El pulso de tres tonos ya no suena en Tessarine IV.
+planet.tessarine.epilogue.colonia_danada,The colony of filaments on the hillside has not lit up again.,La colonia de filamentos de la ladera no se ha vuelto a encender.
+planet.tessarine.epilogue.respeto_vael,You left the sealed chamber intact. Someone may have noticed.,Dejaste intacta la cámara sellada. Es posible que alguien lo haya notado.
+species.vael.name,The Vael,Los Vael
+species.vael.desc,Beings of crystalline light who survived their own transformation. They value candor and respect; they loathe intrusion.,Seres de luz cristalina que sobrevivieron a su propia transformación. Valoran la franqueza y el respeto; detestan la intrusión.
+species.hallen.name,Hallen Guild,Gremio de Hallen
+species.hallen.desc,Itinerant merchants who trade in everything that can be measured. They appreciate caution and clear terms; they detect any lie.,Mercaderes itinerantes que comercian con todo lo que se pueda medir. Aprecian la cautela y los tratos claros; descubren cualquier mentira.
+species.draeth.name,Draeth Dominion,Dominio Draeth
+species.draeth.desc,Patrol officers of a territorial empire. They respect firmness and despise hesitation; a lie strikes them as a declaration of war.,Patrulleros de un imperio territorial. Respetan la firmeza y desprecian la duda; una mentira les parece una declaración de guerra.
+contact.vael_eco.intro,A shape of light materializes off the bow. No hull is visible: only a faceted face reflected on every bridge screen.,Una forma de luz se materializa frente a la proa. No hay casco visible: solo un rostro facetado que se refleja en cada pantalla del puente.
+contact.vael_eco.x0.prompt,"“Traveler, your ship scans our trail. What do you seek in the places where we no longer are?”","«Viajero, tu nave escanea nuestro rastro. ¿Qué buscas en los lugares donde ya no estamos?»"
+contact.vael_eco.x0.o0,We seek to understand. We do not wish to take anything.,Buscamos entender. No queremos llevarnos nada.
+contact.vael_eco.x0.o0.reply,“Intent can be felt. That is a good start.”,«La intención se percibe. Es un buen comienzo.»
+contact.vael_eco.x0.o1,We are following a signal. We do not yet know what it means.,Seguimos una señal. Aún no sabemos qué significa.
+contact.vael_eco.x0.o1.reply,“Honest doubts. We accept them.”,«Dudas honestas. Las aceptamos.»
+contact.vael_eco.x0.o2,This is a route authorized by the Concordat.,Esta es una ruta autorizada por el Concordato.
+contact.vael_eco.x0.o2.reply,“Your authorizations mean nothing to the light.”,«Vuestras autorizaciones no significan nada para la luz.»
+contact.vael_eco.x0.o3,"We were only passing through, with no interest in you.","Solo pasábamos por aquí, sin ningún interés en vosotros."
+contact.vael_eco.x0.o3.reply,“You lie poorly. Light sees within.”,«Mentís mal. La luz ve por dentro.»
+contact.vael_eco.x1.prompt,“Those who came before took fragments of what we left. What will you do with what you find?”,«Los que vinieron antes tomaron fragmentos de lo que dejamos. ¿Qué harás con lo que encuentres?»
+contact.vael_eco.x1.o0,I will record everything and share it with you.,Lo registraré todo y lo compartiré con vosotros.
+contact.vael_eco.x1.o0.reply,“Sharing is also a way of leaving intact.”,«Compartir es también una forma de dejar intacto.»
+contact.vael_eco.x1.o1,I will take only what is necessary and leave a record.,Solo tomaré lo necesario y dejaré constancia.
+contact.vael_eco.x1.o1.reply,“Enough. But remember who left it.”,«Suficiente. Pero recuerda quién lo dejó.»
+contact.vael_eco.x1.o2,What I find belongs to whoever discovers it.,Lo que encuentre pertenece a quien lo descubre.
+contact.vael_eco.x1.o2.reply,“Belonging... such a short concept.”,«Pertenencia... un concepto tan corto.»
+contact.vael_eco.x2.prompt,“We can offer you a fragment of our path: coordinates where our echoes still resound. What do you offer us?”,«Podemos ofrecerte un fragmento de nuestro camino: coordenadas donde nuestros ecos aún resuenan. ¿Qué nos ofreces?»
+contact.vael_eco.x2.o0,I share part of my scientific data with you.,Comparto contigo parte de mis datos científicos.
+contact.vael_eco.x2.o0.reply,“Offering accepted.”,«Ofrenda aceptada.»
+contact.vael_eco.x2.o0.hint,Requires at least 2 data,Requiere al menos 2 de datos
+contact.vael_eco.x2.o1,I offer you my promise not to return without notice.,Te ofrezco mi promesa de no volver sin avisar.
+contact.vael_eco.x2.o1.reply,“A promise is worth what its giver is worth.”,«Una promesa vale lo que vale quien la da.»
+contact.vael_eco.x2.o2,I offer nothing. I ask for passage.,No ofrezco nada. Pido paso.
+contact.vael_eco.x2.o2.reply,“Then pass. Without our consent.”,«Entonces pasa. Sin nuestro consentimiento.»
+contact.vael_eco.x2.o3,I sound the three tones you already taught us.,Entono los tres tonos que ya nos enseñasteis.
+contact.vael_eco.x2.o3.reply,“...Ah. You know the melody. Then you are of the path.”,«...Ah. Conoces la melodía. Entonces eres del camino.»
+contact.vael_eco.x2.o3.hint,Requires having made contact with the Vael,Requiere haber contactado con los Vael
+contact.vael_eco.out.alliance,"The lights align into a pattern you recognize: three tones, now harmonic. The Vael hand you coordinates and a blessing.","Las luces se alinean en un patrón que reconoces: tres tonos, ahora armónicos. Los Vael te entregan coordenadas y una bendición."
+contact.vael_eco.out.deal,"The Vael share a fragment of their route. It is little, but it is a door.","Los Vael comparten un fragmento de su ruta. Es poco, pero es una puerta."
+contact.vael_eco.out.hostile,The shape dissolves in a flash that saturates your sensors. The Vael withdraw; they will not approach again.,La forma se disuelve en un destello que satura tus sensores. Los Vael se retiran; no volverán a acercarse.
+contact.vael_eco.out.wary,The Vael watch you a moment longer and fade without a word.,Los Vael te observan un momento más y se desvanecen sin decir palabra.
+contact.hallen_gremio.intro,"A squat ship laden with modules and awnings tunes to your frequency. On screen, a face behind enormous goggles smiles with too many teeth.","Una nave achaparrada, cargada de módulos y toldos, se sintoniza con tu frecuencia. En pantalla, un rostro tras unas gafas enormes sonríe con demasiados dientes."
+contact.hallen_gremio.x0.prompt,“Traveler! The Hallen Guild trades in everything. What does your ship need?”,«¡Viajero! El Gremio de Hallen comercia con todo. ¿Qué necesita tu nave?»
+contact.hallen_gremio.x0.o0,We are short on fuel. I will be straight with you.,Vamos justos de combustible. Seré claro con vosotros.
+contact.hallen_gremio.x0.o0.reply,“Honesty. How rare and how lovely! We will still charge.”,"«Sinceridad. ¡Qué raro y qué bonito! Aun así, cobraremos.»"
+contact.hallen_gremio.x0.o1,"Before we talk prices, tell me what you offer.","Antes de hablar de precios, dime qué ofrecéis."
+contact.hallen_gremio.x0.o1.reply,“Prudence. I like it. Here is our catalog.”,«Prudencia. Me gusta. Aquí tienes nuestro catálogo.»
+contact.hallen_gremio.x0.o2,I need fuel and have little time. No haggling.,Necesito combustible y tengo poco tiempo. Sin regateos.
+contact.hallen_gremio.x0.o2.reply,"“No haggling... that raises the price, you know.”","«Sin regateos... eso sube el precio, ¿lo sabes?»"
+contact.hallen_gremio.x0.o3,The Concordat guarantees us free supply.,El Concordato nos garantiza suministro gratuito.
+contact.hallen_gremio.x0.o3.reply,“The Concordat has never paid one of my invoices. Lie noted.”,«El Concordato nunca me ha pagado una factura. Mentira anotada.»
+contact.hallen_gremio.x1.prompt,"“I have fuel cells, long-range scans and a map of smuggling routes. Everything has a price. What interests you?”","«Tengo celdas de combustible, escaneos de largo alcance y un mapa de rutas de contrabando. Todo tiene precio. ¿Qué te interesa?»"
+contact.hallen_gremio.x1.o0,I need the fuel cells; I will pay with data.,Necesito las celdas de combustible; pago con datos.
+contact.hallen_gremio.x1.o0.reply,“Data... an excellent currency. Done.”,«Datos... una moneda excelente. Hecho.»
+contact.hallen_gremio.x1.o0.hint,Requires at least 2 data,Requiere al menos 2 de datos
+contact.hallen_gremio.x1.o1,I want to see the scans before deciding.,Quiero ver los escaneos antes de decidir.
+contact.hallen_gremio.x1.o1.reply,“Looking is free. Buying is not. But looking is free.”,"«Mirar es gratis. Comprar, no. Pero mirar es gratis.»"
+contact.hallen_gremio.x1.o2,Give me the cells and I will allow you to operate in this sector.,Dame las celdas y te permitiré operar en este sector.
+contact.hallen_gremio.x1.o2.reply,“Allow me? Interesting way to negotiate.”,«¿Permitirme? Curiosa forma de negociar.»
+contact.hallen_gremio.x2.prompt,“The final price is this: three fuel modules for two units of your data. Deal?”,«El precio final es este: tres módulos de combustible por dos unidades de tus datos. ¿Trato?»
+contact.hallen_gremio.x2.o0,That is a fair deal. I accept.,Es un trato justo. Acepto.
+contact.hallen_gremio.x2.o0.reply,“Fair! I like that you say it yourself.”,«¡Justo! Me gusta que lo digas tú.»
+contact.hallen_gremio.x2.o1,"I accept, on condition of a second inspection of the cells.","Acepto, con la condición de una segunda revisión de las celdas."
+contact.hallen_gremio.x2.o1.reply,“Inspection included. We are professionals.”,«Revisión incluida. Somos profesionales.»
+contact.hallen_gremio.x2.o2,Two units of data for four modules. That is my offer.,Dos unidades de datos por cuatro módulos. Es mi oferta.
+contact.hallen_gremio.x2.o2.reply,“Four! Bold. I will not even consider it.”,«¡Cuatro! Osado. Ni lo pienso.»
+contact.hallen_gremio.out.alliance,"The merchant leans forward in his seat. “Friends of the Guild. Take this, and do not forget who sold it to you cheap.”","El mercader se inclina en su asiento. «Amigos del Gremio. Llévate esto, y no olvides quién te lo vendió barato.»"
+contact.hallen_gremio.out.deal,The deal is closed. The cells transfer without surprises.,Se cierra el trato. Las celdas se transfieren sin sorpresas.
+contact.hallen_gremio.out.hostile,“You have wasted my time.” The Guild charges a “nuisance” fee before leaving.,«Me habéis hecho perder el tiempo.» El Gremio cobra una tasa de «molestias» antes de irse.
+contact.hallen_gremio.out.wary,The merchant shrugs and cuts the link with a smile.,El mercader se encoge de hombros y corta la comunicación con una sonrisa.
+contact.draeth_patrulla.intro,"Three angular ships emerge from the void and form a pincer around the Meridiana. An armored face, with no trace of expression, fills the main screen.","Tres naves angulares surgen del vacío y forman una pinza alrededor de la Meridiana. Un rostro acorazado, sin rastro de expresión, llena la pantalla principal."
+contact.draeth_patrulla.x0.prompt,“You have entered the Draeth Dominion without permission. Identify yourself and state your intentions.”,«Ha entrado en el Dominio Draeth sin permiso. Identifíquese y declare sus intenciones.»
+contact.draeth_patrulla.x0.o0,We are Concordat explorers. We seek the source of a signal.,Somos exploradores del Concordato. Buscamos el origen de una señal.
+contact.draeth_patrulla.x0.o0.reply,“Direct. But naive. That signal is ours.”,«Directo. Pero ingenuo. Esa señal es nuestra.»
+contact.draeth_patrulla.x0.o1,We are assessing the situation. Could you clarify the borders of the Dominion?,Estamos evaluando la situación. ¿Podrían aclarar los límites del Dominio?
+contact.draeth_patrulla.x0.o1.reply,“Hesitation. It makes us distrust those who hesitate.”,«Dudas. Nos hacen desconfiar de quien duda.»
+contact.draeth_patrulla.x0.o2,We are a Concordat ship on a legitimate mission. I demand free passage.,Somos una nave del Concordato en misión legítima. Exijo paso libre.
+contact.draeth_patrulla.x0.o2.reply,“Demands... interesting. An adversary who stands his ground.”,«Exige... interesante. Un adversario que se planta.»
+contact.draeth_patrulla.x0.o3,We are in transit to Draeth with a diplomatic cargo.,Estamos en tránsito hacia Draeth con un cargamento diplomático.
+contact.draeth_patrulla.x0.o3.reply,“No diplomatic cargo has been announced. Lie.”,«No se ha anunciado ningún cargamento diplomático. Mentira.»
+contact.draeth_patrulla.x1.prompt,"“Your scanners are active. In the Dominion, scanning is probing. Will you switch them off?”","«Sus escáneres están activos. En el Dominio, escanear es sondear. ¿Va a desconectarlos?»"
+contact.draeth_patrulla.x1.o0,I switch them off and hand over my logs of this route.,Los desconecto y le entrego mis registros de esta ruta.
+contact.draeth_patrulla.x1.o0.reply,"“Transparency. It is a weakness, but we accept it.”","«Transparencia. Es una debilidad, pero la aceptamos.»"
+contact.draeth_patrulla.x1.o1,I reduce them to a minimum while we talk.,Los reduzco al mínimo mientras hablamos.
+contact.draeth_patrulla.x1.o1.reply,“Lukewarm. Neither yes nor no. We take note.”,«Tibio. Ni sí ni no. Tomamos nota.»
+contact.draeth_patrulla.x1.o2,I am keeping them active. It is standard procedure for my ship.,Los mantengo activos. Es procedimiento estándar de mi nave.
+contact.draeth_patrulla.x1.o2.reply,“Good! At least you do not grovel.”,«¡Bien! Al menos no se arrastra.»
+contact.draeth_patrulla.x2.prompt,“Last question: who answers for you if this ship disappears today?”,«Última pregunta: ¿quién responde por usted si esta nave desaparece hoy?»
+contact.draeth_patrulla.x2.o0,My crew and the Concordat. I prefer it not to be necessary.,Mi tripulación y el Concordato. Prefiero que no sea necesario.
+contact.draeth_patrulla.x2.o0.reply,“Sincere. It will do.”,«Sincero. Nos vale.»
+contact.draeth_patrulla.x2.o1,I prefer not to speak of hypotheticals.,Prefiero no hablar de hipótesis.
+contact.draeth_patrulla.x2.o1.reply,“Evasive. That is not the same as strong.”,«Evasivo. No es lo mismo que fuerte.»
+contact.draeth_patrulla.x2.o2,"No one is going to make it disappear, commander.","Nadie va a hacerla desaparecer, comandante."
+contact.draeth_patrulla.x2.o2.reply,"“I hope you are right, traveler.”","«Ojalá tenga razón, viajero.»"
+contact.draeth_patrulla.out.alliance,The Draeth commander nods once. “You have permission to cross. And an escort to the sector exit.”,El comandante Draeth asiente una sola vez. «Tiene permiso para cruzar. Y una escolta hasta la salida del sector.»
+contact.draeth_patrulla.out.deal,The ships open the pincer. “You may pass. Do not return without an invitation.”,Las naves abren la pinza. «Puede pasar. No vuelva sin invitación.»
+contact.draeth_patrulla.out.hostile,The ships close the pincer and fire a warning volley that grazes the tanks. “Out of the Dominion. Now.”,Las naves cierran la pinza y disparan una salva de aviso que roza los tanques. «Fuera del Dominio. Ahora.»
+contact.draeth_patrulla.out.wary,The Draeth escort you out of their space without another word.,Los Draeth te escoltan fuera de su espacio sin cruzar otra palabra.
+ui.title,STELLAR LEGENDS,LEYENDAS ESTELARES
+ui.subtitle,"Exploration, judgment and consequences","Exploración, criterio y consecuencias"
+ui.new_expedition,New expedition,Nueva expedición
+ui.quit,Quit,Salir
+ui.language,Language,Idioma
+ui.choose_traveler,Choose your traveler,Elige a tu viajero
+ui.avatar_stats,Oxygen {oxygen} · Morale {morale},Oxígeno {oxygen} · Moral {morale}
+ui.choose,Choose,Elegir
+ui.continue,Continue,Continuar
+ui.back_title,Back to title,Volver al título
+ui.hud.oxygen,OXYGEN  {cur} / {max},OXÍGENO  {cur} / {max}
+ui.hud.morale,MORALE  {cur} / {max},MORAL  {cur} / {max}
+ui.hud.data,DATA  {n},DATOS  {n}
+ui.hud.fuel,FUEL  {cur} / {max},COMBUSTIBLE  {cur} / {max}
+ui.hud.scans,SCANS  {n},ESCANEOS  {n}
+ui.hud.rep,Reputation: {list},Reputación: {list}
+ui.map.goal_pending,Objective: reach the objective (east) and return to the ship.,Objetivo: alcanzar el objetivo (este) y volver a la nave.
+ui.map.goal_done,Objective complete. Return to the ship.,Objetivo cumplido. Regresa a la nave.
+ui.map.hint,Click a highlighted hexagon to advance (or use keys Q E / A D / Z C). The number is the oxygen it costs. Save air to get back.,Clic en un hexágono resaltado para avanzar (o teclas Q E / A D / Z C). El número es el oxígeno que cuesta. Guarda aire para volver.
+ui.map.abort,Abort mission,Abortar misión
+ui.log.move,You advance (−{cost} oxygen).,Avanzas (−{cost} oxígeno).
+ui.log.descend,You descend to the surface. Objective: to the east.,Desciendes a la superficie. Objetivo: al este.
+ui.briefing.title,Descent to {planet},Descenso a {planet}
+ui.descend,Descend,Descender
+ui.skip_planet,Do not descend (continue the route),No descender (continuar la ruta)
+ui.choice.chance,{pct}% chance,{pct}% de éxito
+ui.choice.chance_bonus,"{pct}% chance, {trait} advantage","{pct}% de éxito, ventaja de {trait}"
+trait.ciencia,science,ciencia
+trait.diplomacia,diplomacy,diplomacia
+ui.event.success,success,éxito
+ui.event.setback,setback,revés
+ui.fail.title,Expedition lost,Expedición perdida
+ui.fail.oxygen,Oxygen ran out far from the ship.,Se agotó el oxígeno lejos de la nave.
+ui.fail.morale,The expedition's morale has broken.,La moral de la expedición se ha quebrado.
+ui.abort.title,Abort the mission?,¿Abortar la misión?
+ui.abort.body,You will be evacuated to the Meridiana. The mission will remain incomplete.,Serás evacuado a la Meridiana. La misión quedará incompleta.
+ui.abort.yes,"Yes, abort","Sí, abortar"
+ui.abort.no,Keep exploring,Seguir explorando
+ui.planet.done,Mission complete,Misión completada
+ui.planet.aborted,Mission aborted,Misión abortada
+ui.sector.select,Select a node on the map.,Selecciona un nodo del mapa.
+ui.sector.unknown_title,Unknown signal,Señal desconocida
+ui.sector.unknown_body,Scan it to identify what awaits there.,Escanéalo para identificar lo que hay allí.
+ui.sector.here,You are here.,Estás aquí.
+ui.sector.visited,Already visited.,Ya visitado.
+ui.sector.unreachable,Not directly reachable from your position.,No es accesible directamente desde tu posición.
+ui.sector.no_fuel,Not enough fuel to jump.,No hay combustible suficiente para saltar.
+ui.sector.jump,Jump (−{n} fuel),Saltar (−{n} combustible)
+ui.sector.scan,Scan ({n} left),Escanear (quedan {n})
+ui.sector.type.planet,Planet: {name},Planeta: {name}
+ui.sector.type.contact,Contact: {species},Contacto: {species}
+ui.sector.type.anomaly,Spatial anomaly,Anomalía espacial
+ui.sector.type.start,Departure point,Punto de partida
+ui.sector.type.final,Destination: {name},Destino: {name}
+ui.sector.tags,Detected: {list},Detectado: {list}
+ui.scan.tag.signal,artificial emissions,emisiones artificiales
+ui.scan.tag.ruins,ruins,ruinas
+ui.scan.tag.wreck,wreckage,restos de naves
+ui.scan.tag.life,life forms,formas de vida
+ui.scan.tag.fuel,recoverable fuel,combustible recuperable
+ui.contact.trust,TRUST,CONFIANZA
+ui.contact.tension,TENSION,TENSIÓN
+ui.contact.you,You,Tú
+ui.contact.analysis,Analysis: they seem to value {value}.,Análisis: parecen valorar {value}.
+ui.contact.experience,From experience: they value {value}.,Por experiencia: valoran {value}.
+ui.value.open,candor,la franqueza
+ui.value.careful,caution,la cautela
+ui.value.firm,firmness,la firmeza
+ui.value.deceive,cunning,la astucia
+ui.stance.open,Open,Abierta
+ui.stance.careful,Cautious,Cauta
+ui.stance.firm,Firm,Firme
+ui.stance.deceive,Deceptive,Engañosa
+ui.contact.result.alliance,Alliance,Alianza
+ui.contact.result.deal,Agreement,Acuerdo
+ui.contact.result.wary,Wary distance,Distancia prudente
+ui.contact.result.hostile,Hostile,Hostil
+ui.contact.close,Close the channel,Cerrar el canal
+ending.victory.title,Expedition complete,Expedición completada
+ending.victory.body,"The Meridiana leaves the orbit of Tessarine IV. Behind it remain the three-tone pulse, the paths you chose and the voices you heard. The Concordat will read your report; the sector, your decisions.","La Meridiana abandona la órbita de Tessarine IV. Atrás quedan el pulso de tres tonos, los caminos que elegiste y las voces que escuchaste. El Concordato leerá tu informe; el sector, tus decisiones."
+ending.abort.title,The trail goes cold,El rastro se enfría
+ending.abort.body,"You leave Tessarine IV without completing the mission. The pulse keeps sounding behind you, and the Concordat will never know what it was saying.","Abandonas Tessarine IV sin completar la misión. El pulso sigue sonando a tu espalda, y el Concordato nunca sabrá qué decía."
+ending.fuel.title,Adrift,A la deriva
+ending.fuel.body,The fuel runs out in mid-transit. The Meridiana is left adrift; the three-tone pulse fades into the distance.,El combustible se agota en pleno tránsito. La Meridiana queda a la deriva; el pulso de tres tonos se apaga en la distancia.
+ending.oxygen.title,Expedition lost,Expedición perdida
+ending.oxygen.body,Oxygen reserves ran out far from the ship. The Meridiana logs the loss and suspends surface operations.,Las reservas de oxígeno se agotaron lejos de la nave. La Meridiana registra la pérdida y suspende las operaciones en la superficie.
+ending.morale.title,The crew turns back,La tripulación da la vuelta
+ending.morale.body,"The crew's morale broke. Without cohesion or trust, the expedition cannot continue.","La moral de la tripulación se quebró. Sin cohesión ni confianza, la expedición no puede continuar."
+ending.stats,Data collected: {data}  ·  Jumps: {jumps}  ·  Morale: {morale}/{max},Datos reunidos: {data}  ·  Saltos: {jumps}  ·  Moral: {morale}/{max}
+ending.rep,Reputation {faction}: {value},Reputación {faction}: {value}
+fx.oxygen,Oxygen {delta},Oxígeno {delta}
+fx.morale,Morale {delta},Moral {delta}
+fx.fuel,Fuel {delta},Combustible {delta}
+fx.scans,Scans {delta},Escaneos {delta}
+fx.data,Data {delta},Datos {delta}
+fx.rep,Reputation {faction} {delta},Reputación {faction} {delta}
+fx.trust,Trust {delta},Confianza {delta}
+fx.tension,Tension {delta},Tensión {delta}

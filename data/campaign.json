@@ -1,0 +1,32 @@
+{
+	"start_fuel": 7,
+	"max_fuel": 9,
+	"start_scans": 4,
+	"max_scans": 6,
+	"columns": [
+		1,
+		2,
+		3,
+		3,
+		2,
+		1
+	],
+	"final_planet": "tessarine",
+	"intermediate_planets": [
+		"kaelora",
+		"nerea"
+	],
+	"species": [
+		"vael",
+		"hallen",
+		"draeth"
+	],
+	"anomalies": 5,
+	"anomaly_pool": [
+		"campo_de_asteroides",
+		"nave_a_la_deriva",
+		"nebulosa_ionizada",
+		"pulso_de_tres_tonos",
+		"tormenta_solar"
+	]
+}

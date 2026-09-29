@@ -1,6 +1,7 @@
 class_name MapScreen
 extends Control
-## Pantalla de exploración: mapa a la izquierda, HUD a la derecha, eventos como panel superpuesto.
+## Exploración de un planeta: mapa a la izquierda, HUD a la derecha, eventos como panel superpuesto.
+## Termina con finished({result: "success"|"abort"|"fail"|"skip", reason}).
 
 signal finished(outcome: Dictionary)
 
@@ -16,9 +17,7 @@ var _morale_bar: ProgressBar
 var _data_label: Label
 var _rep_label: Label
 var _goal_label: Label
-var _dim: ColorRect
-var _overlay: PanelContainer
-var _overlay_box: VBoxContainer
+var _overlay: Overlay
 var _rng := RandomNumberGenerator.new()
 
 
@@ -26,8 +25,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # si no, este Control se come los clics del mapa
 	_rng.randomize()
-	var seed_value := int(planet.get("seed", 1)) + _rng.randi() % 100000
-	expedition = Expedition.new(GameState, planet, Content.events, seed_value)
+	expedition = Expedition.new(GameState, planet, Content.events, int(planet.get("seed", 1)))
 
 	add_child(UITheme.background())
 	_view = PlanetMapView.new()
@@ -36,7 +34,10 @@ func _ready() -> void:
 	_view.cell_clicked.connect(_on_cell_clicked)
 	add_child(_view)
 	_build_hud()
-	_build_overlay()
+	_overlay = Overlay.new()
+	_overlay.opened.connect(func(): _view.enabled = false)
+	_overlay.closed.connect(func(): _view.enabled = true)
+	add_child(_overlay)
 	GameState.changed.connect(_refresh_hud)
 	_refresh_hud()
 	_view.enabled = false
@@ -60,9 +61,9 @@ func _build_hud() -> void:
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 5)
 	panel.add_child(v)
-	v.add_child(UITheme.label(planet.get("name", ""), UITheme.ACCENT, 16))
-	v.add_child(UITheme.label(GameState.avatar.get("name", ""), UITheme.TEXT, 12))
-	v.add_child(UITheme.label(GameState.avatar.get("role", ""), UITheme.DIM, 10))
+	v.add_child(UITheme.label(T.t("planet.%s.name" % planet["id"]), UITheme.ACCENT, 16))
+	v.add_child(UITheme.label(T.t("avatar.%s.name" % GameState.avatar["id"]), UITheme.TEXT, 12))
+	v.add_child(UITheme.label(T.t("avatar.%s.role" % GameState.avatar["id"]), UITheme.DIM, 10))
 	v.add_child(HSeparator.new())
 	_o2_label = UITheme.label("", UITheme.TEXT, 11)
 	v.add_child(_o2_label)
@@ -79,51 +80,29 @@ func _build_hud() -> void:
 	v.add_child(HSeparator.new())
 	_goal_label = UITheme.label("", UITheme.WARN, 11)
 	v.add_child(_goal_label)
-	var hint := UITheme.label("Clic en un hexágono resaltado para avanzar (o teclas Q E / A D / Z C). El número es el oxígeno que cuesta. Guarda aire para volver.", UITheme.DIM, 10)
-	v.add_child(hint)
+	v.add_child(UITheme.label(T.t("ui.map.hint"), UITheme.DIM, 10))
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(spacer)
-	var abort := UITheme.button("Abortar misión")
+	var abort := UITheme.button(T.t("ui.map.abort"))
 	abort.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	abort.pressed.connect(_confirm_abort)
 	v.add_child(abort)
 
 
-func _build_overlay() -> void:
-	_dim = ColorRect.new()
-	_dim.color = Color(0, 0, 0, 0.55)
-	_dim.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
-	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
-	_dim.visible = false
-	add_child(_dim)
-	_overlay = PanelContainer.new()
-	_overlay.position = Vector2(64, 28)
-	_overlay.size = Vector2(512, 100)
-	_overlay.visible = false
-	add_child(_overlay)
-	_overlay_box = VBoxContainer.new()
-	_overlay_box.add_theme_constant_override("separation", 8)
-	_overlay.add_child(_overlay_box)
-
-
 func _refresh_hud() -> void:
-	_o2_label.text = "OXÍGENO  %d / %d" % [GameState.oxygen, GameState.max_oxygen]
+	_o2_label.text = T.t("ui.hud.oxygen", {"cur": GameState.oxygen, "max": GameState.max_oxygen})
 	_o2_bar.max_value = GameState.max_oxygen
 	_o2_bar.value = GameState.oxygen
-	_morale_label.text = "MORAL  %d / %d" % [GameState.morale, GameState.max_morale]
+	_morale_label.text = T.t("ui.hud.morale", {"cur": GameState.morale, "max": GameState.max_morale})
 	_morale_bar.max_value = GameState.max_morale
 	_morale_bar.value = GameState.morale
-	_data_label.text = "DATOS  %d" % GameState.data
+	_data_label.text = T.t("ui.hud.data", {"n": GameState.data})
 	var parts: Array[String] = []
 	for f in GameState.rep:
-		parts.append("%s %+d" % [GameState.faction_names.get(f, f), GameState.rep[f]])
-	_rep_label.text = "Reputación: " + (", ".join(parts) if not parts.is_empty() else "—")
-	if expedition.objective_done:
-		_goal_label.text = "Objetivo cumplido. Regresa a la nave."
-	else:
-		_goal_label.text = "Objetivo: alcanzar la baliza (este) y volver a la nave."
-	_view.queue_redraw()
+		parts.append("%s %+d" % [T.t("faction." + f), GameState.rep[f]])
+	_rep_label.text = T.t("ui.hud.rep", {"list": ", ".join(parts) if not parts.is_empty() else "—"})
+	_goal_label.text = T.t("ui.map.goal_done" if expedition.objective_done else "ui.map.goal_pending")
 
 
 func _say(text: String, color := UITheme.TEXT) -> void:
@@ -136,125 +115,72 @@ func _on_cell_clicked(cell: Vector2i) -> void:
 		return
 	var cost := expedition.map.move_cost(cell)
 	var res := expedition.move(cell)
-	_say("Avanzas (−%d oxígeno)." % cost, UITheme.DIM)
+	_say(T.t("ui.log.move", {"cost": cost}), UITheme.DIM)
 	if res["failure"] != "":
 		_fail(res["failure"])
 	elif not res["poi"].is_empty():
 		_open_event(res["poi"])
 	elif res["home"]:
-		_finish("success")
+		_conclude("success")
 
 
-# ------------------------------------------------------------------- overlay
-func _open_overlay() -> void:
-	for c in _overlay_box.get_children():
-		_overlay_box.remove_child(c)
-		c.queue_free()
-	_view.enabled = false
-	_dim.visible = true
-	_overlay.visible = true
-
-
-func _close_overlay() -> void:
-	_dim.visible = false
-	_overlay.visible = false
-	_view.enabled = true
-
-
-func _add_body(text: String) -> void:
-	var l := UITheme.label(text, UITheme.TEXT, 12)
-	l.custom_minimum_size = Vector2(490, 0)
-	_overlay_box.add_child(l)
-
-
-func _add_button(text: String, cb: Callable, disabled := false) -> Button:
-	var b := UITheme.button(text)
-	b.custom_minimum_size = Vector2(490, 0)
-	b.disabled = disabled
-	b.pressed.connect(cb)
-	_overlay_box.add_child(b)
-	return b
-
-
+# ------------------------------------------------------------------- diálogos
 func _show_briefing() -> void:
-	_open_overlay()
-	_overlay_box.add_child(UITheme.label("Descenso a " + planet.get("name", ""), UITheme.ACCENT, 16))
-	_add_body(planet.get("intro", ""))
-	_add_button("Descender", func():
-		_close_overlay()
-		_say("Desciendes a la superficie. Objetivo: la baliza, al este.", UITheme.ACCENT)
+	var pid: String = planet["id"]
+	_overlay.open()
+	_overlay.title(T.t("ui.briefing.title", {"planet": T.t("planet.%s.name" % pid)}))
+	_overlay.body(T.t("planet.%s.intro" % pid))
+	_overlay.button(T.t("ui.descend"), func():
+		_overlay.close()
+		_say(T.t("ui.log.descend"), UITheme.ACCENT)
 	).grab_focus()
+	if not planet.get("final", false):
+		_overlay.button(T.t("ui.skip_planet"), func(): finished.emit({"result": "skip", "reason": ""}))
 
 
 func _open_event(poi: Dictionary) -> void:
-	var ev := expedition.event_of(poi)
-	_open_overlay()
-	_overlay_box.add_child(UITheme.label(ev["title"], UITheme.ACCENT, 16))
-	_add_body(ev["text"])
-	_overlay_box.add_child(HSeparator.new())
-	var first: Button = null
-	for choice in ev["choices"]:
-		var lock := EventRunner.lock_reason(choice, GameState)
-		var label: String = choice["text"]
-		if lock != "":
-			label += "   [%s]" % lock
-		elif choice.has("risk"):
-			label += "   (%d%% de éxito%s)" % [roundi(EventRunner.success_chance(choice, GameState) * 100.0), _bonus_note(choice)]
-		var b := _add_button(label, _on_choice.bind(poi, choice), lock != "")
-		if first == null and lock == "":
-			first = b
-	if first != null:
-		first.grab_focus()
+	_overlay.present_event(
+		poi["event_id"],
+		func(i: int): return expedition.resolve_choice(poi, i, _rng),
+		func(): _after_event(poi))
 
 
-func _bonus_note(choice: Dictionary) -> String:
-	if choice.has("tag") and GameState.has_trait(choice["tag"]):
-		return ", ventaja de " + choice["tag"]
-	return ""
-
-
-func _on_choice(poi: Dictionary, choice: Dictionary) -> void:
-	var result := expedition.resolve_choice(poi, choice, _rng)
-	var ev := expedition.event_of(poi)
-	_open_overlay()
-	var risky: bool = choice.has("risk")
-	var headline: String = ev["title"]
-	if risky:
-		headline += " — " + ("éxito" if result["success"] else "revés")
-	_overlay_box.add_child(UITheme.label(headline, UITheme.GOOD if result["success"] else UITheme.BAD, 16))
-	_add_body(result["text"])
-	if not result["lines"].is_empty():
-		_overlay_box.add_child(UITheme.label("  ·  ".join(result["lines"]), UITheme.WARN, 12))
-	_say("%s: %s" % [ev["title"], result["text"]], UITheme.TEXT)
+func _after_event(poi: Dictionary) -> void:
+	_say("%s" % T.ev(poi["event_id"], "title"), UITheme.TEXT)
 	if poi["objective"]:
-		_say("Objetivo cumplido. Regresa a la nave.", UITheme.GOOD)
-	_add_button("Continuar", _after_event).grab_focus()
-
-
-func _after_event() -> void:
+		_say(T.t("ui.map.goal_done"), UITheme.GOOD)
 	var reason := GameState.failure_reason()
 	if reason != "":
 		_fail(reason)
 		return
-	_close_overlay()
+	_overlay.close()
 
 
 func _fail(reason: String) -> void:
-	_open_overlay()
-	_overlay_box.add_child(UITheme.label("Expedición perdida", UITheme.BAD, 16))
-	_add_body("Se agotó el oxígeno lejos de la nave." if reason == "oxygen" else "La moral de la expedición se ha quebrado.")
-	_add_button("Continuar", func(): _finish("fail", reason)).grab_focus()
+	_overlay.open()
+	_overlay.title(T.t("ui.fail.title"), UITheme.BAD)
+	_overlay.body(T.t("ui.fail.oxygen" if reason == "oxygen" else "ui.fail.morale"))
+	_overlay.button(T.t("ui.continue"), func(): finished.emit({"result": "fail", "reason": reason})).grab_focus()
 
 
 func _confirm_abort() -> void:
-	if _overlay.visible:
+	if _overlay.is_open():
 		return
-	_open_overlay()
-	_overlay_box.add_child(UITheme.label("¿Abortar la misión?", UITheme.WARN, 16))
-	_add_body("Serás evacuado a la Meridiana. La misión quedará incompleta.")
-	_add_button("Sí, abortar", func(): _finish("abort")).grab_focus()
-	_add_button("Seguir explorando", _close_overlay)
+	_overlay.open()
+	_overlay.title(T.t("ui.abort.title"), UITheme.WARN)
+	_overlay.body(T.t("ui.abort.body"))
+	_overlay.button(T.t("ui.abort.yes"), func(): _conclude("abort")).grab_focus()
+	_overlay.button(T.t("ui.abort.no"), _overlay.close)
 
 
-func _finish(result: String, reason := "") -> void:
-	finished.emit({"result": result, "reason": reason})
+## Cierra la salida con un pequeño epílogo del planeta.
+func _conclude(result: String) -> void:
+	var pid: String = planet["id"]
+	_overlay.open()
+	if result == "success":
+		_overlay.title(T.t("ui.planet.done"), UITheme.GOOD)
+		_overlay.body(T.t("planet.%s.outro_success" % pid))
+	else:
+		_overlay.title(T.t("ui.planet.aborted"), UITheme.WARN)
+		_overlay.body(T.t("planet.%s.outro_abort" % pid))
+	_overlay.button(T.t("ui.continue"), func(): finished.emit({"result": result, "reason": ""})).grab_focus()

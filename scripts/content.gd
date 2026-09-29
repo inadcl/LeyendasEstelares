@@ -1,20 +1,32 @@
 extends Node
 ## Carga los datos del juego (res://data/*.json) y los valida (autoload "Content").
+## Los JSON solo contienen mecánica; todo el texto sale de las traducciones por clave convencional
+## (ver text_keys()).
 
-const VALID_EFFECTS := ["oxygen", "morale", "data", "rep", "set_flags"]
-const VALID_REQUIRES := ["trait", "flag", "any_flag", "not_flag", "hint"]
-const VALID_TYPES := ["signal", "ruins", "wreck", "life", "beacon"]
+const VALID_EFFECTS := ["oxygen", "morale", "data", "fuel", "scans", "rep", "set_flags"]
+const VALID_CONTACT_EFFECTS := ["trust", "tension", "oxygen", "morale", "data", "fuel", "scans", "rep", "set_flags"]
+const VALID_REQUIRES := ["trait", "flag", "any_flag", "not_flag", "min_data"]
+const VALID_TYPES := ["signal", "ruins", "wreck", "life", "beacon", "anomaly"]
+const VALID_BIOMES := ["frost", "dust", "verdant"]
+const STANCES := ["open", "careful", "firm", "deceive"]
+const OUTCOMES := ["alliance", "deal", "hostile", "wary"]
 
 var avatars: Array = []
 var planets: Array = []
 var events := {}  # id -> evento
 var factions := {}
+var species: Array = []
+var encounters: Array = []
+var campaign := {}
 
 
 func _init() -> void:
 	avatars = _read("res://data/avatars.json")
 	planets = _read("res://data/planets.json")
 	factions = _read("res://data/factions.json")
+	species = _read("res://data/species.json")
+	encounters = _read("res://data/encounters.json")
+	campaign = _read("res://data/campaign.json")
 	for e in _read("res://data/events.json"):
 		events[e["id"]] = e
 
@@ -26,11 +38,95 @@ func avatar_by_id(id: String) -> Dictionary:
 	return {}
 
 
+func planet_by_id(id: String) -> Dictionary:
+	for p in planets:
+		if p["id"] == id:
+			return p
+	return {}
+
+
+func species_by_id(id: String) -> Dictionary:
+	for s in species:
+		if s["id"] == id:
+			return s
+	return {}
+
+
+func encounter_for(species_id: String) -> Dictionary:
+	for e in encounters:
+		if e["species"] == species_id:
+			return e
+	return {}
+
+
+## ¿Alguna rama del evento aporta esta clave de efecto en positivo? (p. ej. "fuel" para el escáner)
+func event_gives(event_id: String, key: String) -> bool:
+	for c in events[event_id].get("choices", []):
+		var branches: Array = []
+		if c.has("risk"):
+			branches = [c["risk"]["success"], c["risk"]["fail"]]
+		elif c.has("result"):
+			branches = [c["result"]]
+		for b in branches:
+			if int(b.get("effects", {}).get(key, 0)) > 0:
+				return true
+	return false
+
+
 func _read(path: String) -> Variant:
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
 	if parsed == null:
 		push_error("JSON inválido o ausente: %s" % path)
 	return parsed
+
+
+func _branches(c: Dictionary) -> Array:
+	if c.has("risk"):
+		return [["ok", c["risk"].get("success", {})], ["fail", c["risk"].get("fail", {})]]
+	return [["res", c.get("result", {})]]
+
+
+## Todas las claves de traducción que exigen los datos (por convención de nombres).
+func text_keys() -> Array[String]:
+	var keys: Array[String] = []
+	for id in factions:
+		keys.append("faction." + id)
+	for a in avatars:
+		for s in ["name", "role", "desc", "perk"]:
+			keys.append("avatar.%s.%s" % [a["id"], s])
+	for p in planets:
+		for s in ["name", "intro", "outro_success", "outro_abort"]:
+			keys.append("planet.%s.%s" % [p["id"], s])
+		for f in p.get("epilogues", []):
+			keys.append("planet.%s.epilogue.%s" % [p["id"], f])
+	for sp in species:
+		for s in ["name", "desc"]:
+			keys.append("species.%s.%s" % [sp["id"], s])
+	for id in events:
+		var e: Dictionary = events[id]
+		keys.append("event.%s.title" % id)
+		keys.append("event.%s.text" % id)
+		for i in e["choices"].size():
+			var c: Dictionary = e["choices"][i]
+			keys.append("event.%s.c%d.text" % [id, i])
+			if c.has("requires"):
+				keys.append("event.%s.c%d.hint" % [id, i])
+			for b in _branches(c):
+				keys.append("event.%s.c%d.%s" % [id, i, b[0]])
+	for enc in encounters:
+		var id: String = enc["id"]
+		keys.append("contact.%s.intro" % id)
+		for o in OUTCOMES:
+			keys.append("contact.%s.out.%s" % [id, o])
+		for x in enc["exchanges"].size():
+			keys.append("contact.%s.x%d.prompt" % [id, x])
+			for i in enc["exchanges"][x]["options"].size():
+				var opt: Dictionary = enc["exchanges"][x]["options"][i]
+				keys.append("contact.%s.x%d.o%d" % [id, x, i])
+				keys.append("contact.%s.x%d.o%d.reply" % [id, x, i])
+				if opt.has("requires"):
+					keys.append("contact.%s.x%d.o%d.hint" % [id, x, i])
+	return keys
 
 
 ## Lista de problemas de coherencia en los datos (vacía si todo está bien).
@@ -44,53 +140,104 @@ func validate() -> Array[String]:
 		if e.get("choices", []).size() < 2:
 			errors.append("%s: necesita al menos 2 opciones" % id)
 		for i in e.get("choices", []).size():
-			var c: Dictionary = e["choices"][i]
-			var where := "%s[%d]" % [id, i]
-			if not c.has("text"):
-				errors.append("%s: sin texto" % where)
-			if c.has("risk") == c.has("result"):
-				errors.append("%s: debe tener exactamente uno de risk/result" % where)
-			var branches: Array = []
-			if c.has("risk"):
-				var chance: float = c["risk"].get("chance", -1.0)
-				if chance < 0.0 or chance > 1.0:
-					errors.append("%s: chance fuera de rango" % where)
-				branches = [c["risk"].get("success", {}), c["risk"].get("fail", {})]
-			elif c.has("result"):
-				branches = [c["result"]]
-			for b in branches:
-				if not b.has("text"):
-					errors.append("%s: rama sin texto" % where)
-				for k in b.get("effects", {}):
-					if not (k in VALID_EFFECTS):
+			_validate_choice(e["choices"][i], "%s[%d]" % [id, i], VALID_EFFECTS, errors, set_flags, true)
+	for enc in encounters:
+		if species_by_id(enc.get("species", "")).is_empty():
+			errors.append("encuentro %s: especie inexistente" % enc.get("id", "?"))
+		for o in OUTCOMES:
+			if not enc.get("outcomes", {}).has(o):
+				errors.append("encuentro %s: falta el desenlace %s" % [enc.get("id", "?"), o])
+		for o in enc.get("outcomes", {}):
+			for k in enc["outcomes"][o].get("effects", {}):
+				if not (k in VALID_EFFECTS):
+					errors.append("encuentro %s/%s: efecto desconocido '%s'" % [enc["id"], o, k])
+			for f in enc["outcomes"][o].get("effects", {}).get("set_flags", []):
+				set_flags[f] = true
+		for x in enc.get("exchanges", []).size():
+			for i in enc["exchanges"][x]["options"].size():
+				var opt: Dictionary = enc["exchanges"][x]["options"][i]
+				var where := "%s.x%d.o%d" % [enc["id"], x, i]
+				if not (opt.get("stance", "") in STANCES):
+					errors.append("%s: postura inválida" % where)
+				for k in opt.get("effects", {}):
+					if not (k in VALID_CONTACT_EFFECTS):
 						errors.append("%s: efecto desconocido '%s'" % [where, k])
-				for f in b.get("effects", {}).get("set_flags", []):
-					set_flags[f] = true
-				for fac in b.get("effects", {}).get("rep", {}):
-					if not factions.has(fac):
-						errors.append("%s: facción desconocida '%s'" % [where, fac])
-			for k in c.get("requires", {}):
-				if not (k in VALID_REQUIRES):
-					errors.append("%s: requisito desconocido '%s'" % [where, k])
-			if c.has("tag") and not _any_avatar_has_trait(c["tag"]):
-				errors.append("%s: ningún avatar tiene el rasgo '%s'" % [where, c["tag"]])
+				for k in opt.get("requires", {}):
+					if not (k in VALID_REQUIRES):
+						errors.append("%s: requisito desconocido '%s'" % [where, k])
+	for sp in species:
+		for s in STANCES:
+			if not sp.get("stance_effects", {}).has(s):
+				errors.append("especie %s: falta postura %s" % [sp["id"], s])
+		if encounter_for(sp["id"]).is_empty():
+			errors.append("especie %s: sin encuentro" % sp["id"])
 	# Los flags exigidos deben poder activarse en algún sitio.
+	var required: Array = []
 	for id in events:
 		for c in events[id].get("choices", []):
-			var req: Dictionary = c.get("requires", {})
-			var needed: Array = req.get("any_flag", []).duplicate()
-			if req.has("flag"):
-				needed.append(req["flag"])
-			for f in needed:
-				if not set_flags.has(f):
-					errors.append("%s: el flag '%s' nunca se activa" % [id, f])
+			required.append(c.get("requires", {}))
+	for enc in encounters:
+		for ex in enc.get("exchanges", []):
+			for opt in ex["options"]:
+				required.append(opt.get("requires", {}))
+	for req in required:
+		var needed: Array = req.get("any_flag", []).duplicate()
+		if req.has("flag"):
+			needed.append(req["flag"])
+		for f in needed:
+			if not set_flags.has(f):
+				errors.append("el flag '%s' nunca se activa" % f)
 	for p in planets:
+		var pid: String = p.get("id", "?")
+		if not (p.get("biome", "") in VALID_BIOMES):
+			errors.append("planeta %s: bioma inválido" % pid)
 		for id in p.get("event_pool", []) + [p.get("beacon_event", "")]:
 			if not events.has(id):
-				errors.append("planeta %s: evento inexistente '%s'" % [p.get("id", "?"), id])
+				errors.append("planeta %s: evento inexistente '%s'" % [pid, id])
 		if p.get("event_pool", []).size() < int(p.get("poi_count", 6)):
-			errors.append("planeta %s: el pool tiene menos eventos que poi_count" % p.get("id", "?"))
+			errors.append("planeta %s: el pool tiene menos eventos que poi_count" % pid)
+	# Campaña
+	var mid := 0
+	var cols: Array = campaign.get("columns", [])
+	for c in range(1, cols.size() - 1):
+		mid += int(cols[c])
+	var n_planets: int = campaign.get("intermediate_planets", []).size()
+	if mid != n_planets + campaign.get("species", []).size() + int(campaign.get("anomalies", 0)):
+		errors.append("campaña: los nodos intermedios no cuadran con planetas + contactos + anomalías")
+	if campaign.get("anomaly_pool", []).size() < int(campaign.get("anomalies", 0)):
+		errors.append("campaña: pocas anomalías en el pool")
+	for id in campaign.get("anomaly_pool", []):
+		if not events.has(id) or events[id]["type"] != "anomaly":
+			errors.append("campaña: '%s' no es una anomalía" % id)
+	if planet_by_id(campaign.get("final_planet", "")).is_empty():
+		errors.append("campaña: planeta final inexistente")
+	for id in campaign.get("intermediate_planets", []):
+		if planet_by_id(id).is_empty():
+			errors.append("campaña: planeta intermedio inexistente '%s'" % id)
 	return errors
+
+
+func _validate_choice(c: Dictionary, where: String, valid_effects: Array, errors: Array[String], set_flags: Dictionary, _is_event: bool) -> void:
+	if c.has("risk") == c.has("result"):
+		errors.append("%s: debe tener exactamente uno de risk/result" % where)
+	if c.has("risk"):
+		var chance: float = c["risk"].get("chance", -1.0)
+		if chance < 0.0 or chance > 1.0:
+			errors.append("%s: chance fuera de rango" % where)
+	for b in _branches(c):
+		for k in b[1].get("effects", {}):
+			if not (k in valid_effects):
+				errors.append("%s: efecto desconocido '%s'" % [where, k])
+		for f in b[1].get("effects", {}).get("set_flags", []):
+			set_flags[f] = true
+		for fac in b[1].get("effects", {}).get("rep", {}):
+			if not factions.has(fac):
+				errors.append("%s: facción desconocida '%s'" % [where, fac])
+	for k in c.get("requires", {}):
+		if not (k in VALID_REQUIRES):
+			errors.append("%s: requisito desconocido '%s'" % [where, k])
+	if c.has("tag") and not _any_avatar_has_trait(c["tag"]):
+		errors.append("%s: ningún avatar tiene el rasgo '%s'" % [where, c["tag"]])
 
 
 func _any_avatar_has_trait(t: String) -> bool:

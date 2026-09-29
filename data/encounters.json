@@ -1,0 +1,293 @@
+[
+	{
+		"id": "vael_eco",
+		"species": "vael",
+		"exchanges": [
+			{
+				"options": [
+					{
+						"stance": "open"
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm"
+					},
+					{
+						"stance": "deceive"
+					}
+				]
+			},
+			{
+				"options": [
+					{
+						"stance": "open"
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm"
+					}
+				]
+			},
+			{
+				"options": [
+					{
+						"stance": "open",
+						"effects": {
+							"data": -2,
+							"trust": 1
+						},
+						"requires": {
+							"min_data": 2
+						}
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm"
+					},
+					{
+						"stance": "open",
+						"effects": {
+							"trust": 2,
+							"tension": -1
+						},
+						"requires": {
+							"flag": "vael_contacto"
+						}
+					}
+				]
+			}
+		],
+		"outcomes": {
+			"alliance": {
+				"min_trust": 7,
+				"max_tension": 3,
+				"effects": {
+					"data": 3,
+					"scans": 2,
+					"rep": {
+						"vael": 2
+					},
+					"set_flags": [
+						"vael_contacto",
+						"mapa_vael"
+					]
+				}
+			},
+			"deal": {
+				"min_trust": 4,
+				"max_tension": 5,
+				"effects": {
+					"data": 2,
+					"rep": {
+						"vael": 1
+					},
+					"set_flags": [
+						"mapa_vael"
+					]
+				}
+			},
+			"hostile": {
+				"min_tension": 7,
+				"effects": {
+					"scans": -1,
+					"morale": -1,
+					"rep": {
+						"vael": -2
+					}
+				}
+			},
+			"wary": {
+				"effects": {}
+			}
+		}
+	},
+	{
+		"id": "hallen_gremio",
+		"species": "hallen",
+		"exchanges": [
+			{
+				"options": [
+					{
+						"stance": "open"
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm"
+					},
+					{
+						"stance": "deceive"
+					}
+				]
+			},
+			{
+				"options": [
+					{
+						"stance": "open",
+						"effects": {
+							"data": -2,
+							"trust": 1
+						},
+						"requires": {
+							"min_data": 2
+						}
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm",
+						"effects": {
+							"tension": 1
+						}
+					}
+				]
+			},
+			{
+				"options": [
+					{
+						"stance": "open",
+						"effects": {
+							"trust": 1
+						}
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm",
+						"effects": {
+							"tension": 1
+						}
+					}
+				]
+			}
+		],
+		"outcomes": {
+			"alliance": {
+				"min_trust": 7,
+				"max_tension": 3,
+				"effects": {
+					"fuel": 4,
+					"scans": 2,
+					"set_flags": [
+						"gremio_amigo"
+					]
+				}
+			},
+			"deal": {
+				"min_trust": 5,
+				"max_tension": 5,
+				"effects": {
+					"fuel": 3,
+					"scans": 1
+				}
+			},
+			"hostile": {
+				"min_tension": 7,
+				"effects": {
+					"fuel": -1,
+					"morale": -1
+				}
+			},
+			"wary": {
+				"effects": {}
+			}
+		}
+	},
+	{
+		"id": "draeth_patrulla",
+		"species": "draeth",
+		"exchanges": [
+			{
+				"options": [
+					{
+						"stance": "open"
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm"
+					},
+					{
+						"stance": "deceive"
+					}
+				]
+			},
+			{
+				"options": [
+					{
+						"stance": "open",
+						"effects": {
+							"data": -1,
+							"trust": 1
+						}
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm",
+						"effects": {
+							"tension": 1
+						}
+					}
+				]
+			},
+			{
+				"options": [
+					{
+						"stance": "open"
+					},
+					{
+						"stance": "careful"
+					},
+					{
+						"stance": "firm"
+					}
+				]
+			}
+		],
+		"outcomes": {
+			"alliance": {
+				"min_trust": 7,
+				"max_tension": 3,
+				"effects": {
+					"fuel": 2,
+					"morale": 2,
+					"rep": {
+						"concordato": 1
+					},
+					"set_flags": [
+						"draeth_respeto"
+					]
+				}
+			},
+			"deal": {
+				"min_trust": 4,
+				"max_tension": 5,
+				"effects": {
+					"morale": 1
+				}
+			},
+			"hostile": {
+				"min_tension": 7,
+				"effects": {
+					"fuel": -2,
+					"morale": -2
+				}
+			},
+			"wary": {
+				"effects": {}
+			}
+		}
+	}
+]

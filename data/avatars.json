@@ -1,22 +1,18 @@
 [
 	{
 		"id": "vance",
-		"name": "Dra. Iria Vance",
-		"role": "Xenobióloga y analista",
-		"desc": "Analiza antes de actuar. Los sistemas complejos le resultan legibles, aunque le cuesta ceder ante lo que no entiende.",
-		"perk": "+20% en acciones científicas",
-		"traits": ["ciencia"],
+		"traits": [
+			"ciencia"
+		],
 		"max_oxygen": 40,
 		"max_morale": 9,
 		"sprite": "avatar_vance"
 	},
 	{
 		"id": "okafor",
-		"name": "Cmdte. Tomás Okafor",
-		"role": "Oficial de primer contacto",
-		"desc": "Veinte años negociando en fronteras sin mapa. Prefiere escuchar dos veces antes de hablar una.",
-		"perk": "+20% en acciones diplomáticas",
-		"traits": ["diplomacia"],
+		"traits": [
+			"diplomacia"
+		],
 		"max_oxygen": 36,
 		"max_morale": 12,
 		"sprite": "avatar_okafor"

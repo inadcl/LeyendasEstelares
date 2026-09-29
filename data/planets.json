@@ -1,24 +1,64 @@
 [
 	{
+		"id": "kaelora",
+		"biome": "dust",
+		"poi_count": 5,
+		"max_beacon_cost": 20,
+		"beacon_event": "torre_caida",
+		"event_pool": [
+			"senal_periodica",
+			"sonda_perdida",
+			"campamento_minero",
+			"caravana_varada",
+			"nido_de_arena",
+			"radiofaro_duna"
+		],
+		"epilogues": [
+			"torre_reparada",
+			"torre_saqueada"
+		]
+	},
+	{
+		"id": "nerea",
+		"biome": "verdant",
+		"poi_count": 5,
+		"max_beacon_cost": 20,
+		"beacon_event": "jardin_central",
+		"event_pool": [
+			"colonia_liquenes",
+			"ser_de_cristal",
+			"bosque_luminoso",
+			"templo_sumergido",
+			"pecio_orbital",
+			"voces_en_la_niebla"
+		],
+		"epilogues": [
+			"jardin_protegido",
+			"jardin_cosechado"
+		]
+	},
+	{
 		"id": "tessarine",
-		"name": "Tessarine IV",
-		"seed": 4127,
+		"biome": "frost",
 		"poi_count": 6,
 		"max_beacon_cost": 22,
 		"beacon_event": "baliza_central",
 		"event_pool": [
-			"senal_periodica", "eco_de_baliza", "camara_sellada", "murales_vael",
-			"sonda_perdida", "nave_expedicionaria", "colonia_liquenes", "ser_de_cristal"
+			"senal_periodica",
+			"eco_de_baliza",
+			"camara_sellada",
+			"murales_vael",
+			"sonda_perdida",
+			"nave_expedicionaria",
+			"colonia_liquenes",
+			"ser_de_cristal"
 		],
-		"intro": "Tessarine IV es una luna rocosa sin atmósfera respirable. Hace tres días la Meridiana captó un pulso de tres tonos, repetido cada once segundos, procedente de una estructura artificial anterior a cualquier registro del Concordato.\n\nDescenderás con reservas limitadas de oxígeno. Explora, decide con criterio y regresa a la nave. El Concordato exige información, pero también que la tripulación vuelva.",
-		"outro_success": "Regresas a la Meridiana con el traje al límite y el registro completo de la expedición. En el puente, nadie habla mientras se cargan los datos.",
-		"outro_abort": "Ordenas la evacuación antes de completar la misión. La Meridiana te recoge sin preguntas; el informe, sin embargo, quedará incompleto.",
 		"epilogues": [
-			{"flag": "baliza_dialogo", "text": "Los Vael, transformados en luz, han abierto un canal permanente con la Meridiana."},
-			{"flag": "baliza_mapa", "text": "La baliza ha revelado rutas estelares desconocidas para el Concordato."},
-			{"flag": "baliza_apagada", "text": "Cumpliste la orden de silenciar la baliza. El pulso de tres tonos ya no suena en Tessarine IV."},
-			{"flag": "colonia_danada", "text": "La colonia de filamentos de la ladera no se ha vuelto a encender."},
-			{"flag": "respeto_vael", "text": "Dejaste intacta la cámara sellada. Es posible que alguien lo haya notado."}
+			"baliza_dialogo",
+			"baliza_mapa",
+			"baliza_apagada",
+			"colonia_danada",
+			"respeto_vael"
 		]
 	}
 ]

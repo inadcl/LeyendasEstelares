@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3rat1scrm45b"
-path="res://.godot/imported/tile_llanura.png-5caf8d7f91df988f774c6196f42c76ac.ctex"
+uid="uid://bm3olqhdiww8v"
+path="res://.godot/imported/node_anomaly.png-bd500001cfee7ac24ac192a4b90e9c32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/tile_llanura.png"
-dest_files=["res://.godot/imported/tile_llanura.png-5caf8d7f91df988f774c6196f42c76ac.ctex"]
+source_file="res://art/node_anomaly.png"
+dest_files=["res://.godot/imported/node_anomaly.png-bd500001cfee7ac24ac192a4b90e9c32.ctex"]
 
 [params]
 

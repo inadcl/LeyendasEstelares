@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d23acjgxw55yh"
-path="res://.godot/imported/tile_grieta.png-cf020b7f3634d553d05fb7d327eb75d5.ctex"
+uid="uid://bj6imop5jy86k"
+path="res://.godot/imported/tile_dust_hielo.png-2cbb41e1ea63b76619410cf1838f85d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/tile_grieta.png"
-dest_files=["res://.godot/imported/tile_grieta.png-cf020b7f3634d553d05fb7d327eb75d5.ctex"]
+source_file="res://art/tile_dust_hielo.png"
+dest_files=["res://.godot/imported/tile_dust_hielo.png-2cbb41e1ea63b76619410cf1838f85d9.ctex"]
 
 [params]
 

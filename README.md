@@ -1,61 +1,98 @@
-# Leyendas Estelares
+# Leyendas Estelares / Stellar Legends
 
-Mini juego open source de **exploración espacial narrativa**, hecho con [Godot 4.3](https://godotengine.org) (multiplataforma).
+Mini juego open source de **exploración espacial narrativa** hecho con [Godot](https://godotengine.org) 4 (multiplataforma).
+Disponible en **español e inglés** (cambio de idioma desde el título).
 
-Eliges a un viajero espacial, aterrizas en un planeta y exploras su superficie casilla a casilla
-(mapa hexagonal con niebla, al estilo *The Curious Expedition*). Cada punto de interés plantea una situación
-breve con 2–4 decisiones concretas: algunas arriesgadas, otras bloqueadas según tu perfil o tus actos
-anteriores. Tono serio, de ciencia ficción exploratoria: primer contacto, dilemas éticos, prudencia.
+Capitanea la nave *Meridiana* a través de un sector desconocido, siguiendo un pulso de tres tonos hasta su origen.
+Decides a dónde saltar, hablas con otras formas de vida y exploras la superficie de los planetas.
+Tono serio, de ciencia ficción exploratoria: primer contacto, dilemas éticos, prudencia.
 
 ## Cómo se juega
 
-- **Recursos:** oxígeno (cada paso cuesta según el terreno), moral y datos científicos.
-- **Objetivo:** llegar a la baliza del planeta y **volver a la nave** antes de quedarte sin aire.
-- **Decisiones:** las opciones muestran su probabilidad de éxito; el rasgo de tu avatar da +20% en su especialidad.
-- **Consecuencias:** tus actos activan banderas y cambian tu reputación con las facciones (Concordato, Vael),
-  lo que abre o cierra opciones más adelante y cambia el epílogo.
+El juego tiene tres capas:
+
+1. **Mapa estelar (estilo *FTL*).** Cada salto gasta **combustible** (las rutas largas cuestan 2). Los nodos
+   aparecen como «?» hasta que los **escaneas**: un escaneo revela el tipo de nodo y qué hay en un planeta
+   (ruinas, señales, restos, vida, combustible). Si te quedas sin combustible lejos del destino, la campaña termina.
+2. **Comunicaciones de primer contacto.** Tres especies con valores distintos: los **Vael** (franqueza),
+   el **Gremio de Hallen** (cautela) y el **Dominio Draeth** (firmeza). Cada respuesta es una *postura*
+   (abierta, cauta, firme, engañosa) que sube o baja **confianza** y **tensión**. Según las barras
+   terminas en alianza, acuerdo, distancia prudente u hostilidad. La Dra. Vance analiza qué valora cada especie;
+   el Cmdte. Okafor templa la tensión.
+3. **Exploración de planetas** (estilo *The Curious Expedition*). Mapa hexagonal con niebla, oxígeno que se
+   gasta según el terreno, puntos de interés con decisiones (a veces arriesgadas) y un objetivo que alcanzar
+   antes de volver a la nave.
+
+Lo que haces en una capa afecta a las otras: banderas y reputación (Concordato, Vael) abren o cierran opciones
+más adelante y cambian el epílogo.
+
+**Controles:** ratón (clic) en todo; en el mapa de superficie también teclado: `Q` `E` (arriba), `A` `D` (lados),
+`Z` `C` (abajo). En los menús, las flechas y Enter.
 
 ## Ejecutar
 
-1. Abre la carpeta con Godot 4.3 o superior (probado en 4.3 y 4.7) y pulsa *Play*, o desde terminal: `godot --path .`
-   Controles: clic en un hexágono resaltado, o teclas Q E (arriba) · A D (lados) · Z C (abajo).
-2. El arte ya está generado en `art/`. Para regenerarlo: `python3 tools/gen_art.py`
+Necesitas Godot 4.3 o superior (probado en 4.3 y 4.7).
+
+```
+godot --path . --import      # solo la primera vez (o abre el proyecto una vez en el editor)
+godot --path .
+```
+
+Desde el editor: abre `project.godot` y pulsa *Play* (F5).
+
+## Traducciones
+
+Todos los textos están en **`translations/strings.csv`** (formato estándar de Godot: `keys,en,es`).
+Los JSON de `data/` solo contienen mecánica; el texto se busca por claves con nombre convencional:
+
+| Texto | Clave |
+|---|---|
+| Evento | `event.<id>.title`, `.text`, `.c<i>.text`, `.c<i>.ok` / `.fail` / `.res`, `.c<i>.hint` |
+| Encuentro | `contact.<id>.intro`, `.x<n>.prompt`, `.x<n>.o<i>`, `.x<n>.o<i>.reply`, `.out.<desenlace>` |
+| Planeta, avatar, especie | `planet.<id>.name/intro/...`, `avatar.<id>.name/...`, `species.<id>.name/desc` |
+| Interfaz | `ui.*`, `fx.*`, `ending.*` |
+
+Los parámetros se escriben `{nombre}`. En el código se usa `T.t("clave", {"nombre": valor})`.
+
+**Añadir un idioma:** añade una columna con su código (p. ej. `fr`) al CSV y una entrada en `T.LANGUAGES`
+(`scripts/t.gd`). Las pruebas avisan de cualquier clave sin traducir, parámetros que no coinciden entre idiomas
+y claves sin uso.
 
 ## Pruebas
 
 ```
-godot --headless --path . --import          # solo la primera vez
-godot --headless --path . res://tests/run_tests.tscn   # lógica y bot
-godot --headless --path . res://tests/ui_test.tscn    # clic y teclado reales
+godot --headless --path . res://tests/run_tests.tscn   # lógica, datos, traducciones y bots de campaña
+godot --headless --path . res://tests/ui_test.tscn      # recorre la interfaz con clics y teclas reales
 ```
 
-Valida los datos, la geometría hexagonal, la generación de mapas (300 semillas) y simula partidas
-completas con un bot usando el mismo motor que la interfaz.
-
-Capturas de pantalla (requiere display, p. ej. `xvfb-run`):
-`godot --path . res://tests/screenshot.tscn -- /ruta/salida`
+`run_tests` valida datos y traducciones, genera cientos de mapas y sectores, comprueba las conversaciones y
+simula campañas completas con un bot usando el mismo motor que la interfaz.
+Capturas (requiere display, p. ej. `xvfb-run`): `godot --path . res://tests/screenshot.tscn -- /ruta [en|es]`.
 
 ## Estructura
 
 | Ruta | Contenido |
 |---|---|
-| `data/` | Avatares, facciones, planetas y **eventos** en JSON (añadir contenido no requiere tocar código) |
-| `scripts/` | Lógica pura (`planet_data`, `expedition`, `event_runner`, `game_state`) y UI (`scripts/ui/`) |
-| `art/` | Pixel art placeholder generado por `tools/gen_art.py`; se puede sustituir por arte propio |
-| `tests/` | Pruebas headless y capturas |
+| `data/` | Mecánica en JSON: avatares, facciones, planetas, eventos, especies, encuentros, campaña |
+| `translations/` | `strings.csv`: todos los textos (en, es) |
+| `scripts/` | Lógica pura (`sector_data`, `campaign`, `planet_data`, `expedition`, `event_runner`, `contact_runner`, `game_state`) y UI (`scripts/ui/`) |
+| `shaders/` | Viñeta y efecto de comunicación |
+| `art/` | Pixel art placeholder generado por `tools/gen_art.py` (se puede sustituir por arte propio) |
+| `tests/` | Pruebas headless, prueba de UI y capturas |
 
-### Añadir un evento
+### Añadir contenido
 
-Edita `data/events.json` y añade su id al `event_pool` del planeta en `data/planets.json`.
-Cada opción tiene o bien `result` (determinista) o bien `risk` (`chance`, `success`, `fail`), y opcionalmente
-`tag` (rasgo que da ventaja) y `requires` (`trait`, `flag`, `any_flag`, `not_flag`, `hint`).
-Efectos: `oxygen`, `morale`, `data`, `rep`, `set_flags`. Las pruebas detectan errores de coherencia.
+- **Evento:** añádelo a `data/events.json` (cada opción tiene `result` o `risk`; opcional `tag` y `requires`),
+  escribe sus textos en el CSV y añade su id al `event_pool` de un planeta o a `anomaly_pool` en `data/campaign.json`.
+- **Encuentro:** añádelo a `data/encounters.json` con su especie, intercambios y desenlaces (`data/species.json`
+  define cómo reacciona cada especie a cada postura).
+- Regenerar el arte: `python3 tools/gen_art.py`.
 
 ## Hoja de ruta
 
-- [x] Fase 1: núcleo (mapa hexagonal, recursos, niebla, eventos con decisiones, 2 avatares, 1 planeta)
-- [ ] Fase 2: más eventos, encuentros con facciones, objetos
-- [ ] Fase 3: campaña con varios planetas y mapa estelar; estado persistente entre ellos
+- [x] Fase 1: exploración de planetas (mapa hexagonal, recursos, eventos con decisiones)
+- [x] Fase 2: mapa estelar con combustible y escaneos, 3 especies con comunicaciones, 3 planetas con biomas, español/inglés
+- [ ] Fase 3: tripulación (los avatares como equipo), objetos y comercio con las especies
 - [ ] Fase 4: arte propio, sonido y pulido; exportaciones (PC, móvil, web)
 
 ## Licencia

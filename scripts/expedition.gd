@@ -45,8 +45,9 @@ func event_of(poi: Dictionary) -> Dictionary:
 	return events[poi["event_id"]]
 
 
-func resolve_choice(poi: Dictionary, choice: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
-	var result := EventRunner.resolve(choice, state, rng)
+func resolve_choice(poi: Dictionary, index: int, rng: RandomNumberGenerator) -> Dictionary:
+	var choice: Dictionary = event_of(poi)["choices"][index]
+	var result := EventRunner.resolve(poi["event_id"], index, choice, state, rng)
 	poi["resolved"] = true
 	if poi["objective"]:
 		objective_done = true

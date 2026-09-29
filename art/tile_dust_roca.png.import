@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp3tm7tjb22y5"
-path="res://.godot/imported/tile_crater.png-d0ea6d718c0254dffdb313200cb5b8a6.ctex"
+uid="uid://jlrurylyovxn"
+path="res://.godot/imported/tile_dust_roca.png-7d7342cffdf22244896c2b31bcace98e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/tile_crater.png"
-dest_files=["res://.godot/imported/tile_crater.png-d0ea6d718c0254dffdb313200cb5b8a6.ctex"]
+source_file="res://art/tile_dust_roca.png"
+dest_files=["res://.godot/imported/tile_dust_roca.png-7d7342cffdf22244896c2b31bcace98e.ctex"]
 
 [params]
 

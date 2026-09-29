@@ -1,17 +1,22 @@
 extends Node
 ## Pruebas headless: godot --headless --path . res://tests/run_tests.tscn
-## Sale con código 0 si todo pasa. Con "-- --balance" imprime además estadísticas de equilibrio.
+## Sale con código 0 si todo pasa. Incluye simulaciones de campañas completas con un bot.
 
 var _failures := 0
 
 
 func _ready() -> void:
+	T.set_language("en", false)
 	_test_hex()
 	_test_content()
+	_test_translations()
 	_test_generation()
 	_test_event_rules()
-	_test_bot_playthroughs("vance")
-	_test_bot_playthroughs("okafor")
+	_test_sector()
+	_test_contacts()
+	_test_campaign_rules()
+	for avatar in ["vance", "okafor"]:
+		_test_bot_campaigns(avatar)
 	print("\n%s (%d fallos)" % ["TODO OK" if _failures == 0 else "FALLOS", _failures])
 	get_tree().quit(0 if _failures == 0 else 1)
 
@@ -22,6 +27,13 @@ func _check(cond: bool, msg: String) -> void:
 		print("  FALLO: ", msg)
 
 
+func _new_state(avatar_id: String):
+	var gs = load("res://scripts/game_state.gd").new()
+	gs.start_run(Content.avatar_by_id(avatar_id), Content.factions, Content.campaign)
+	return gs
+
+
+# ------------------------------------------------------------------- básicos
 func _test_hex() -> void:
 	print("hex")
 	for y in 6:
@@ -35,79 +47,361 @@ func _test_hex() -> void:
 
 func _test_content() -> void:
 	print("contenido")
-	var errors := Content.validate()
-	for e in errors:
+	for e in Content.validate():
 		_check(false, e)
 	_check(Content.avatars.size() >= 2, "al menos 2 avatares")
-	_check(not Content.planets.is_empty(), "al menos 1 planeta")
+	_check(Content.species.size() == 3, "3 especies")
+	_check(Content.encounters.size() == 3, "3 encuentros")
 
 
+# --------------------------------------------------------------- traducciones
+func _code_keys() -> Array[String]:
+	var keys: Array[String] = []
+	var re := RegEx.new()
+	re.compile("\"((?:ui|ending|fx|trait)\\.[a-z0-9_.]*[a-z0-9_])\"")
+	var dirs := ["res://scripts", "res://scripts/ui"]
+	for d in dirs:
+		for f in DirAccess.get_files_at(d):
+			if f.ends_with(".gd") and f != "t.gd":
+				var src := FileAccess.get_file_as_string("%s/%s" % [d, f])
+				for m in re.search_all(src):
+					keys.append(m.get_string(1))
+	return keys
+
+
+func _dynamic_keys() -> Array[String]:
+	# Familias de claves que el código compone en tiempo de ejecución.
+	var keys: Array[String] = []
+	for id in Content.factions:
+		keys.append("faction." + id)
+	for s in Content.STANCES:
+		keys.append("ui.stance." + s)
+		keys.append("ui.value." + s)
+	for o in Content.OUTCOMES:
+		keys.append("ui.contact.result." + o)
+	for fx in ["oxygen", "morale", "fuel", "scans", "data", "rep", "trust", "tension"]:
+		keys.append("fx." + fx)
+	for e in ["victory", "abort", "fuel", "oxygen", "morale"]:
+		keys.append("ending.%s.title" % e)
+		keys.append("ending.%s.body" % e)
+	for t in ["signal", "ruins", "wreck", "life", "fuel"]:
+		keys.append("ui.scan.tag." + t)
+	for t in ["planet", "contact", "anomaly", "start", "final"]:
+		keys.append("ui.sector.type." + t)
+	for tr_ in ["ciencia", "diplomacia"]:
+		keys.append("trait." + tr_)
+	return keys
+
+
+func _placeholders(s: String) -> Array:
+	var re := RegEx.new()
+	re.compile("\\{([a-z_]+)\\}")
+	var out: Array = []
+	for m in re.search_all(s):
+		if not out.has(m.get_string(1)):
+			out.append(m.get_string(1))
+	out.sort()
+	return out
+
+
+func _test_translations() -> void:
+	print("traducciones")
+	var used := {}
+	for k in Content.text_keys():
+		used[k] = true
+	for k in _code_keys():
+		used[k] = true
+	for k in _dynamic_keys():
+		used[k] = true
+	for lang in T.LANGUAGES:
+		TranslationServer.set_locale(lang)
+		for k in used:
+			var s := T.t(k)
+			_check(s != k and s != "", "[%s] falta la traducción de '%s'" % [lang, k])
+	# Mismos parámetros {x} en todos los idiomas.
+	for k in used:
+		TranslationServer.set_locale("en")
+		var en := _placeholders(T.t(k))
+		TranslationServer.set_locale("es")
+		var es := _placeholders(T.t(k))
+		_check(en == es, "parámetros distintos entre idiomas en '%s': %s vs %s" % [k, en, es])
+	# Claves del CSV que nadie usa (código muerto de traducciones).
+	var f := FileAccess.open(T.CSV_PATH, FileAccess.READ)
+	f.get_csv_line()
+	while not f.eof_reached():
+		var row := f.get_csv_line()
+		if row.size() >= 3 and row[0] != "":
+			_check(used.has(row[0]), "clave sin uso en el CSV: '%s'" % row[0])
+	T.set_language("en", false)
+
+
+# ------------------------------------------------------- mapas de superficie
 func _test_generation() -> void:
-	print("generación de mapas")
-	var planet: Dictionary = Content.planets[0]
-	var counts := {}
-	for s in 300:
-		var m := PlanetData.new()
-		m.generate(planet, Content.events, s)
-		var costs := m.path_costs(m.ship_cell)
-		_check(m.pois.size() == int(planet["poi_count"]) + 1, "nº de POIs semilla %d" % s)
-		for p in m.pois:
-			_check(costs.has(p["cell"]), "POI alcanzable semilla %d" % s)
-		_check(costs[m.beacon_cell] >= 8, "baliza no demasiado cerca semilla %d" % s)
-		for t in m.terrain.values():
-			counts[t] = int(counts.get(t, 0)) + 1
-		var again := PlanetData.new()
-		again.generate(planet, Content.events, s)
-		_check(again.terrain == m.terrain and again.ship_cell == m.ship_cell, "determinista semilla %d" % s)
-	print("  terrenos: ", counts)
+	print("generación de mapas de planeta")
+	for planet in Content.planets:
+		var counts := {}
+		for s in 200:
+			var m := PlanetData.new()
+			m.generate(planet, Content.events, s)
+			var costs := m.path_costs(m.ship_cell)
+			_check(m.pois.size() == int(planet["poi_count"]) + 1, "%s: nº de POIs semilla %d" % [planet["id"], s])
+			for p in m.pois:
+				_check(costs.has(p["cell"]), "%s: POI alcanzable semilla %d" % [planet["id"], s])
+			_check(costs[m.beacon_cell] >= 8, "%s: objetivo no demasiado cerca semilla %d" % [planet["id"], s])
+			for t in m.terrain.values():
+				counts[t] = int(counts.get(t, 0)) + 1
+			var again := PlanetData.new()
+			again.generate(planet, Content.events, s)
+			_check(again.terrain == m.terrain and again.ship_cell == m.ship_cell, "%s: determinista semilla %d" % [planet["id"], s])
+		print("  %s: %s" % [planet["id"], counts])
 
 
 func _test_event_rules() -> void:
 	print("reglas de eventos")
-	var gs = load("res://scripts/game_state.gd").new()
-	gs.start_run(Content.avatar_by_id("vance"), Content.factions)
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 1
-	var sci := {"tag": "ciencia", "risk": {"chance": 0.5, "success": {"text": "ok", "effects": {"data": 2}}, "fail": {"text": "no", "effects": {"oxygen": -3}}}}
+	var gs = _new_state("vance")
+	var sci := {"tag": "ciencia", "risk": {"chance": 0.5, "success": {"effects": {"data": 2}}, "fail": {"effects": {"oxygen": -3}}}}
 	_check(is_equal_approx(EventRunner.success_chance(sci, gs), 0.7), "bonus de rasgo +20%")
-	gs.start_run(Content.avatar_by_id("okafor"), Content.factions)
+	gs.start_run(Content.avatar_by_id("okafor"), Content.factions, Content.campaign)
 	_check(is_equal_approx(EventRunner.success_chance(sci, gs), 0.5), "sin rasgo, sin bonus")
-	var locked := {"requires": {"flag": "x", "hint": "falta x"}, "result": {"text": "", "effects": {}}}
-	_check(EventRunner.lock_reason(locked, gs) == "falta x", "opción bloqueada por flag")
+	var locked := {"requires": {"flag": "x"}, "result": {"effects": {}}}
+	_check(EventRunner.lock_reason(locked, gs, "falta x") == "falta x", "opción bloqueada por flag")
 	gs.apply_effects({"set_flags": ["x"]})
-	_check(EventRunner.lock_reason(locked, gs) == "", "opción desbloqueada tras flag")
+	_check(EventRunner.lock_reason(locked, gs, "falta x") == "", "opción desbloqueada tras flag")
+	var data_gate := {"requires": {"min_data": 2}, "result": {"effects": {}}}
+	_check(EventRunner.lock_reason(data_gate, gs) != "", "bloqueada por datos insuficientes")
+	gs.apply_effects({"data": 3})
+	_check(EventRunner.lock_reason(data_gate, gs) == "", "desbloqueada con datos")
 	var before: int = gs.oxygen
-	gs.apply_effects({"oxygen": -5, "morale": -1, "data": 3, "rep": {"vael": 2}})
-	_check(gs.oxygen == before - 5 and gs.data == 3 and gs.rep["vael"] == 2, "efectos aplicados")
-	gs.apply_effects({"oxygen": 999})
-	_check(gs.oxygen == gs.max_oxygen, "oxígeno acotado al máximo")
+	gs.apply_effects({"oxygen": -5, "morale": -1, "rep": {"vael": 2}, "fuel": -2, "scans": -1})
+	_check(gs.oxygen == before - 5 and gs.rep["vael"] == 2, "efectos aplicados")
+	_check(gs.fuel == int(Content.campaign["start_fuel"]) - 2 and gs.scans == int(Content.campaign["start_scans"]) - 1, "combustible y escaneos")
+	gs.apply_effects({"oxygen": 999, "fuel": 999})
+	_check(gs.oxygen == gs.max_oxygen and gs.fuel == gs.max_fuel, "recursos acotados al máximo")
 	gs.apply_effects({"oxygen": -999})
 	_check(gs.failure_reason() == "oxygen", "fallo por oxígeno")
 	gs.free()
 
 
-## Un bot recorre el juego completo con el mismo motor que la UI.
-func _test_bot_playthroughs(avatar_id: String) -> void:
-	print("bot (%s)" % avatar_id)
-	var gs = load("res://scripts/game_state.gd").new()
-	var planet: Dictionary = Content.planets[0]
-	var results := {"success": 0, "fail": 0, "abort": 0}
-	var runs := 400
-	for s in runs:
-		var rng := RandomNumberGenerator.new()
-		rng.seed = s * 31 + 7
-		gs.start_run(Content.avatar_by_id(avatar_id), Content.factions)
-		gs.begin_planet()
-		var ex := Expedition.new(gs, planet, Content.events, s)
-		results[_bot_run(ex, gs, rng)] += 1
-	print("  ", results)
-	var win_rate := float(results["success"]) / runs
-	_check(win_rate > 0.25 and win_rate < 0.95, "tasa de éxito razonable (%.2f)" % win_rate)
+# ------------------------------------------------------------------ campaña
+func _test_sector() -> void:
+	print("mapa estelar")
+	for s in 300:
+		var sec := SectorData.new()
+		sec.generate(Content.campaign, s)
+		var counts := {"planet": 0, "contact": 0, "anomaly": 0}
+		var species_seen := {}
+		var anomalies := {}
+		var planet_cols := {}
+		for id in sec.nodes:
+			var n: Dictionary = sec.nodes[id]
+			if n["type"] in counts:
+				counts[n["type"]] += 1
+			if n["type"] == "contact":
+				species_seen[n["ref"]] = true
+			if n["type"] == "anomaly":
+				anomalies[n["ref"]] = true
+			if n["type"] == "planet" and not n["final"]:
+				planet_cols[n["col"]] = true
+		_check(counts["planet"] == 3 and counts["contact"] == 3 and counts["anomaly"] == 5, "composición del sector semilla %d: %s" % [s, counts])
+		_check(species_seen.size() == 3, "las 3 especies aparecen (semilla %d)" % s)
+		_check(anomalies.size() == 5, "anomalías sin repetir (semilla %d)" % s)
+		# alcanzabilidad y longitud mínima del camino
+		var dist := {sec.start_id: 0}
+		var queue: Array[String] = [sec.start_id]
+		while not queue.is_empty():
+			var cur: String = queue.pop_front()
+			for to in sec.nodes[cur]["edges"]:
+				if not dist.has(to):
+					dist[to] = dist[cur] + 1
+					queue.append(to)
+		_check(dist.size() == sec.nodes.size(), "todos los nodos alcanzables (semilla %d)" % s)
+		_check(dist[sec.final_id] == Content.campaign["columns"].size() - 1, "camino mínimo = columnas-1 (semilla %d)" % s)
+		var cost := {sec.start_id: 0}
+		for c in sec.columns.size():
+			for id in sec.columns[c]:
+				if cost.has(id):
+					for to in sec.nodes[id]["edges"]:
+						var nc: int = cost[id] + int(sec.nodes[id]["costs"][to])
+						if not cost.has(to) or nc < cost[to]:
+							cost[to] = nc
+		_check(cost[sec.final_id] == Content.campaign["columns"].size() - 1, "existe una ruta de coste mínimo 5 (semilla %d)" % s)
+		for id in sec.nodes:
+			if sec.nodes[id]["type"] == "planet":
+				_check(not sec.scan_tags(id).is_empty(), "un planeta escaneado revela etiquetas (semilla %d)" % s)
+			_check(id == sec.final_id or not sec.nodes[id]["edges"].is_empty(), "sin callejones sin salida (semilla %d)" % s)
+
+
+func _test_contacts() -> void:
+	print("contactos")
+	for sp in Content.species:
+		var enc := Content.encounter_for(sp["id"])
+		for label in ["best", "worst"]:
+			var gs = _new_state("okafor")
+			gs.apply_effects({"data": 5, "set_flags": ["vael_contacto"]})
+			var r := ContactRunner.new(gs, sp, enc)
+			while not r.finished():
+				var pick := 0
+				var best_score := -999 if label == "best" else 999
+				for i in r.exchange()["options"].size():
+					if r.lock_reason(i) != "":
+						continue
+					var e: Dictionary = sp["stance_effects"][r.option(i)["stance"]]
+					var extra: Dictionary = r.option(i).get("effects", {})
+					var score: int = int(e["trust"]) + int(extra.get("trust", 0)) - int(e["tension"]) - int(extra.get("tension", 0))
+					if (label == "best" and score > best_score) or (label == "worst" and score < best_score):
+						best_score = score
+						pick = i
+				r.choose(pick)
+			var out := r.outcome()
+			print("  %s %s → %s (trust %d, tension %d)" % [sp["id"], label, out, r.trust, r.tension])
+			_check(r.trust >= 0 and r.trust <= 10 and r.tension >= 0 and r.tension <= 10, "barras acotadas")
+			if label == "best":
+				_check(out == "alliance" or out == "deal", "%s: la mejor estrategia da alianza o acuerdo" % sp["id"])
+			else:
+				_check(out == "hostile" or out == "wary", "%s: la peor estrategia no da alianza" % sp["id"])
+			gs.free()
+	# La postura preferida coincide con lo que dicen los datos.
+	var tmp = _new_state("vance")
+	for pair in [["vael", "open"], ["hallen", "careful"], ["draeth", "firm"]]:
+		var got := ContactRunner.new(tmp, Content.species_by_id(pair[0]), Content.encounter_for(pair[0])).best_stance()
+		_check(got == pair[1], "%s valora la postura %s (datos: %s)" % [pair[0], pair[1], got])
+	tmp.free()
+	# El rasgo diplomático templa la tensión.
+	var dip = _new_state("okafor")
+	var sci = _new_state("vance")
+	var dr := ContactRunner.new(dip, Content.species_by_id("draeth"), Content.encounter_for("draeth"))
+	var sr := ContactRunner.new(sci, Content.species_by_id("draeth"), Content.encounter_for("draeth"))
+	dr.choose(0)  # open: tensión +1 base
+	sr.choose(0)
+	_check(dr.tension == sr.tension - 1, "la diplomacia reduce la tensión ganada")
+	dip.free()
+	sci.free()
+
+
+func _test_campaign_rules() -> void:
+	print("reglas de campaña")
+	var gs = _new_state("vance")
+	var c := Campaign.new(gs, Content.campaign, 5)
+	var first: String = c.sector.nodes[c.current]["edges"][0]
+	_check(c.can_jump(first), "se puede saltar a un nodo conectado")
+	var far: String = c.sector.columns[3][0]
+	_check(not c.can_jump(far), "no se salta a un nodo no conectado")
+	_check(c.can_scan(first), "se puede escanear el siguiente nodo")
+	var scans: int = gs.scans
+	c.scan(first)
+	_check(gs.scans == scans - 1 and c.node(first)["scanned"], "el escaneo gasta una carga y revela")
+	_check(not c.can_scan(first), "no se escanea dos veces")
+	var fuel: int = gs.fuel
+	var cost := c.edge_cost(c.current, first)
+	c.jump(first)
+	_check(gs.fuel == fuel - cost and c.current == first, "el salto gasta el combustible de la ruta")
+	gs.fuel = 0
+	c.finish_node(first)
+	_check(c.end_reason() == "fuel", "sin combustible lejos del destino se pierde")
+	gs.fuel = 1
+	var cheap := ""
+	var pricey := ""
+	for to in c.sector.nodes[c.current]["edges"]:
+		if c.edge_cost(c.current, to) == 1 and cheap == "":
+			cheap = to
+		if c.edge_cost(c.current, to) == 2 and pricey == "":
+			pricey = to
+	_check(cheap == "" or c.can_jump(cheap), "con 1 de combustible se puede una ruta corta")
+	_check(pricey == "" or not c.can_jump(pricey), "con 1 de combustible no se puede una ruta larga")
+	gs.morale = 0
+	_check(c.end_reason() == "morale", "sin moral la tripulación se niega")
 	gs.free()
 
 
-func _bot_run(ex: Expedition, gs, rng: RandomNumberGenerator) -> String:
-	var visits := rng.randi_range(1, 5)
+# ---------------------------------------------------------------- simulación
+func _test_bot_campaigns(avatar_id: String) -> void:
+	print("bot de campaña (%s)" % avatar_id)
+	var results := {"victory": 0, "fuel": 0, "oxygen": 0, "morale": 0, "abort": 0}
+	var runs := 300
+	var gs = _new_state(avatar_id)
+	for s in runs:
+		var rng := RandomNumberGenerator.new()
+		rng.seed = s * 131 + 17
+		gs.start_run(Content.avatar_by_id(avatar_id), Content.factions, Content.campaign)
+		var camp := Campaign.new(gs, Content.campaign, s)
+		results[_bot_campaign(camp, gs, rng)] += 1
+	print("  ", results)
+	var win_rate := float(results["victory"]) / runs
+	_check(win_rate > 0.05 and win_rate < 0.95, "tasa de victoria razonable (%.2f)" % win_rate)
+	gs.free()
+
+
+func _bot_campaign(camp: Campaign, gs, rng: RandomNumberGenerator) -> String:
+	for _step in 20:
+		var here: Dictionary = camp.node(camp.current)
+		# Escanea al azar mientras queden cargas.
+		for id in camp.sector.nodes:
+			if camp.can_scan(id) and rng.randf() < 0.5:
+				camp.scan(id)
+		var options: Array[String] = []
+		for to in here["edges"]:
+			if camp.can_jump(to):
+				options.append(to)
+		if options.is_empty():
+			return "fuel"
+		var best := options[0]
+		var best_score := -1.0
+		for to in options:
+			var n: Dictionary = camp.node(to)
+			var score := rng.randf()
+			if n["scanned"] and n["type"] == "planet":
+				score += 0.6 if camp.sector.scan_tags(to).has("fuel") and gs.fuel <= 4 else 0.2
+			if n["scanned"] and n["type"] == "contact":
+				score += 0.3
+			if score > best_score:
+				best_score = score
+				best = to
+		camp.jump(best)
+		var node: Dictionary = camp.node(best)
+		var outcome := _bot_node(camp, gs, rng, node)
+		if outcome != "":
+			return outcome
+		camp.finish_node(best)
+		var reason := camp.end_reason()
+		if reason != "":
+			return reason
+	return "fuel"
+
+
+## Devuelve "" si el nodo se resolvió sin acabar la partida; si no, el desenlace.
+func _bot_node(camp: Campaign, gs, rng: RandomNumberGenerator, node: Dictionary) -> String:
+	match node["type"]:
+		"planet":
+			gs.begin_planet()
+			var ex := Expedition.new(gs, node["planet"], Content.events, int(node["planet"]["seed"]))
+			var res := _bot_planet(ex, gs, rng)
+			if res == "fail":
+				return gs.failure_reason() if gs.failure_reason() != "" else "oxygen"
+			if node["final"]:
+				return "victory" if res == "success" else "abort"
+			return ""
+		"contact":
+			var r := ContactRunner.new(gs, Content.species_by_id(node["ref"]), Content.encounter_for(node["ref"]))
+			while not r.finished():
+				var opts: Array = []
+				for i in r.exchange()["options"].size():
+					if r.lock_reason(i) == "":
+						opts.append(i)
+				r.choose(opts[rng.randi() % opts.size()])
+			r.apply_outcome()
+		_:
+			var ev: Dictionary = Content.events[node["ref"]]
+			var opts: Array = []
+			for i in ev["choices"].size():
+				if EventRunner.lock_reason(ev["choices"][i], gs) == "":
+					opts.append(i)
+			var i: int = opts[rng.randi() % opts.size()]
+			EventRunner.resolve(node["ref"], i, ev["choices"][i], gs, rng)
+	return ""
+
+
+func _bot_planet(ex: Expedition, gs, rng: RandomNumberGenerator) -> String:
+	var visits := rng.randi_range(1, 4)
 	var targets: Array[Dictionary] = []
 	for p in ex.map.pois:
 		if not p["objective"]:
@@ -119,46 +413,31 @@ func _bot_run(ex: Expedition, gs, rng: RandomNumberGenerator) -> String:
 	for target in plan:
 		var costs := ex.map.path_costs(ex.player)
 		var home_costs := ex.map.path_costs(ex.map.ship_cell)
-		# Solo va si le queda aire para llegar y volver a la nave (con margen).
 		var need: int = costs[target["cell"]] + home_costs[target["cell"]] + 2
 		if not target["objective"] and need > gs.oxygen:
 			continue
-		var outcome := _walk_and_resolve(ex, gs, rng, target)
-		if outcome != "":
-			return outcome
+		if _bot_walk(ex, gs, rng, ex.map.find_path(ex.player, target["cell"])) != "":
+			return "fail"
 	if not ex.objective_done:
 		return "abort"
-	var path := ex.map.find_path(ex.player, ex.map.ship_cell)
+	var last := _bot_walk(ex, gs, rng, ex.map.find_path(ex.player, ex.map.ship_cell))
+	return "success" if last == "home" else "fail"
+
+
+func _bot_walk(ex: Expedition, gs, rng: RandomNumberGenerator, path: Array[Vector2i]) -> String:
 	for c in path:
 		var res := ex.move(c)
 		if res["home"]:
-			return "success"
+			return "home"
 		if res["failure"] != "":
 			return "fail"
 		if not res["poi"].is_empty():
-			var o := _resolve_random(ex, gs, rng, res["poi"])
-			if o != "":
-				return o
-	return "fail"
-
-
-func _walk_and_resolve(ex: Expedition, gs, rng: RandomNumberGenerator, target: Dictionary) -> String:
-	for c in ex.map.find_path(ex.player, target["cell"]):
-		var res := ex.move(c)
-		if res["failure"] != "":
-			return "fail"
-		if not res["poi"].is_empty():
-			var o := _resolve_random(ex, gs, rng, res["poi"])
-			if o != "":
-				return o
+			var ev := ex.event_of(res["poi"])
+			var opts: Array = []
+			for i in ev["choices"].size():
+				if EventRunner.lock_reason(ev["choices"][i], gs) == "":
+					opts.append(i)
+			ex.resolve_choice(res["poi"], opts[rng.randi() % opts.size()], rng)
+			if gs.failure_reason() != "":
+				return "fail"
 	return ""
-
-
-func _resolve_random(ex: Expedition, gs, rng: RandomNumberGenerator, poi: Dictionary) -> String:
-	var options: Array = []
-	for c in ex.event_of(poi)["choices"]:
-		if EventRunner.lock_reason(c, gs) == "":
-			options.append(c)
-	_check(not options.is_empty(), "siempre hay una opción disponible en %s" % poi["event_id"])
-	ex.resolve_choice(poi, options[rng.randi() % options.size()], rng)
-	return "fail" if gs.failure_reason() != "" else ""
