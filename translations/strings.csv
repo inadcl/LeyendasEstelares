@@ -382,9 +382,7 @@ ui.title,STELLAR LEGENDS,LEYENDAS ESTELARES
 ui.subtitle,"Exploration, judgment and consequences","Exploración, criterio y consecuencias"
 ui.new_expedition,New expedition,Nueva expedición
 ui.quit,Quit,Salir
-ui.language,Language,Idioma
 ui.choose_traveler,Choose your traveler,Elige a tu viajero
-ui.avatar_stats,Oxygen {oxygen} · Morale {morale},Oxígeno {oxygen} · Moral {morale}
 ui.choose,Choose,Elegir
 ui.how_to_play,How to play,Cómo se juega
 ui.sound_on,Sound: on,Sonido: activado
@@ -397,15 +395,10 @@ ui.help.keys,F1: help  ·  M: sound  ·  F11: fullscreen,F1: ayuda  ·  M: sonid
 ui.help.close,Got it,Entendido
 ui.continue,Continue,Continuar
 ui.back_title,Back to title,Volver al título
-ui.hud.oxygen,OXYGEN  {cur} / {max},OXÍGENO  {cur} / {max}
-ui.hud.morale,MORALE  {cur} / {max},MORAL  {cur} / {max}
-ui.hud.data,DATA  {n},DATOS  {n}
-ui.hud.fuel,FUEL  {cur} / {max},COMBUSTIBLE  {cur} / {max}
-ui.hud.scans,SCANS  {n},ESCANEOS  {n}
 ui.hud.rep,Reputation: {list},Reputación: {list}
 ui.map.goal_pending,Objective: reach the objective (east) and return to the ship.,Objetivo: alcanzar el objetivo (este) y volver a la nave.
 ui.map.goal_done,Objective complete. Return to the ship.,Objetivo cumplido. Regresa a la nave.
-ui.map.hint,Click a highlighted hexagon to advance (or use keys Q E / A D / Z C). The number is the oxygen it costs. Save air to get back.,Clic en un hexágono resaltado para avanzar (o teclas Q E / A D / Z C). El número es el oxígeno que cuesta. Guarda aire para volver.
+ui.map.hint,Click a highlighted hex to move (or Q E / A D / Z C). The number is its oxygen cost. F1: help.,Clic en un hexágono resaltado para moverte (o Q E / A D / Z C). El número es su coste de oxígeno. F1: ayuda.
 ui.map.abort,Abort mission,Abortar misión
 ui.log.move,You advance (−{cost} oxygen).,Avanzas (−{cost} oxígeno).
 ui.log.descend,You descend to the surface. Objective: to the east.,Desciendes a la superficie. Objetivo: al este.
@@ -449,7 +442,6 @@ ui.scan.tag.life,life forms,formas de vida
 ui.scan.tag.fuel,recoverable fuel,combustible recuperable
 ui.contact.trust,TRUST,CONFIANZA
 ui.contact.tension,TENSION,TENSIÓN
-ui.contact.you,You,Tú
 ui.contact.analysis,Analysis: they seem to value {value}.,Análisis: parecen valorar {value}.
 ui.contact.experience,From experience: they value {value}.,Por experiencia: valoran {value}.
 ui.value.open,candor,la franqueza
@@ -475,7 +467,7 @@ ending.oxygen.title,Expedition lost,Expedición perdida
 ending.oxygen.body,Oxygen reserves ran out far from the ship. The Meridiana logs the loss and suspends surface operations.,Las reservas de oxígeno se agotaron lejos de la nave. La Meridiana registra la pérdida y suspende las operaciones en la superficie.
 ending.morale.title,The crew turns back,La tripulación da la vuelta
 ending.morale.body,"The crew's morale broke. Without cohesion or trust, the expedition cannot continue.","La moral de la tripulación se quebró. Sin cohesión ni confianza, la expedición no puede continuar."
-ending.stats,Data collected: {data}  ·  Jumps: {jumps}  ·  Morale: {morale}/{max},Datos reunidos: {data}  ·  Saltos: {jumps}  ·  Moral: {morale}/{max}
+ending.jumps,Jumps made: {jumps},Saltos realizados: {jumps}
 ending.rep,Reputation {faction}: {value},Reputación {faction}: {value}
 fx.oxygen,Oxygen {delta},Oxígeno {delta}
 fx.morale,Morale {delta},Moral {delta}

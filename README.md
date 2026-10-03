@@ -79,6 +79,8 @@ Capturas (requiere display, p. ej. `xvfb-run`): `godot --path . res://tests/scre
 | `translations/` | `strings.csv`: todos los textos (en, es) |
 | `scripts/` | Lógica pura (`sector_data`, `campaign`, `planet_data`, `expedition`, `event_runner`, `contact_runner`, `game_state`) y UI (`scripts/ui/`) |
 | `shaders/` | Viñeta y efecto de comunicación |
+| `ui/` | Kit de interfaz pixel art (marcos 9-slice, botones, iconos, insignias, fondos, cursor) generado por `tools/gen_ui.py` |
+| `fonts/` | Fuente pixel *Jersey 10* (SIL Open Font License, ver `fonts/OFL-Jersey10.txt`) |
 | `audio/` | Efectos y música ambiental sintetizados por `tools/gen_audio.py` (se pueden sustituir por audio propio) |
 | `art/` | Pixel art placeholder generado por `tools/gen_art.py` (se puede sustituir por arte propio) |
 | `tests/` | Pruebas headless, prueba de UI y capturas |
@@ -89,7 +91,7 @@ Capturas (requiere display, p. ej. `xvfb-run`): `godot --path . res://tests/scre
   escribe sus textos en el CSV y añade su id al `event_pool` de un planeta o a `anomaly_pool` en `data/campaign.json`.
 - **Encuentro:** añádelo a `data/encounters.json` con su especie, intercambios y desenlaces (`data/species.json`
   define cómo reacciona cada especie a cada postura).
-- Regenerar el arte: `python3 tools/gen_art.py`; el audio: `python3 tools/gen_audio.py`.
+- Regenerar el arte: `python3 tools/gen_art.py` (sprites), `python3 tools/gen_ui.py` (interfaz) y `python3 tools/gen_audio.py` (sonido).
 
 ## Hoja de ruta
 
@@ -100,4 +102,5 @@ Capturas (requiere display, p. ej. `xvfb-run`): `godot --path . res://tests/scre
 
 ## Licencia
 
-GPL v2 (ver `LICENSE`).
+Código y arte: GPL v2 (ver `LICENSE`). La fuente *Jersey 10* (© The Soft Type Project Authors) se distribuye con la
+SIL Open Font License 1.1 (`fonts/OFL-Jersey10.txt`).

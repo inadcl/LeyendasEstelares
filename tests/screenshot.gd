@@ -38,9 +38,13 @@ func _ready() -> void:
 		cs.species_id = sp
 		main._swap(cs)
 		await _shot("5_contact_%s_intro" % sp)
+		cs._finish_typing()
+		await _shot("5_contact_%s_intro" % sp)
 		cs._show_prompt()
+		cs._finish_typing()
 		await _shot("5_contact_%s_prompt" % sp)
 		cs._on_choose(0)
+		cs._finish_typing()
 		await _shot("5_contact_%s_reply" % sp)
 
 	for pid in ["kaelora", "nerea", "tessarine"]:

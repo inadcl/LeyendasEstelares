@@ -138,7 +138,7 @@ func _test_translations() -> void:
 
 func _test_audio() -> void:
 	print("audio")
-	for n in ["click", "step", "scan", "jump", "blip", "event", "success", "setback", "alert", "victory", "defeat", "ambient"]:
+	for n in ["click", "tick", "step", "scan", "jump", "blip", "event", "success", "setback", "alert", "victory", "defeat", "ambient"]:
 		_check(ResourceLoader.exists("res://audio/%s.wav" % n), "falta el sonido %s" % n)
 	var re := RegEx.new()
 	re.compile("Sfx\\.play\\(\"([a-z]+)\"")

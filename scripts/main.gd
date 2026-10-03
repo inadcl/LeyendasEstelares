@@ -19,10 +19,16 @@ func _ready() -> void:
 	mat.shader = load("res://shaders/vignette.gdshader")
 	_vignette.material = mat
 	add_child(_vignette)
-	# Todos los botones suenan al pulsarse.
+	if DisplayServer.get_name() != "headless":
+		Input.set_custom_mouse_cursor(load("res://ui/cursor.png"), Input.CURSOR_ARROW, Vector2(2, 2))
+	# Todos los botones suenan al pulsarse y al pasar el ratón por encima.
 	get_tree().node_added.connect(func(n: Node):
 		if n is BaseButton:
-			(n as BaseButton).pressed.connect(func(): Sfx.play("click", -6.0)))
+			var b := n as BaseButton
+			b.pressed.connect(func(): Sfx.play("click", -6.0))
+			b.mouse_entered.connect(func():
+				if not b.disabled:
+					Sfx.play("tick", -12.0)))
 	Sfx.start_music()
 	_show_title()
 
