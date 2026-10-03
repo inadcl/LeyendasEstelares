@@ -78,6 +78,7 @@ func button(text: String, cb: Callable, disabled := false) -> Button:
 func present_event(event_id: String, resolve: Callable, on_done: Callable) -> void:
 	var ev: Dictionary = Content.events[event_id]
 	open()
+	Sfx.play("event")
 	title(T.ev(event_id, "title"))
 	body(T.ev(event_id, "text"))
 	separator()
@@ -109,6 +110,7 @@ func _on_pick(event_id: String, index: int, resolve: Callable, on_done: Callable
 	var choice: Dictionary = Content.events[event_id]["choices"][index]
 	var result: Dictionary = resolve.call(index)
 	open()
+	Sfx.play(("success" if result["success"] else "setback") if choice.has("risk") else "blip")
 	var headline := T.ev(event_id, "title")
 	if choice.has("risk"):
 		headline += " — " + T.t("ui.event.success" if result["success"] else "ui.event.setback")

@@ -8,6 +8,7 @@ var _main: Control
 
 func _ready() -> void:
 	T.set_language("en", false)
+	Settings.set_value("game", "help_seen", false)  # la primera partida muestra la ayuda
 	_main = load("res://scenes/main.tscn").instantiate()
 	add_child(_main)
 	await _frames()
@@ -31,6 +32,14 @@ func _ready() -> void:
 	_buttons(_main._current, "Choose")[0].pressed.emit()
 	await _frames()
 	_check(_main._current is SectorScreen, "mapa estelar tras elegir avatar")
+	_check(_main._help != null and _main._help.is_open(), "la primera vez se muestra la ayuda")
+	_buttons(_main._help, "Got it")[0].pressed.emit()
+	await _frames()
+	_check(not _main._help.is_open(), "la ayuda se cierra")
+	_main._toggle_help()
+	_check(_main._help.is_open(), "F1/ayuda se puede reabrir")
+	_main._toggle_help()
+	_check(not _main._help.is_open(), "y volver a cerrar")
 	var sector: SectorScreen = _main._current
 	var camp: Campaign = _main._campaign
 	var fuel0: int = GameState.fuel
@@ -74,7 +83,7 @@ func _ready() -> void:
 	click.global_position = click.position
 	get_viewport().push_input(click)
 	await _frames()
-	_check(ex.player == adj, "un clic sobre un hexágono adyacente mueve al jugador (%s → %s)" % [start, ex.player])
+	_check(ex.player == adj, "un clic sobre un hexágono adyacente mueve al jugador (%s → %s))" % [start, ex.player])
 	var before := ex.player
 	for key in [KEY_D, KEY_E, KEY_C, KEY_A, KEY_Q, KEY_Z]:
 		if ex.player != before or not screen._view.enabled:

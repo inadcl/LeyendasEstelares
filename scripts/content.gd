@@ -140,7 +140,7 @@ func validate() -> Array[String]:
 		if e.get("choices", []).size() < 2:
 			errors.append("%s: necesita al menos 2 opciones" % id)
 		for i in e.get("choices", []).size():
-			_validate_choice(e["choices"][i], "%s[%d]" % [id, i], VALID_EFFECTS, errors, set_flags, true)
+			_validate_choice(e["choices"][i], "%s[%d]" % [id, i], VALID_EFFECTS, errors, set_flags)
 	for enc in encounters:
 		if species_by_id(enc.get("species", "")).is_empty():
 			errors.append("encuentro %s: especie inexistente" % enc.get("id", "?"))
@@ -217,7 +217,7 @@ func validate() -> Array[String]:
 	return errors
 
 
-func _validate_choice(c: Dictionary, where: String, valid_effects: Array, errors: Array[String], set_flags: Dictionary, _is_event: bool) -> void:
+func _validate_choice(c: Dictionary, where: String, valid_effects: Array, errors: Array[String], set_flags: Dictionary) -> void:
 	if c.has("risk") == c.has("result"):
 		errors.append("%s: debe tener exactamente uno de risk/result" % where)
 	if c.has("risk"):

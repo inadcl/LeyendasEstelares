@@ -24,10 +24,12 @@ El juego tiene tres capas:
    antes de volver a la nave.
 
 Lo que haces en una capa afecta a las otras: banderas y reputación (Concordato, Vael) abren o cierran opciones
-más adelante y cambian el epílogo.
+más adelante y cambian el epílogo. Por ejemplo, ser amigo del Gremio o ganarte el respeto de los Draeth desbloquea
+opciones exclusivas en anomalías posteriores (por eso importa el orden en que los encuentras).
 
 **Controles:** ratón (clic) en todo; en el mapa de superficie también teclado: `Q` `E` (arriba), `A` `D` (lados),
-`Z` `C` (abajo). En los menús, las flechas y Enter.
+`Z` `C` (abajo). En los menús, las flechas y Enter. Atajos globales: `F1` ayuda («Cómo se juega», se muestra solo
+la primera vez), `M` sonido, `F11` pantalla completa.
 
 ## Ejecutar
 
@@ -77,6 +79,7 @@ Capturas (requiere display, p. ej. `xvfb-run`): `godot --path . res://tests/scre
 | `translations/` | `strings.csv`: todos los textos (en, es) |
 | `scripts/` | Lógica pura (`sector_data`, `campaign`, `planet_data`, `expedition`, `event_runner`, `contact_runner`, `game_state`) y UI (`scripts/ui/`) |
 | `shaders/` | Viñeta y efecto de comunicación |
+| `audio/` | Efectos y música ambiental sintetizados por `tools/gen_audio.py` (se pueden sustituir por audio propio) |
 | `art/` | Pixel art placeholder generado por `tools/gen_art.py` (se puede sustituir por arte propio) |
 | `tests/` | Pruebas headless, prueba de UI y capturas |
 
@@ -86,7 +89,7 @@ Capturas (requiere display, p. ej. `xvfb-run`): `godot --path . res://tests/scre
   escribe sus textos en el CSV y añade su id al `event_pool` de un planeta o a `anomaly_pool` en `data/campaign.json`.
 - **Encuentro:** añádelo a `data/encounters.json` con su especie, intercambios y desenlaces (`data/species.json`
   define cómo reacciona cada especie a cada postura).
-- Regenerar el arte: `python3 tools/gen_art.py`.
+- Regenerar el arte: `python3 tools/gen_art.py`; el audio: `python3 tools/gen_audio.py`.
 
 ## Hoja de ruta
 

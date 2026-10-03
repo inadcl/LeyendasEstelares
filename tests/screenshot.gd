@@ -15,6 +15,9 @@ func _ready() -> void:
 	T.set_language(lang, false)
 	main._show_title()
 	await _shot("1_title")
+	main._toggle_help()
+	await _shot("1b_help")
+	main._toggle_help()
 	main._show_avatars()
 	await _shot("2_avatars")
 	GameState.start_run(Content.avatar_by_id("vance"), Content.factions, Content.campaign)
@@ -24,8 +27,10 @@ func _ready() -> void:
 	var camp: Campaign = main._campaign
 	# Escanea el primer nodo y selecciónalo.
 	var first: String = camp.sector.nodes[camp.current]["edges"][0]
-	camp.scan(first)
+	for id in camp.sector.nodes:
+		camp.sector.nodes[id]["scanned"] = true  # para ver todos los iconos
 	main._current._select(first)
+	main._current._refresh()
 	await _shot("4_sector_scanned")
 
 	for sp in ["vael", "hallen", "draeth"]:

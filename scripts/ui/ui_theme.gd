@@ -58,11 +58,12 @@ static func bar(color: Color) -> ProgressBar:
 	return b
 
 
-static func button(text: String) -> Button:
+## `wrap` = false para botones en filas horizontales (con autowrap el texto se partiría letra a letra).
+static func button(text: String, wrap := true) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if wrap else TextServer.AUTOWRAP_OFF
 	return b
 
 

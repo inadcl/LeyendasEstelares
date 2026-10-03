@@ -10,6 +10,7 @@ func _ready() -> void:
 	_test_hex()
 	_test_content()
 	_test_translations()
+	_test_audio()
 	_test_generation()
 	_test_event_rules()
 	_test_sector()
@@ -133,6 +134,19 @@ func _test_translations() -> void:
 		if row.size() >= 3 and row[0] != "":
 			_check(used.has(row[0]), "clave sin uso en el CSV: '%s'" % row[0])
 	T.set_language("en", false)
+
+
+func _test_audio() -> void:
+	print("audio")
+	for n in ["click", "step", "scan", "jump", "blip", "event", "success", "setback", "alert", "victory", "defeat", "ambient"]:
+		_check(ResourceLoader.exists("res://audio/%s.wav" % n), "falta el sonido %s" % n)
+	var re := RegEx.new()
+	re.compile("Sfx\\.play\\(\"([a-z]+)\"")
+	for d in ["res://scripts", "res://scripts/ui"]:
+		for f in DirAccess.get_files_at(d):
+			if f.ends_with(".gd"):
+				for m in re.search_all(FileAccess.get_file_as_string("%s/%s" % [d, f])):
+					_check(ResourceLoader.exists("res://audio/%s.wav" % m.get_string(1)), "%s usa un sonido inexistente: %s" % [f, m.get_string(1)])
 
 
 # ------------------------------------------------------- mapas de superficie

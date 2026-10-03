@@ -157,6 +157,7 @@ func _on_choose(i: int) -> void:
 	var x := runner.index
 	var mine := T.t("contact.%s.x%d.o%d" % [eid, x, i])
 	var res := runner.choose(i)
+	Sfx.play("blip")
 	_refresh_bars()
 	_clear_options()
 	_speech.add_theme_color_override("font_color", _color)
@@ -175,6 +176,7 @@ func _after_reply() -> void:
 func _show_outcome() -> void:
 	_clear_options()
 	var out := runner.apply_outcome()
+	Sfx.play({"alliance": "victory", "deal": "success", "wary": "event", "hostile": "alert"}[out["id"]])
 	var colors := {"alliance": UITheme.GOOD, "deal": UITheme.ACCENT, "wary": UITheme.DIM, "hostile": UITheme.BAD}
 	_speech.add_theme_color_override("font_color", colors[out["id"]])
 	_speech.text = "%s\n\n%s" % [T.t("ui.contact.result." + out["id"]), T.t(out["key"])]

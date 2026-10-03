@@ -21,6 +21,7 @@ func _ready() -> void:
 	v.add_theme_constant_override("separation", 8)
 	panel.add_child(v)
 
+	Sfx.play("victory" if ending == "victory" else "defeat")
 	var color := UITheme.GOOD if ending == "victory" else (UITheme.WARN if ending == "abort" else UITheme.BAD)
 	v.add_child(UITheme.label(T.t("ending.%s.title" % ending), color, 18))
 	v.add_child(UITheme.label(T.t("ending.%s.body" % ending), UITheme.TEXT, 12))

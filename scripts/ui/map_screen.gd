@@ -115,6 +115,7 @@ func _on_cell_clicked(cell: Vector2i) -> void:
 		return
 	var cost := expedition.map.move_cost(cell)
 	var res := expedition.move(cell)
+	Sfx.play("step", -4.0)
 	_say(T.t("ui.log.move", {"cost": cost}), UITheme.DIM)
 	if res["failure"] != "":
 		_fail(res["failure"])
@@ -157,6 +158,7 @@ func _after_event(poi: Dictionary) -> void:
 
 
 func _fail(reason: String) -> void:
+	Sfx.play("defeat")
 	_overlay.open()
 	_overlay.title(T.t("ui.fail.title"), UITheme.BAD)
 	_overlay.body(T.t("ui.fail.oxygen" if reason == "oxygen" else "ui.fail.morale"))
@@ -177,6 +179,7 @@ func _confirm_abort() -> void:
 func _conclude(result: String) -> void:
 	var pid: String = planet["id"]
 	_overlay.open()
+	Sfx.play("success" if result == "success" else "setback")
 	if result == "success":
 		_overlay.title(T.t("ui.planet.done"), UITheme.GOOD)
 		_overlay.body(T.t("planet.%s.outro_success" % pid))

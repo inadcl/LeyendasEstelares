@@ -559,7 +559,11 @@ def main():
     write_png("poi_life", make_sprite(LIFE))
     write_png("poi_beacon", make_sprite(BEACON))
     write_png("bg_stars", make_stars())
-    for name, rows in [("node_start", NODE_START), ("node_planet", NODE_PLANET), ("node_contact", NODE_CONTACT),
+    for biome, extra in [("frost", {}),
+                         ("dust", {"b": (214, 150, 70), "B": (140, 80, 40), "c": (255, 214, 140)}),
+                         ("verdant", {"b": (70, 170, 90), "B": (30, 100, 60), "c": (170, 240, 150)})]:
+        write_png("node_planet_" + biome, make_sprite(NODE_PLANET, extra))
+    for name, rows in [("node_start", NODE_START), ("node_contact", NODE_CONTACT),
                        ("node_anomaly", NODE_ANOMALY), ("node_unknown", NODE_UNKNOWN), ("node_final", NODE_FINAL),
                        ("sector_ship", SECTOR_SHIP)]:
         write_png(name, make_sprite(rows))

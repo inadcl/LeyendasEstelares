@@ -15,7 +15,6 @@ var scans := 0
 var max_scans := 0
 var rep := {}  # facción -> int
 var flags := {}  # String -> true
-var faction_ids: Array = []
 
 
 func start_run(avatar_dict: Dictionary, factions: Dictionary = {}, campaign_cfg: Dictionary = {}) -> void:
@@ -31,7 +30,6 @@ func start_run(avatar_dict: Dictionary, factions: Dictionary = {}, campaign_cfg:
 	data = 0
 	rep = {}
 	flags = {}
-	faction_ids = factions.keys()
 	changed.emit()
 
 

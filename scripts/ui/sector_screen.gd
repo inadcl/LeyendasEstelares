@@ -183,6 +183,8 @@ func _icon_for(id: String) -> String:
 		return "node_final"
 	if not n["scanned"]:
 		return "node_unknown"
+	if n["type"] == "planet":
+		return "node_planet_" + n["planet"]["biome"]  # el color anticipa el bioma
 	return "node_" + n["type"]
 
 
@@ -261,11 +263,13 @@ func _title_for(n: Dictionary) -> String:
 func _on_jump() -> void:
 	if campaign.can_jump(_selected):
 		var id := _selected
+		Sfx.play("jump")
 		campaign.jump(id)
 		jumped.emit(id)
 
 
 func _on_scan() -> void:
 	if campaign.can_scan(_selected):
+		Sfx.play("scan")
 		campaign.scan(_selected)
 		_refresh()

@@ -8,7 +8,6 @@ extends RefCounted
 
 const LANGUAGES := {"en": "English", "es": "Español"}
 const CSV_PATH := "res://translations/strings.csv"
-const SETTINGS_PATH := "user://settings.cfg"
 
 static var _loaded := false
 
@@ -62,18 +61,12 @@ static func set_language(lang: String, save := true) -> void:
 		lang = "en"
 	TranslationServer.set_locale(lang)
 	if save:
-		var cfg := ConfigFile.new()
-		cfg.load(SETTINGS_PATH)
-		cfg.set_value("game", "language", lang)
-		cfg.save(SETTINGS_PATH)
+		Settings.set_value("game", "language", lang)
 
 
 ## Idioma guardado, o el del sistema (español si el sistema está en español, inglés en otro caso).
 static func load_language() -> void:
-	var cfg := ConfigFile.new()
-	var lang := ""
-	if cfg.load(SETTINGS_PATH) == OK:
-		lang = str(cfg.get_value("game", "language", ""))
+	var lang := str(Settings.get_value("game", "language", ""))
 	if not LANGUAGES.has(lang):
 		lang = "es" if OS.get_locale_language() == "es" else "en"
 	set_language(lang, false)

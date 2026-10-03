@@ -1,9 +1,11 @@
 extends Control
 ## Raíz del juego: título → avatar → mapa estelar → (planeta | contacto | anomalía) → … → final.
+## Atajos globales: F1 ayuda, M sonido, F11 pantalla completa.
 
 var _current: Control
 var _campaign: Campaign
 var _vignette: ColorRect
+var _help: Overlay
 
 
 func _ready() -> void:
@@ -17,7 +19,24 @@ func _ready() -> void:
 	mat.shader = load("res://shaders/vignette.gdshader")
 	_vignette.material = mat
 	add_child(_vignette)
+	# Todos los botones suenan al pulsarse.
+	get_tree().node_added.connect(func(n: Node):
+		if n is BaseButton:
+			(n as BaseButton).pressed.connect(func(): Sfx.play("click", -6.0)))
+	Sfx.start_music()
 	_show_title()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		match event.keycode:
+			KEY_F1:
+				_toggle_help()
+			KEY_M:
+				Sfx.toggle_mute()
+			KEY_F11:
+				var full := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if full else DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
 func _swap(screen: Control) -> void:
@@ -26,8 +45,27 @@ func _swap(screen: Control) -> void:
 	_current = screen
 	add_child(screen)
 	move_child(_vignette, -1)  # la viñeta siempre por encima
+	if _help != null:
+		move_child(_help, -1)
 	screen.modulate.a = 0.0
 	create_tween().tween_property(screen, "modulate:a", 1.0, 0.25)
+
+
+func _toggle_help() -> void:
+	if _help != null and _help.is_open():
+		_help.close()
+		return
+	if _help == null:
+		_help = Overlay.new()
+		add_child(_help)
+	_help.open()
+	_help.title(T.t("ui.help.title"))
+	_help.body(T.t("ui.help.sector"))
+	_help.body(T.t("ui.help.contact"))
+	_help.body(T.t("ui.help.planet"))
+	_help.note(T.t("ui.help.keys"), UITheme.DIM)
+	_help.button(T.t("ui.help.close"), _help.close).grab_focus()
+	move_child(_help, -1)
 
 
 func _show_title() -> void:
@@ -35,6 +73,7 @@ func _show_title() -> void:
 	s.start_pressed.connect(_show_avatars)
 	s.quit_pressed.connect(func(): get_tree().quit())
 	s.language_changed.connect(_show_title)
+	s.help_pressed.connect(_toggle_help)
 	_swap(s)
 
 
@@ -43,7 +82,11 @@ func _show_avatars() -> void:
 	s.avatar_chosen.connect(func(id: String):
 		GameState.start_run(Content.avatar_by_id(id), Content.factions, Content.campaign)
 		_campaign = Campaign.new(GameState, Content.campaign, randi())
-		_show_sector())
+		_show_sector()
+		# La primera vez se muestra la ayuda (después, con F1 o desde el título).
+		if not bool(Settings.get_value("game", "help_seen", false)):
+			Settings.set_value("game", "help_seen", true)
+			_toggle_help())
 	_swap(s)
 
 
