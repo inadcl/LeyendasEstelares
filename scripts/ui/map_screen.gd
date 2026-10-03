@@ -17,27 +17,37 @@ var _rep_label: Label
 var _goal_label: Label
 var _overlay: Overlay
 var _rng := RandomNumberGenerator.new()
+var _portrait := false
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # si no, este Control se come los clics del mapa
 	_rng.randomize()
-	expedition = Expedition.new(GameState, planet, Content.events, int(planet.get("seed", 1)))
+	_portrait = Layout.portrait
+	var vs := get_viewport_rect().size
+	expedition = Expedition.new(GameState, planet, Content.events, int(planet.get("seed", 1)), _portrait)
 
 	add_child(UITheme.background("bg_space", 0.3))
-	var frame := UITheme.framed("panel_dark", Vector2i(0, 0), false)
-	frame.position = Vector2(4, 4)
-	frame.custom_minimum_size = Vector2(380, 260)
-	frame.size = Vector2(380, 260)
-	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(frame)
 	_view = PlanetMapView.new()
-	_view.position = Vector2(8, 8)
 	_view.expedition = expedition
+	var map_size := _view.size_px()
+	var frame := UITheme.framed("panel_dark", Vector2i(0, 0), false)
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var frame_size := map_size + Vector2(8, 8)
+	var top := 4.0 + Layout.safe_top
+	if _portrait:
+		frame.position = Vector2(roundf((vs.x - frame_size.x) / 2.0), top)
+	else:
+		frame_size = Vector2(380, 260)
+		frame.position = Vector2(4, 4)
+	frame.custom_minimum_size = frame_size
+	frame.size = frame_size
+	add_child(frame)
+	_view.position = frame.position + Vector2(4, 4)
 	_view.cell_clicked.connect(_on_cell_clicked)
 	add_child(_view)
-	_build_hud()
+	_build_hud(vs, frame.position + Vector2(0, frame_size.y))
 	_overlay = Overlay.new()
 	_overlay.opened.connect(func(): _view.enabled = false)
 	_overlay.closed.connect(func(): _view.enabled = true)
@@ -50,46 +60,86 @@ func _ready() -> void:
 	_show_briefing()
 
 
-func _build_hud() -> void:
+## HUD: a la derecha del mapa (apaisado) o debajo (vertical). `below` = esquina inferior izquierda del marco del mapa.
+func _build_hud(vs: Vector2, below: Vector2) -> void:
+	var panel := UITheme.framed("panel", Vector2i(10, 8))
 	var logbox := UITheme.framed("panel_dark", Vector2i(8, 4))
-	logbox.position = Vector2(4, 268)
-	logbox.custom_minimum_size = Vector2(380, 88)
-	logbox.size = Vector2(380, 88)
-	add_child(logbox)
 	_log = RichTextLabel.new()
 	_log.bbcode_enabled = true
 	_log.scroll_following = true
 	_log.fit_content = false
-	_log.custom_minimum_size = Vector2(360, 76)
 	_log.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
 	logbox.add_child(_log)
-
-	var panel := UITheme.framed("panel", Vector2i(10, 8))
-	panel.position = Vector2(392, 4)
-	panel.custom_minimum_size = Vector2(244, 352)
-	panel.size = Vector2(244, 352)
+	if _portrait:
+		panel.position = Vector2(4, below.y + 4)
+		panel.custom_minimum_size = Vector2(vs.x - 8, vs.y - below.y - 8)
+		panel.size = panel.custom_minimum_size
+		_log.custom_minimum_size = Vector2(vs.x - 40, 40)
+	else:
+		logbox.position = Vector2(4, 268)
+		logbox.custom_minimum_size = Vector2(380, 88)
+		logbox.size = Vector2(380, 88)
+		_log.custom_minimum_size = Vector2(360, 76)
+		add_child(logbox)
+		panel.position = Vector2(392, 4)
+		panel.custom_minimum_size = Vector2(244, 352)
+		panel.size = Vector2(244, 352)
 	add_child(panel)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 5)
 	panel.add_child(v)
-	v.add_child(UITheme.label(T.t("planet.%s.name" % planet["id"]), UITheme.ACCENT_L, UITheme.SIZE_HEAD, true))
-	v.add_child(UITheme.label(T.t("avatar.%s.name" % GameState.avatar["id"]), UITheme.TEXT))
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 10)
+	var planet_name := UITheme.label(T.t("planet.%s.name" % planet["id"]), UITheme.ACCENT_L, UITheme.SIZE_HEAD, true)
+	planet_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # sin esto el autowrap la parte letra a letra
+	head.add_child(planet_name)
+	if _portrait:
+		var who := UITheme.label(T.t("avatar.%s.name" % GameState.avatar["id"]), UITheme.DIM)
+		who.autowrap_mode = TextServer.AUTOWRAP_OFF
+		who.size_flags_horizontal = Control.SIZE_SHRINK_END
+		who.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		head.add_child(who)
+		v.add_child(head)
+	else:
+		v.add_child(head)
+		v.add_child(UITheme.label(T.t("avatar.%s.name" % GameState.avatar["id"]), UITheme.TEXT))
 	v.add_child(HSeparator.new())
 
 	_o2_row = UITheme.meter_row("oxygen", Color("4fc3e8"), UITheme.ACCENT, 2.0)
-	v.add_child(_o2_row)
 	_morale_row = UITheme.meter_row("morale", Color("e0605c"), Color("ff9a94"))
-	v.add_child(_morale_row)
+	if _portrait:
+		var meters := HBoxContainer.new()  # dos medidores en una fila
+		meters.add_theme_constant_override("separation", 10)
+		_o2_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_morale_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		meters.add_child(_o2_row)
+		meters.add_child(_morale_row)
+		v.add_child(meters)
+	else:
+		v.add_child(_o2_row)
+		v.add_child(_morale_row)
 	_data_chip = UITheme.chip("data", UITheme.ACCENT_L)
-	v.add_child(_data_chip)
 	_rep_label = UITheme.label("", UITheme.DIM)
-	v.add_child(_rep_label)
+	if _portrait:
+		_rep_label.autowrap_mode = TextServer.AUTOWRAP_OFF  # en una fila con el chip, el autowrap la colapsaría
+		var info := HFlowContainer.new()
+		info.add_theme_constant_override("h_separation", 14)
+		info.add_child(_data_chip)
+		info.add_child(_rep_label)
+		v.add_child(info)
+	else:
+		v.add_child(_data_chip)
+		v.add_child(_rep_label)
 	v.add_child(HSeparator.new())
 	_goal_label = UITheme.label("", UITheme.WARN)
 	v.add_child(_goal_label)
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	v.add_child(spacer)
+	if _portrait:
+		logbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		v.add_child(logbox)
+	else:
+		var spacer := Control.new()
+		spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		v.add_child(spacer)
 	v.add_child(UITheme.label(T.t("ui.map.hint"), UITheme.DIM))
 	var abort := UITheme.button(T.t("ui.map.abort"))
 	abort.alignment = HORIZONTAL_ALIGNMENT_CENTER

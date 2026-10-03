@@ -25,6 +25,7 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
+window/handheld/orientation=6
 
 [rendering]
 
@@ -37,3 +38,7 @@ environment/defaults/default_clear_color=Color(0.031, 0.039, 0.07, 1)
 
 locale/translations=PackedStringArray("res://translations/strings.en.translation", "res://translations/strings.es.translation")
 locale/fallback="en"
+
+[input_devices]
+
+pointing/emulate_mouse_from_touch=true

@@ -27,7 +27,7 @@ Lo que haces en una capa afecta a las otras: banderas y reputación (Concordato,
 más adelante y cambian el epílogo. Por ejemplo, ser amigo del Gremio o ganarte el respeto de los Draeth desbloquea
 opciones exclusivas en anomalías posteriores (por eso importa el orden en que los encuentras).
 
-**Controles:** ratón (clic) en todo; en el mapa de superficie también teclado: `Q` `E` (arriba), `A` `D` (lados),
+**Controles:** ratón o **pantalla táctil** (toca/clic) en todo; en el mapa de superficie también teclado: `Q` `E` (arriba), `A` `D` (lados),
 `Z` `C` (abajo). En los menús, las flechas y Enter. Atajos globales: `F1` ayuda («Cómo se juega», se muestra solo
 la primera vez), `M` sonido, `F11` pantalla completa.
 
@@ -41,6 +41,23 @@ godot --path .
 ```
 
 Desde el editor: abre `project.godot` y pulsa *Play* (F5).
+
+## Móvil: táctil y vista vertical
+
+El juego se adapta a la orientación de la ventana o del dispositivo (`scripts/layout.gd`):
+
+- **Apaisado:** 640×360 (con bandas laterales si sobra espacio).
+- **Vertical:** 360×640 que crece a lo alto para llenar la pantalla. Todas las pantallas tienen versión vertical:
+  el mapa estelar baja por la pantalla, los planetas usan un mapa hexagonal vertical (la nave sale abajo y el
+  objetivo está arriba), las conversaciones apilan el panel de la especie sobre el diálogo y los diálogos se
+  desplazan si no caben.
+- Todo es táctil (el toque se convierte en clic); el mapa de superficie y los menús no necesitan teclado.
+- La orientación cambia en caliente en el título, la selección de avatar, el mapa estelar y el final; en
+  planetas, contactos y anomalías se aplica al terminar la pantalla (para no perder la partida en curso).
+
+Probar la vista vertical en escritorio: `godot --path . -- --portrait` (abre una ventana con forma de móvil)
+o simplemente redimensiona la ventana a una forma alta. Para exportar a Android/iOS basta añadir el preset de
+exportación (la orientación del proyecto es «sensor»).
 
 ## Traducciones
 
@@ -65,6 +82,8 @@ y claves sin uso.
 ```
 godot --headless --path . res://tests/run_tests.tscn   # lógica, datos, traducciones y bots de campaña
 godot --headless --path . res://tests/ui_test.tscn      # recorre la interfaz con clics y teclas reales
+godot --headless --path . res://tests/layout_test.tscn   # ningún texto en vertical ni controles fuera de pantalla
+godot --headless --path . res://tests/layout_test.tscn -- --portrait   # lo mismo en vista vertical (360x640 y 360x800)
 ```
 
 `run_tests` valida datos y traducciones, genera cientos de mapas y sectores, comprueba las conversaciones y

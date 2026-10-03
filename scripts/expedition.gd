@@ -12,11 +12,11 @@ var player := Vector2i.ZERO
 var objective_done := false
 
 
-func _init(state_, planet_: Dictionary, events_: Dictionary, seed_value: int) -> void:
+func _init(state_, planet_: Dictionary, events_: Dictionary, seed_value: int, vertical := false) -> void:
 	state = state_
 	planet = planet_
 	events = events_
-	map.generate(planet, events, seed_value)
+	map.generate(planet, events, seed_value, vertical)
 	player = map.ship_cell
 	map.reveal(player, VISION)
 

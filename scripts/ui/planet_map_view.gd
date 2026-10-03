@@ -14,7 +14,8 @@ const _HEX_OFFSET := Vector2(HexGrid.W / 2.0, HexGrid.H / 2.0)
 
 
 func size_px() -> Vector2:
-	return Vector2(PlanetData.COLS * HexGrid.W + HexGrid.W / 2.0, (PlanetData.ROWS - 1) * HexGrid.ROW_H + HexGrid.H)
+	var m := expedition.map
+	return Vector2(m.cols * HexGrid.W + HexGrid.W / 2.0, (m.rows - 1) * HexGrid.ROW_H + HexGrid.H)
 
 
 func cell_at(local: Vector2) -> Vector2i:

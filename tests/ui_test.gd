@@ -8,6 +8,7 @@ var _main: Control
 
 func _ready() -> void:
 	T.set_language("en", false)
+	Layout.override = 1 if "--portrait" in OS.get_cmdline_user_args() else 0
 	Settings.set_value("game", "help_seen", false)  # la primera partida muestra la ayuda
 	_main = load("res://scenes/main.tscn").instantiate()
 	add_child(_main)

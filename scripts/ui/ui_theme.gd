@@ -121,7 +121,9 @@ static func background(name := "bg_space", dim := 0.0) -> Control:
 	holder.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var bg := TextureRect.new()
-	bg.texture = tex(name)
+	bg.texture = tex(name + "_portrait" if Layout.portrait else name)
+	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(bg)
@@ -132,6 +134,11 @@ static func background(name := "bg_space", dim := 0.0) -> Control:
 		shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		holder.add_child(shade)
 	return holder
+
+
+## Ajusta la altura de un ScrollContainer al contenido, con tope `max_h` (llamar tras añadir el contenido, diferido).
+static func fit_scroll(scroll: ScrollContainer, content: Control, max_h: float) -> void:
+	scroll.custom_minimum_size.y = minf(content.get_combined_minimum_size().y, max_h)
 
 
 ## Icono pixel (12x12) ampliado `k` veces con el filtro nearest del proyecto.

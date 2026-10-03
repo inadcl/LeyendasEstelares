@@ -1,15 +1,25 @@
 extends Control
 ## Raíz del juego: título → avatar → mapa estelar → (planeta | contacto | anomalía) → … → final.
 ## Atajos globales: F1 ayuda, M sonido, F11 pantalla completa.
+## Se adapta a la orientación: apaisado (640x360) o vertical (360x640+); ver Layout.
 
 var _current: Control
 var _campaign: Campaign
 var _vignette: ColorRect
 var _help: Overlay
+var _rebuild := Callable()  # reconstruye la pantalla actual si no tiene estado propio (título, mapa estelar...)
+var _stateful := false  # pantallas con partida en curso (planeta, contacto, anomalía): cambian de orientación al terminar
 
 
 func _ready() -> void:
 	T.load_language()
+	# Pruebas en escritorio: `godot --path . -- --portrait` abre una ventana con forma de móvil.
+	var args := OS.get_cmdline_user_args()
+	if "--portrait" in args and DisplayServer.get_name() != "headless":
+		get_window().size = Vector2i(540, 960)
+		get_window().move_to_center()
+	Layout.apply(get_window(), Layout.wants_portrait(get_window()))
+	get_window().size_changed.connect(_on_window_resized)
 	theme = UITheme.build()
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_vignette = ColorRect.new()
@@ -45,7 +55,19 @@ func _unhandled_input(event: InputEvent) -> void:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if full else DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
+## La orientación solo cambia entre pantallas con estado propio; en las demás se reconstruye al instante.
+func _on_window_resized() -> void:
+	var want := Layout.wants_portrait(get_window())
+	if want == Layout.portrait or _stateful or not _rebuild.is_valid():
+		return
+	Layout.apply(get_window(), want)
+	_rebuild.call()
+
+
 func _swap(screen: Control) -> void:
+	var want := Layout.wants_portrait(get_window())
+	if want != Layout.portrait:
+		Layout.apply(get_window(), want)
 	if _current != null:
 		_current.queue_free()
 	_current = screen
@@ -64,17 +86,13 @@ func _toggle_help() -> void:
 	if _help == null:
 		_help = Overlay.new()
 		add_child(_help)
-	_help.open()
-	_help.title(T.t("ui.help.title"))
-	_help.body(T.t("ui.help.sector"))
-	_help.body(T.t("ui.help.contact"))
-	_help.body(T.t("ui.help.planet"))
-	_help.note(T.t("ui.help.keys"), UITheme.DIM)
-	_help.button(T.t("ui.help.close"), _help.close).grab_focus()
+	_help.show_help()
 	move_child(_help, -1)
 
 
 func _show_title() -> void:
+	_stateful = false
+	_rebuild = _show_title
 	var s := TitleScreen.new()
 	s.start_pressed.connect(_show_avatars)
 	s.quit_pressed.connect(func(): get_tree().quit())
@@ -84,6 +102,8 @@ func _show_title() -> void:
 
 
 func _show_avatars() -> void:
+	_stateful = false
+	_rebuild = _show_avatars
 	var s := AvatarScreen.new()
 	s.avatar_chosen.connect(func(id: String):
 		GameState.start_run(Content.avatar_by_id(id), Content.factions, Content.campaign)
@@ -97,6 +117,8 @@ func _show_avatars() -> void:
 
 
 func _show_sector() -> void:
+	_stateful = false
+	_rebuild = _show_sector
 	var s := SectorScreen.new()
 	s.campaign = _campaign
 	s.jumped.connect(_on_jumped)
@@ -104,6 +126,7 @@ func _show_sector() -> void:
 
 
 func _on_jumped(id: String) -> void:
+	_stateful = true
 	var node := _campaign.node(id)
 	match node["type"]:
 		"planet":
@@ -144,6 +167,8 @@ func _after_node(id: String) -> void:
 
 
 func _end(ending: String) -> void:
+	_stateful = false
+	_rebuild = func(): _end(ending)
 	var s := EndScreen.new()
 	s.ending = ending
 	s.jumps = _campaign.jumps

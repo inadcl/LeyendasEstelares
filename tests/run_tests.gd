@@ -153,21 +153,27 @@ func _test_audio() -> void:
 func _test_generation() -> void:
 	print("generación de mapas de planeta")
 	for planet in Content.planets:
-		var counts := {}
-		for s in 200:
-			var m := PlanetData.new()
-			m.generate(planet, Content.events, s)
-			var costs := m.path_costs(m.ship_cell)
-			_check(m.pois.size() == int(planet["poi_count"]) + 1, "%s: nº de POIs semilla %d" % [planet["id"], s])
-			for p in m.pois:
-				_check(costs.has(p["cell"]), "%s: POI alcanzable semilla %d" % [planet["id"], s])
-			_check(costs[m.beacon_cell] >= 8, "%s: objetivo no demasiado cerca semilla %d" % [planet["id"], s])
-			for t in m.terrain.values():
-				counts[t] = int(counts.get(t, 0)) + 1
-			var again := PlanetData.new()
-			again.generate(planet, Content.events, s)
-			_check(again.terrain == m.terrain and again.ship_cell == m.ship_cell, "%s: determinista semilla %d" % [planet["id"], s])
-		print("  %s: %s" % [planet["id"], counts])
+		for vertical in [false, true]:
+			var counts := {}
+			for s in 200:
+				var m := PlanetData.new()
+				m.generate(planet, Content.events, s, vertical)
+				var tag := "%s%s semilla %d" % [planet["id"], " (vertical)" if vertical else "", s]
+				var costs := m.path_costs(m.ship_cell)
+				_check(m.pois.size() == int(planet["poi_count"]) + 1, "nº de POIs " + tag)
+				for p in m.pois:
+					_check(costs.has(p["cell"]), "POI alcanzable " + tag)
+				_check(costs[m.beacon_cell] >= 8, "objetivo no demasiado cerca " + tag)
+				if vertical:
+					_check(m.cols == 9 and m.rows == 11 and m.ship_cell.y == m.rows - 2 and m.beacon_cell.y == 1, "la nave abajo y el objetivo arriba " + tag)
+				else:
+					_check(m.cols == 11 and m.rows == 9 and m.ship_cell.x == 1 and m.beacon_cell.x == m.cols - 2, "la nave a la izquierda y el objetivo a la derecha " + tag)
+				for t in m.terrain.values():
+					counts[t] = int(counts.get(t, 0)) + 1
+				var again := PlanetData.new()
+				again.generate(planet, Content.events, s, vertical)
+				_check(again.terrain == m.terrain and again.ship_cell == m.ship_cell, "determinista " + tag)
+			print("  %s%s: %s" % [planet["id"], " (vertical)" if vertical else "", counts])
 
 
 func _test_event_rules() -> void:
@@ -387,7 +393,7 @@ func _bot_node(camp: Campaign, gs, rng: RandomNumberGenerator, node: Dictionary)
 	match node["type"]:
 		"planet":
 			gs.begin_planet()
-			var ex := Expedition.new(gs, node["planet"], Content.events, int(node["planet"]["seed"]))
+			var ex := Expedition.new(gs, node["planet"], Content.events, int(node["planet"]["seed"]), rng.randf() < 0.5)
 			var res := _bot_planet(ex, gs, rng)
 			if res == "fail":
 				return gs.failure_reason() if gs.failure_reason() != "" else "oxygen"

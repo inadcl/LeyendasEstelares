@@ -263,13 +263,13 @@ event.tormenta_solar.c2.text,Use the storm to charge the collectors,Aprovechar l
 event.tormenta_solar.c2.ok,The collectors fill up: extra fuel.,Los colectores se llenan: combustible extra.
 event.tormenta_solar.c2.fail,The overload damages the collectors.,La sobrecarga daña los colectores.
 planet.kaelora.name,Kaelora II,Kaelora II
-planet.kaelora.intro,"Kaelora II is an arid world of scorching winds and an ochre sky. Sensors detect a toppled communications tower and traces of recent mining activity. Someone may have been here before you.\n\nYou will descend with limited oxygen. The fallen tower, to the east, is your objective.","Kaelora II es un mundo árido de vientos abrasadores y cielo ocre. Los sensores detectan una torre de comunicaciones derribada y rastros de actividad minera reciente. Puede que alguien haya estado aquí antes que tú.\n\nDescenderás con oxígeno limitado. La torre caída, al este, es tu objetivo."
+planet.kaelora.intro,"Kaelora II is an arid world of scorching winds and an ochre sky. Sensors detect a toppled communications tower and traces of recent mining activity. Someone may have been here before you.\n\nYou will descend with limited oxygen. The fallen tower, on the far side of the terrain, is your objective.","Kaelora II es un mundo árido de vientos abrasadores y cielo ocre. Los sensores detectan una torre de comunicaciones derribada y rastros de actividad minera reciente. Puede que alguien haya estado aquí antes que tú.\n\nDescenderás con oxígeno limitado. La torre caída, al otro lado del terreno, es tu objetivo."
 planet.kaelora.outro_success,You return to the ship covered in red dust. The tower's records are already downloading.,Vuelves a la nave cubierto de polvo rojo. Los registros de la torre ya se están descargando.
 planet.kaelora.outro_abort,You evacuate Kaelora II early. The dust keeps what you did not get to see.,Evacúas Kaelora II antes de tiempo. El polvo se queda con lo que no alcanzaste a ver.
 planet.kaelora.epilogue.torre_reparada,"The tower on Kaelora II is transmitting again. Someone, somewhere, will be able to hear it.","La torre de Kaelora II vuelve a emitir. Alguien, en algún lugar, podrá escucharla."
 planet.kaelora.epilogue.torre_saqueada,You stripped the tower for parts. Kaelora II falls silent.,Desmontaste la torre para aprovechar sus piezas. Kaelora II queda en silencio.
 planet.nerea.name,Nerea,Nerea
-planet.nerea.intro,"Nerea is a world of low forests and shallow lagoons under a perpetual mist. The atmosphere is not breathable, but life here is abundant and luminous. There is an unusual growth signal at the center of the valley.\n\nYou will descend with limited oxygen. Reach the central garden, to the east, and return.","Nerea es un mundo de bosques bajos y lagunas someras bajo una niebla perpetua. La atmósfera no es respirable, pero la vida aquí es abundante y luminosa. Hay una señal de crecimiento inusual en el centro del valle.\n\nDescenderás con oxígeno limitado. Alcanza el jardín central, al este, y regresa."
+planet.nerea.intro,"Nerea is a world of low forests and shallow lagoons under a perpetual mist. The atmosphere is not breathable, but life here is abundant and luminous. There is an unusual growth signal at the center of the valley.\n\nYou will descend with limited oxygen. Reach the central garden, on the far side of the valley, and return.","Nerea es un mundo de bosques bajos y lagunas someras bajo una niebla perpetua. La atmósfera no es respirable, pero la vida aquí es abundante y luminosa. Hay una señal de crecimiento inusual en el centro del valle.\n\nDescenderás con oxígeno limitado. Alcanza el jardín central, al otro lado del valle, y regresa."
 planet.nerea.outro_success,You return to the Meridiana with luminous spores still clinging to the suit. Biosecurity will take hours to clean it.,Regresas a la Meridiana con esporas luminosas todavía pegadas al traje. Bioseguridad tardará horas en limpiarlo.
 planet.nerea.outro_abort,You leave Nerea without reaching the garden. The mist closes behind you.,Abandonas Nerea sin haber llegado al jardín. La niebla se cierra a tu espalda.
 planet.nerea.epilogue.jardin_protegido,The garden on Nerea keeps growing undisturbed.,El jardín de Nerea sigue creciendo sin interferencias.
@@ -388,20 +388,20 @@ ui.how_to_play,How to play,Cómo se juega
 ui.sound_on,Sound: on,Sonido: activado
 ui.sound_off,Sound: off,Sonido: desactivado
 ui.help.title,How to play,Cómo se juega
-ui.help.sector,"STAR MAP: pick a connected node, Scan it (it reveals what it is) and Jump. Every jump burns fuel (routes marked 2 cost double). Reach Tessarine IV, on the far right, before you run out.","MAPA ESTELAR: elige un nodo conectado, Escanéalo (revela qué es) y Salta. Cada salto gasta combustible (las rutas marcadas con 2 cuestan el doble). Llega a Tessarine IV, a la derecha del todo, antes de quedarte sin él."
+ui.help.sector,"STAR MAP: tap a connected node, Scan it (it reveals what it is) and Jump. Every jump burns fuel (routes marked 2 cost double). Reach Tessarine IV, at the end of the map, before you run out.","MAPA ESTELAR: toca un nodo conectado, Escanéalo (revela qué es) y Salta. Cada salto gasta combustible (las rutas marcadas con 2 cuestan el doble). Llega a Tessarine IV, al final del mapa, antes de quedarte sin él."
 ui.help.contact,"CONTACTS: every answer is a stance (Open, Cautious, Firm, Deceptive). Each species values a different one. Raise trust and keep tension low.","CONTACTOS: cada respuesta es una postura (Abierta, Cauta, Firme, Engañosa). Cada especie valora una distinta. Sube la confianza y mantén baja la tensión."
-ui.help.planet,"PLANETS: click a highlighted hexagon (or use Q E / A D / Z C) to move; the number is the oxygen it costs. Visit points of interest, reach the objective and come back to the ship.","PLANETAS: haz clic en un hexágono resaltado (o usa Q E / A D / Z C) para moverte; el número es el oxígeno que cuesta. Visita puntos de interés, alcanza el objetivo y vuelve a la nave."
+ui.help.planet,"PLANETS: tap or click a highlighted hexagon (or use Q E / A D / Z C) to move; the number is the oxygen it costs. Visit points of interest, reach the objective and come back to the ship.","PLANETAS: toca o haz clic en un hexágono resaltado (o usa Q E / A D / Z C) para moverte; el número es el oxígeno que cuesta. Visita puntos de interés, alcanza el objetivo y vuelve a la nave."
 ui.help.keys,F1: help  ·  M: sound  ·  F11: fullscreen,F1: ayuda  ·  M: sonido  ·  F11: pantalla completa
 ui.help.close,Got it,Entendido
 ui.continue,Continue,Continuar
 ui.back_title,Back to title,Volver al título
 ui.hud.rep,Reputation: {list},Reputación: {list}
-ui.map.goal_pending,Objective: reach the objective (east) and return to the ship.,Objetivo: alcanzar el objetivo (este) y volver a la nave.
+ui.map.goal_pending,Objective: reach the objective on the far side and return to the ship.,Objetivo: alcanzar el objetivo del otro lado y volver a la nave.
 ui.map.goal_done,Objective complete. Return to the ship.,Objetivo cumplido. Regresa a la nave.
-ui.map.hint,Click a highlighted hex to move (or Q E / A D / Z C). The number is its oxygen cost. F1: help.,Clic en un hexágono resaltado para moverte (o Q E / A D / Z C). El número es su coste de oxígeno. F1: ayuda.
+ui.map.hint,Tap a highlighted hex to move. The number is its oxygen cost.,Toca un hexágono resaltado para moverte. El número es su coste de oxígeno.
 ui.map.abort,Abort mission,Abortar misión
 ui.log.move,You advance (−{cost} oxygen).,Avanzas (−{cost} oxígeno).
-ui.log.descend,You descend to the surface. Objective: to the east.,Desciendes a la superficie. Objetivo: al este.
+ui.log.descend,You descend to the surface. The objective lies across the terrain.,Desciendes a la superficie. El objetivo está al otro lado del terreno.
 ui.briefing.title,Descent to {planet},Descenso a {planet}
 ui.descend,Descend,Descender
 ui.skip_planet,Do not descend (continue the route),No descender (continuar la ruta)
@@ -468,7 +468,6 @@ ending.oxygen.body,Oxygen reserves ran out far from the ship. The Meridiana logs
 ending.morale.title,The crew turns back,La tripulación da la vuelta
 ending.morale.body,"The crew's morale broke. Without cohesion or trust, the expedition cannot continue.","La moral de la tripulación se quebró. Sin cohesión ni confianza, la expedición no puede continuar."
 ending.jumps,Jumps made: {jumps},Saltos realizados: {jumps}
-ending.rep,Reputation {faction}: {value},Reputación {faction}: {value}
 fx.oxygen,Oxygen {delta},Oxígeno {delta}
 fx.morale,Morale {delta},Moral {delta}
 fx.fuel,Fuel {delta},Combustible {delta}

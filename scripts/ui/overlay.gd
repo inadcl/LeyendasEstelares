@@ -12,7 +12,9 @@ const EVENT_ICONS := {
 
 var _dim: ColorRect
 var _panel: PanelContainer
+var _scroll: ScrollContainer
 var _box: VBoxContainer
+var _w := 512.0  # ancho útil del contenido
 
 
 func _init() -> void:
@@ -24,13 +26,20 @@ func _init() -> void:
 	_dim.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_dim)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(center)
 	_panel = UITheme.framed("panel_accent", Vector2i(14, 12))
-	_panel.position = Vector2(48, 24)
-	_panel.custom_minimum_size = Vector2(544, 0)
-	add_child(_panel)
+	center.add_child(_panel)
+	_scroll = ScrollContainer.new()
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_panel.add_child(_scroll)
 	_box = VBoxContainer.new()
 	_box.add_theme_constant_override("separation", 8)
-	_panel.add_child(_box)
+	_scroll.add_child(_box)
+	# El alto del panel sigue al contenido (los textos largos cambian su altura al ajustarse el ancho).
+	_box.minimum_size_changed.connect(_fit)
 
 
 func is_open() -> bool:
@@ -41,9 +50,18 @@ func open() -> void:
 	for c in _box.get_children():
 		_box.remove_child(c)
 		c.queue_free()
-	_panel.size = Vector2(544, 0)
+	var vs := get_viewport_rect().size
+	_w = minf(512.0, vs.x - 24.0 - 28.0)
+	_box.custom_minimum_size = Vector2(_w, 0)
+	_scroll.custom_minimum_size = Vector2(_w, 0)
 	visible = true
+	_fit.call_deferred()
 	opened.emit()
+
+
+## Altura del panel: la del contenido, con tope en la pantalla (si no cabe, se desplaza).
+func _fit() -> void:
+	UITheme.fit_scroll(_scroll, _box, get_viewport_rect().size.y - 24.0 - 24.0)
 
 
 func close() -> void:
@@ -76,13 +94,13 @@ func title(text: String, color := UITheme.ACCENT, icon_tex: Texture2D = null) ->
 
 func body(text: String) -> void:
 	var l := UITheme.label(text, UITheme.TEXT)
-	l.custom_minimum_size = Vector2(512, 0)
+	l.custom_minimum_size = Vector2(_w, 0)
 	_box.add_child(l)
 
 
 func note(text: String, color := UITheme.WARN) -> void:
 	var l := UITheme.label(text, color)
-	l.custom_minimum_size = Vector2(512, 0)
+	l.custom_minimum_size = Vector2(_w, 0)
 	_box.add_child(l)
 
 
@@ -92,11 +110,29 @@ func separator() -> void:
 
 func button(text: String, cb: Callable, disabled := false) -> Button:
 	var b := UITheme.button(text)
-	b.custom_minimum_size = Vector2(512, 0)
+	b.custom_minimum_size = Vector2(_w, 0)
 	b.disabled = disabled
 	b.pressed.connect(cb)
 	_box.add_child(b)
 	return b
+
+
+## Contenido de «Cómo se juega» (con el interruptor de sonido, útil sin teclado).
+func show_help() -> void:
+	open()
+	title(T.t("ui.help.title"))
+	body(T.t("ui.help.sector"))
+	body(T.t("ui.help.contact"))
+	body(T.t("ui.help.planet"))
+	note(T.t("ui.help.keys"), UITheme.DIM)
+	var sound := button(T.t("ui.sound_off" if Sfx.muted else "ui.sound_on"), func(): pass)
+	sound.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sound.pressed.connect(func():
+		Sfx.toggle_mute()
+		sound.text = T.t("ui.sound_off" if Sfx.muted else "ui.sound_on"))
+	var close_btn := button(T.t("ui.help.close"), close)
+	close_btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	close_btn.grab_focus()
 
 
 ## Presenta un evento y resuelve la elección con `resolve(index) -> {text, lines, success}`;

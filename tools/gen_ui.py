@@ -315,8 +315,7 @@ def dither_to_ramp(v, ramp, x, y):
     return ramp[min(len(ramp) - 1, lo + (1 if frac > bayer(x, y) else 0))]
 
 
-def make_title_bg():
-    W, H = 640, 360
+def make_title_bg(W=640, H=360, name="bg_title", planet=(470, 128, 66), ring=(118, 26), moon=(150, 92, 15), mount=(268, 300)):
     px = canvas(W, H, (0, 0, 0, 255))
     ramp_sky = [tuple(int(v) for v in sky_color(i / 11)) + (255,) for i in range(12)]
     for y in range(H):
@@ -334,8 +333,8 @@ def make_title_bg():
         for dx, dy in ((0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)):
             put(px, sx + dx, sy + dy, (255, 255, 255, 255) if (dx, dy) == (0, 0) else (150, 170, 230, 255))
     # planeta anillado
-    cx, cy, R = 470, 128, 66
-    ring_cx, ring_cy, rx, ry = cx, cy + 6, 118, 26
+    cx, cy, R = planet
+    ring_cx, ring_cy, rx, ry = cx, cy + 6, ring[0], ring[1]
 
     def ring_pix(x, y):
         e = ((x + 0.5 - ring_cx) / rx) ** 2 + ((y + 0.5 - ring_cy) / ry) ** 2
@@ -373,7 +372,7 @@ def make_title_bg():
             if ok and y >= ring_cy:
                 px[y][x] = ring_color(x, y, e)
     # luna
-    mx, my, mr = 150, 92, 15
+    mx, my, mr = moon
     moon_ramp = [(60, 54, 80, 255), (104, 98, 124, 255), (150, 144, 164, 255), (204, 198, 214, 255)]
     for y in range(my - mr, my + mr + 1):
         for x in range(mx - mr, mx + mr + 1):
@@ -391,18 +390,17 @@ def make_title_bg():
             hgt = base + amp * math.sin(x / 41.0 + seed) + (amp * 0.55) * math.sin(x / 17.0 + seed * 2) + detail * (vnoise(x, 0, 5, seed) - 0.5)
             for y in range(int(hgt), H):
                 px[y][x] = color
-    mountains(268, 20, 1.3, (30, 24, 68, 255), 12)
-    mountains(300, 15, 4.1, (14, 12, 36, 255), 10)
+    mountains(mount[0], 20, 1.3, (30, 24, 68, 255), 12)
+    mountains(mount[1], 15, 4.1, (14, 12, 36, 255), 10)
     # haces de luz del horizonte sobre la capa lejana: tramado cálido
-    for y in range(255, 280):
+    for y in range(mount[0] - 13, mount[0] + 12):
         for x in range(W):
-            if px[y][x] == (30, 24, 68, 255) and rnd(x, y, 3) > 0.7 and y < 276:
+            if px[y][x] == (30, 24, 68, 255) and rnd(x, y, 3) > 0.7 and y < mount[0] + 8:
                 px[y][x] = (44, 32, 84, 255)
-    save("bg_title", px)
+    save(name, px)
 
 
-def make_space_bg():
-    W, H = 640, 360
+def make_space_bg(W=640, H=360, name="bg_space"):
     px = canvas(W, H, (0, 0, 0, 255))
     neb = [(8, 9, 24), (12, 14, 36), (22, 18, 56), (40, 26, 84), (62, 40, 112)]
     neb2 = [(8, 9, 24), (10, 22, 40), (14, 40, 64), (22, 64, 92)]
@@ -425,7 +423,7 @@ def make_space_bg():
                 px[y][x] = (150, 160, 210, 255)
             elif r > 0.9915:
                 px[y][x] = (70, 80, 120, 255)
-    save("bg_space", px)
+    save(name, px)
 
 
 def make_title_ship():
@@ -454,6 +452,9 @@ def main():
     make_cursor()
     make_title_bg()
     make_space_bg()
+    # Variantes verticales (360x800; el juego recorta el centro si la pantalla es más baja)
+    make_title_bg(360, 800, "bg_title_portrait", planet=(210, 250, 80), ring=(150, 30), moon=(70, 120, 16), mount=(640, 690))
+    make_space_bg(360, 800, "bg_space_portrait")
     make_title_ship()
     print("Kit de interfaz generado en", os.path.abspath(OUT))
 

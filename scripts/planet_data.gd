@@ -3,8 +3,8 @@ extends RefCounted
 ## Mapa hexagonal de un planeta: terreno, puntos de interés, niebla y rutas.
 ## Es lógica pura (sin nodos) para poder probarla en headless.
 
-const COLS := 11
-const ROWS := 9
+const LANDSCAPE_SIZE := Vector2i(11, 9)  # columnas x filas
+const PORTRAIT_SIZE := Vector2i(9, 11)
 
 const TERRAINS := {
 	"llanura": {"cost": 1, "passable": true},
@@ -14,6 +14,9 @@ const TERRAINS := {
 	"grieta": {"cost": 0, "passable": false},
 }
 
+var cols := 11
+var rows := 9
+var vertical := false  # mapa para pantalla vertical: la nave sale abajo y el objetivo está arriba
 var terrain := {}  # Vector2i -> String
 var revealed := {}  # Vector2i -> true
 var ship_cell := Vector2i.ZERO
@@ -21,7 +24,10 @@ var beacon_cell := Vector2i.ZERO
 var pois: Array[Dictionary] = []  # {cell, type, event_id, resolved, objective}
 
 
-func generate(planet: Dictionary, events: Dictionary, seed_value: int) -> void:
+func generate(planet: Dictionary, events: Dictionary, seed_value: int, is_vertical := false) -> void:
+	vertical = is_vertical
+	cols = PORTRAIT_SIZE.x if vertical else LANDSCAPE_SIZE.x
+	rows = PORTRAIT_SIZE.y if vertical else LANDSCAPE_SIZE.y
 	for attempt in 80:
 		if _try_generate(planet, events, seed_value + attempt * 7919):
 			return
@@ -128,12 +134,16 @@ func _try_generate(planet: Dictionary, events: Dictionary, s: int) -> bool:
 	terrain.clear()
 	pois.clear()
 	revealed.clear()
-	for y in ROWS:
-		for x in COLS:
+	for y in rows:
+		for x in cols:
 			terrain[Vector2i(x, y)] = _terrain_for(noise.get_noise_2d(x, y))
 
-	ship_cell = Vector2i(1, rng.randi_range(2, ROWS - 3))
-	beacon_cell = Vector2i(COLS - 2, rng.randi_range(2, ROWS - 3))
+	if vertical:
+		ship_cell = Vector2i(rng.randi_range(2, cols - 3), rows - 2)
+		beacon_cell = Vector2i(rng.randi_range(2, cols - 3), 1)
+	else:
+		ship_cell = Vector2i(1, rng.randi_range(2, rows - 3))
+		beacon_cell = Vector2i(cols - 2, rng.randi_range(2, rows - 3))
 	for anchor in [ship_cell, beacon_cell]:
 		terrain[anchor] = "llanura"
 		for n in HexGrid.neighbors(anchor):

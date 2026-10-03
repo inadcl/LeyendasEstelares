@@ -28,6 +28,11 @@ var _info_body: Label
 var _jump_btn: Button
 var _scan_btn: Button
 var _time := 0.0
+var _portrait := false
+var _nx0 := 0.0  # región de nodos en vertical
+var _nx1 := 0.0
+var _ny0 := 0.0
+var _ny1 := 0.0
 
 
 class _Lines extends Control:
@@ -73,7 +78,7 @@ class _Stars extends Control:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = 77
 		for i in 70:
-			_pts.append([rng.randf() * 640.0, rng.randf() * 360.0, rng.randi_range(1, 3), rng.randf() * 6.28])
+			_pts.append([rng.randf(), rng.randf(), rng.randi_range(1, 3), rng.randf() * 6.28])
 
 	func _process(_d: float) -> void:
 		queue_redraw()
@@ -82,19 +87,33 @@ class _Stars extends Control:
 		var t := Time.get_ticks_msec() / 1000.0
 		for p in _pts:
 			var layer: int = p[2]
-			var x := fposmod(p[0] - t * 2.5 * layer, 640.0)
+			var x := fposmod(p[0] * size.x - t * 2.5 * layer, maxf(size.x, 1.0))
 			var a := 0.3 + 0.25 * layer / 3.0 + 0.2 * sin(t * 1.5 + p[3])
-			draw_rect(Rect2(floorf(x), floorf(p[1]), 1 if layer < 3 else 2, 1 if layer < 3 else 2), Color(0.85, 0.92, 1.0, a))
+			draw_rect(Rect2(floorf(x), floorf(p[1] * size.y), 1 if layer < 3 else 2, 1 if layer < 3 else 2), Color(0.85, 0.92, 1.0, a))
 
 
 func node_pos(id: String) -> Vector2:
 	var n: Dictionary = campaign.sector.nodes[id]
 	var cols: int = campaign.sector.columns.size()
-	return Vector2(lerpf(MAP_X0, MAP_X1, float(n["col"]) / (cols - 1)), MAP_Y0 + float(n["y"]) * MAP_H).round()
+	var progress := float(n["col"]) / (cols - 1)
+	if _portrait:  # el viaje baja por la pantalla; el eje ancho reparte las rutas
+		return Vector2(lerpf(_nx0, _nx1, float(n["y"])), lerpf(_ny0, _ny1, progress)).round()
+	return Vector2(lerpf(MAP_X0, MAP_X1, progress), MAP_Y0 + float(n["y"]) * MAP_H).round()
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	_portrait = Layout.portrait
+	var vs := get_viewport_rect().size
+	var top := 4.0 + Layout.safe_top
+	var hud_h := 62.0 if _portrait else 34.0
+	var info_h := 128.0 if _portrait else 66.0
+	var frame_rect := Rect2(8, top + hud_h + 4, vs.x - 16, vs.y - info_h - 8 - (top + hud_h + 4) - 6) if _portrait else Rect2(8, 44, 624, 238)
+	if _portrait:
+		_nx0 = frame_rect.position.x + 34
+		_nx1 = frame_rect.end.x - 34
+		_ny0 = frame_rect.position.y + 40
+		_ny1 = frame_rect.end.y - 40
 	add_child(UITheme.background("bg_space", 0.2))
 	var stars := _Stars.new()
 	stars.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
@@ -103,9 +122,9 @@ func _ready() -> void:
 
 	# Marco del mapa
 	var frame := UITheme.framed("panel_dark", Vector2i(0, 0), false)
-	frame.position = Vector2(8, 44)
-	frame.custom_minimum_size = Vector2(624, 238)
-	frame.size = Vector2(624, 238)
+	frame.position = frame_rect.position
+	frame.custom_minimum_size = frame_rect.size
+	frame.size = frame_rect.size
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(frame)
 
@@ -136,8 +155,8 @@ func _ready() -> void:
 	_ship.size = Vector2(16, 16)
 	add_child(_ship)
 
-	_build_hud()
-	_build_info()
+	_build_hud(vs, top, hud_h)
+	_build_info(vs, info_h)
 	GameState.changed.connect(_refresh)
 	_select(campaign.current)
 	_refresh()
@@ -156,14 +175,15 @@ func _process(delta: float) -> void:
 	_ship.position = base + Vector2(0, roundf(sin(_time * 2.2) * 2.0))
 
 
-func _build_hud() -> void:
+func _build_hud(vs: Vector2, top: float, hud_h: float) -> void:
 	var bar := UITheme.framed("panel_dark", Vector2i(10, 4))
-	bar.position = Vector2(8, 6)
-	bar.custom_minimum_size = Vector2(624, 34)
-	bar.size = Vector2(624, 34)
+	bar.position = Vector2(8, top + 2)
+	bar.custom_minimum_size = Vector2(vs.x - 16, hud_h)
+	bar.size = Vector2(vs.x - 16, hud_h)
 	add_child(bar)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 22)
+	var row := HFlowContainer.new()  # en vertical los medidores pasan a una segunda fila
+	row.add_theme_constant_override("h_separation", 22)
+	row.add_theme_constant_override("v_separation", 4)
 	bar.add_child(row)
 
 	_fuel_chip = UITheme.chip("fuel", UITheme.WARN)
@@ -184,34 +204,40 @@ func _build_hud() -> void:
 	row.add_child(_morale_chip)
 
 
-func _build_info() -> void:
+func _build_info(vs: Vector2, info_h: float) -> void:
 	var panel := UITheme.framed("panel", Vector2i(12, 8))
-	panel.position = Vector2(8, 288)
-	panel.custom_minimum_size = Vector2(624, 66)
-	panel.size = Vector2(624, 66)
+	panel.position = Vector2(8, vs.y - info_h - 6)
+	panel.custom_minimum_size = Vector2(vs.x - 16, info_h)
+	panel.size = Vector2(vs.x - 16, info_h)
 	add_child(panel)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 12)
+	# Apaisado: texto a la izquierda y botones a la derecha. Vertical: texto arriba y botones abajo, en fila.
+	var row := BoxContainer.new()
+	row.vertical = _portrait
+	row.add_theme_constant_override("separation", 12 if not _portrait else 6)
 	panel.add_child(row)
 	var col := VBoxContainer.new()
 	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	col.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	col.add_theme_constant_override("separation", 0)
 	row.add_child(col)
 	_info_title = UITheme.label("", UITheme.ACCENT, UITheme.SIZE_HEAD)
 	col.add_child(_info_title)
 	_info_body = UITheme.label("", UITheme.DIM)
 	col.add_child(_info_body)
-	var btns := VBoxContainer.new()
+	var btns := BoxContainer.new()
+	btns.vertical = not _portrait
 	btns.add_theme_constant_override("separation", 4)
 	row.add_child(btns)
 	_jump_btn = UITheme.button("", false)
 	_jump_btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_jump_btn.custom_minimum_size = Vector2(190, 0)
+	_jump_btn.custom_minimum_size = Vector2(190 if not _portrait else 0, 0)
+	_jump_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_jump_btn.pressed.connect(_on_jump)
 	btns.add_child(_jump_btn)
 	_scan_btn = UITheme.button("", false)
 	_scan_btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_scan_btn.custom_minimum_size = Vector2(190, 0)
+	_scan_btn.custom_minimum_size = Vector2(190 if not _portrait else 0, 0)
+	_scan_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_scan_btn.pressed.connect(_on_scan)
 	btns.add_child(_scan_btn)
 
