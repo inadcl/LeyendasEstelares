@@ -1,0 +1,20 @@
+[
+	{
+		"id": "vance",
+		"traits": [
+			"ciencia"
+		],
+		"max_oxygen": 40,
+		"max_morale": 9,
+		"sprite": "avatar_vance"
+	},
+	{
+		"id": "okafor",
+		"traits": [
+			"diplomacia"
+		],
+		"max_oxygen": 36,
+		"max_morale": 12,
+		"sprite": "avatar_okafor"
+	}
+]

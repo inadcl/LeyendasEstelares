@@ -1,0 +1,1281 @@
+[
+	{
+		"id": "senal_periodica",
+		"type": "signal",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"data": 2,
+							"set_flags": [
+								"mapa_vael"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3
+						}
+					}
+				}
+			},
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"rep": {
+								"vael": 1
+							},
+							"set_flags": [
+								"vael_contacto"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "eco_de_baliza",
+		"type": "signal",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"data": 2,
+							"set_flags": [
+								"guia_baliza"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"oxygen": -1
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"rep": {
+							"concordato": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "camara_sellada",
+		"type": "ruins",
+		"choices": [
+			{
+				"risk": {
+					"chance": 0.45,
+					"success": {
+						"effects": {
+							"data": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -4,
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {
+						"effects": {
+							"data": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": 1,
+						"rep": {
+							"vael": 1
+						},
+						"set_flags": [
+							"respeto_vael"
+						]
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "murales_vael",
+		"type": "ruins",
+		"choices": [
+			{
+				"result": {
+					"effects": {
+						"data": 2,
+						"oxygen": -2
+					}
+				}
+			},
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"data": 1,
+							"rep": {
+								"vael": 1
+							},
+							"set_flags": [
+								"vael_transformacion"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": 2,
+						"oxygen": -2
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "sonda_perdida",
+		"type": "wreck",
+		"choices": [
+			{
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"data": 3,
+							"rep": {
+								"concordato": 1
+							}
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"data": 4
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "nave_expedicionaria",
+		"type": "wreck",
+		"choices": [
+			{
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"data": 2,
+							"set_flags": [
+								"diagrama_baliza"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": -2,
+						"data": 1
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"rep": {
+							"concordato": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "colonia_liquenes",
+		"type": "life",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"data": 2,
+							"oxygen": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 1,
+						"morale": 1
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"oxygen": 2,
+						"morale": -1,
+						"set_flags": [
+							"colonia_danada"
+						]
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "ser_de_cristal",
+		"type": "life",
+		"choices": [
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"rep": {
+								"vael": 2
+							},
+							"morale": 1,
+							"set_flags": [
+								"vael_contacto"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"data": 3,
+							"set_flags": [
+								"vael_contacto"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"rep": {
+							"concordato": 1
+						},
+						"morale": -1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "baliza_central",
+		"type": "beacon",
+		"choices": [
+			{
+				"requires": {
+					"flag": "vael_contacto"
+				},
+				"risk": {
+					"chance": 0.8,
+					"success": {
+						"effects": {
+							"data": 5,
+							"rep": {
+								"vael": 2
+							},
+							"set_flags": [
+								"baliza_dialogo"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"data": 2,
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"requires": {
+					"any_flag": [
+						"diagrama_baliza",
+						"mapa_vael",
+						"guia_baliza"
+					]
+				},
+				"risk": {
+					"chance": 0.75,
+					"success": {
+						"effects": {
+							"data": 5,
+							"set_flags": [
+								"baliza_mapa"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"data": 1,
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 2
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"data": 2,
+							"rep": {
+								"concordato": 2,
+								"vael": -2
+							},
+							"set_flags": [
+								"baliza_apagada"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -4,
+							"morale": -2,
+							"rep": {
+								"vael": -1
+							}
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "campamento_minero",
+		"type": "ruins",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"data": 2,
+							"set_flags": [
+								"guia_baliza"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"fuel": 2
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "caravana_varada",
+		"type": "wreck",
+		"choices": [
+			{
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"fuel": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3,
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"data": 2,
+							"fuel": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"rep": {
+							"concordato": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "nido_de_arena",
+		"type": "life",
+		"choices": [
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"oxygen": 3,
+							"morale": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"data": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "radiofaro_duna",
+		"type": "signal",
+		"choices": [
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"data": 2,
+							"rep": {
+								"concordato": 1
+							}
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {
+						"effects": {
+							"data": 2,
+							"set_flags": [
+								"mapa_vael"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {}
+				}
+			}
+		]
+	},
+	{
+		"id": "torre_caida",
+		"type": "beacon",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {
+						"effects": {
+							"data": 3,
+							"fuel": 2,
+							"set_flags": [
+								"torre_reparada",
+								"guia_baliza"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"data": 1,
+							"oxygen": -3
+						}
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.75,
+					"success": {
+						"effects": {
+							"fuel": 3,
+							"data": 2,
+							"rep": {
+								"concordato": 1
+							},
+							"set_flags": [
+								"torre_saqueada"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": 1,
+							"oxygen": -2,
+							"set_flags": [
+								"torre_saqueada"
+							]
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 2
+					}
+				}
+			},
+			{
+				"requires": {
+					"any_flag": [
+						"mapa_vael",
+						"vael_contacto"
+					]
+				},
+				"risk": {
+					"chance": 0.85,
+					"success": {
+						"effects": {
+							"data": 4,
+							"fuel": 2,
+							"rep": {
+								"vael": 1
+							},
+							"set_flags": [
+								"torre_reparada"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"data": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "bosque_luminoso",
+		"type": "life",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"data": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": 2,
+						"oxygen": -1
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"data": 2,
+							"oxygen": 2
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -2
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "templo_sumergido",
+		"type": "ruins",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {
+						"effects": {
+							"data": 2,
+							"set_flags": [
+								"mapa_vael"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"rep": {
+								"vael": 1
+							},
+							"set_flags": [
+								"vael_contacto"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"rep": {
+							"concordato": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "pecio_orbital",
+		"type": "wreck",
+		"choices": [
+			{
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"fuel": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -3,
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.75,
+					"success": {
+						"effects": {
+							"data": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "voces_en_la_niebla",
+		"type": "signal",
+		"choices": [
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"morale": 2,
+							"data": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -2
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {
+						"effects": {
+							"data": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"oxygen": -2
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"morale": -1,
+						"oxygen": -1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "jardin_central",
+		"type": "beacon",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"data": 3,
+							"fuel": 2,
+							"set_flags": [
+								"jardin_cosechado"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"data": 1,
+							"morale": -1,
+							"set_flags": [
+								"jardin_cosechado"
+							]
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 2,
+						"morale": 1,
+						"rep": {
+							"vael": 1
+						},
+						"set_flags": [
+							"jardin_protegido"
+						]
+					}
+				}
+			},
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"data": 3,
+							"set_flags": [
+								"guia_baliza",
+								"vael_contacto"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "campo_de_asteroides",
+		"type": "anomaly",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"fuel": 1,
+							"data": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": -1
+						}
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"morale": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": -2,
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"fuel": -1
+					}
+				}
+			},
+			{
+				"requires": {
+					"flag": "draeth_respeto"
+				},
+				"result": {
+					"effects": {
+						"fuel": 1,
+						"morale": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "nave_a_la_deriva",
+		"type": "anomaly",
+		"choices": [
+			{
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"fuel": 3
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.6,
+					"success": {
+						"effects": {
+							"data": 2,
+							"scans": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.8,
+					"success": {
+						"effects": {
+							"rep": {
+								"concordato": 1
+							},
+							"scans": 1
+						}
+					},
+					"fail": {
+						"effects": {}
+					}
+				}
+			},
+			{
+				"requires": {
+					"flag": "gremio_amigo"
+				},
+				"risk": {
+					"chance": 0.9,
+					"success": {
+						"effects": {
+							"fuel": 3,
+							"data": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": 1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "nebulosa_ionizada",
+		"type": "anomaly",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.65,
+					"success": {
+						"effects": {
+							"data": 3,
+							"scans": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"scans": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 1
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"fuel": 2
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": -1
+						}
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "pulso_de_tres_tonos",
+		"type": "anomaly",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.7,
+					"success": {
+						"effects": {
+							"data": 2,
+							"scans": 1,
+							"set_flags": [
+								"mapa_vael"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"tag": "diplomacia",
+				"risk": {
+					"chance": 0.55,
+					"success": {
+						"effects": {
+							"rep": {
+								"vael": 1
+							},
+							"set_flags": [
+								"vael_contacto"
+							]
+						}
+					},
+					"fail": {
+						"effects": {
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"data": 1
+					}
+				}
+			}
+		]
+	},
+	{
+		"id": "tormenta_solar",
+		"type": "anomaly",
+		"choices": [
+			{
+				"tag": "ciencia",
+				"risk": {
+					"chance": 0.75,
+					"success": {
+						"effects": {
+							"data": 1
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": -1,
+							"morale": -1
+						}
+					}
+				}
+			},
+			{
+				"result": {
+					"effects": {
+						"fuel": -1,
+						"morale": 1
+					}
+				}
+			},
+			{
+				"risk": {
+					"chance": 0.5,
+					"success": {
+						"effects": {
+							"fuel": 2
+						}
+					},
+					"fail": {
+						"effects": {
+							"fuel": -1
+						}
+					}
+				}
+			}
+		]
+	}
+]

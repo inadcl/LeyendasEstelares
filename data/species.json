@@ -1,0 +1,83 @@
+[
+	{
+		"id": "vael",
+		"color": "5cc8e8",
+		"portrait": "portrait_vael",
+		"start": {
+			"trust": 3,
+			"tension": 1
+		},
+		"stance_effects": {
+			"open": {
+				"trust": 2,
+				"tension": 0
+			},
+			"careful": {
+				"trust": 1,
+				"tension": 0
+			},
+			"firm": {
+				"trust": -1,
+				"tension": 2
+			},
+			"deceive": {
+				"trust": -2,
+				"tension": 2
+			}
+		}
+	},
+	{
+		"id": "hallen",
+		"color": "e8b45c",
+		"portrait": "portrait_hallen",
+		"start": {
+			"trust": 3,
+			"tension": 2
+		},
+		"stance_effects": {
+			"open": {
+				"trust": 1,
+				"tension": 0
+			},
+			"careful": {
+				"trust": 2,
+				"tension": 0
+			},
+			"firm": {
+				"trust": 0,
+				"tension": 1
+			},
+			"deceive": {
+				"trust": -3,
+				"tension": 1
+			}
+		}
+	},
+	{
+		"id": "draeth",
+		"color": "e0605c",
+		"portrait": "portrait_draeth",
+		"start": {
+			"trust": 2,
+			"tension": 3
+		},
+		"stance_effects": {
+			"open": {
+				"trust": 0,
+				"tension": 1
+			},
+			"careful": {
+				"trust": -1,
+				"tension": 1
+			},
+			"firm": {
+				"trust": 2,
+				"tension": 0
+			},
+			"deceive": {
+				"trust": -2,
+				"tension": 2
+			}
+		}
+	}
+]

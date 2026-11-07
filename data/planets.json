@@ -1,0 +1,64 @@
+[
+	{
+		"id": "kaelora",
+		"biome": "dust",
+		"poi_count": 5,
+		"max_beacon_cost": 20,
+		"beacon_event": "torre_caida",
+		"event_pool": [
+			"senal_periodica",
+			"sonda_perdida",
+			"campamento_minero",
+			"caravana_varada",
+			"nido_de_arena",
+			"radiofaro_duna"
+		],
+		"epilogues": [
+			"torre_reparada",
+			"torre_saqueada"
+		]
+	},
+	{
+		"id": "nerea",
+		"biome": "verdant",
+		"poi_count": 5,
+		"max_beacon_cost": 20,
+		"beacon_event": "jardin_central",
+		"event_pool": [
+			"colonia_liquenes",
+			"ser_de_cristal",
+			"bosque_luminoso",
+			"templo_sumergido",
+			"pecio_orbital",
+			"voces_en_la_niebla"
+		],
+		"epilogues": [
+			"jardin_protegido",
+			"jardin_cosechado"
+		]
+	},
+	{
+		"id": "tessarine",
+		"biome": "frost",
+		"poi_count": 6,
+		"max_beacon_cost": 22,
+		"beacon_event": "baliza_central",
+		"event_pool": [
+			"senal_periodica",
+			"eco_de_baliza",
+			"camara_sellada",
+			"murales_vael",
+			"sonda_perdida",
+			"nave_expedicionaria",
+			"colonia_liquenes",
+			"ser_de_cristal"
+		],
+		"epilogues": [
+			"baliza_dialogo",
+			"baliza_mapa",
+			"baliza_apagada",
+			"colonia_danada",
+			"respeto_vael"
+		]
+	}
+]
